@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Libya TradeNet - Official Trade Management Portal{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/header.css' %}">
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<link rel="stylesheet" href="{% static 'css/footer.css' %}">
+{% endblock %}
+
+{% block header %}
+{% include "includes/header.html" %}
+{% endblock %}
+{% block page %}
+{% include "includes/partners.html" %}
+{% include "includes/port_operations.html" %}
+{% include "includes/footer.html" %}
+
+{% endblock %}
+

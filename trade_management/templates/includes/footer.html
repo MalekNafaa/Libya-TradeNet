@@ -1,0 +1,40 @@
+{% load static %}
+<footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-logo">
+            <img src="{% static 'image/LNT-svg.svg' %}" alt="Libya TradeNet">
+        </div>
+
+        <div class="footer-column">
+            <h3>Contact</h3>
+            <div class="contact-info">
+                <p><span>P.O. Box:</span> 1103 Libya- Tripoli</p>
+                <p><span>Phone:</span> +218 21 4441481</p>
+                <p><span>SWIFT:</span> CBLJLYLX</p>
+            </div>
+        </div>
+
+        <div class="footer-column about-us">
+            <h3>About Us</h3>
+            <div class="links-grid">
+                <ul>
+                    <li><a href="#">History</a></li>
+                    <li><a href="#">Our Mission</a></li>
+                    <li><a href="#">Commercial Banks</a></li>
+                </ul>
+                <ul>
+                    <li><a href="#">Board of Directors</a></li>
+                    <li><a href="#">Strategic Plan</a></li>
+                    <li><a href="#">Developer Portal</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <div class="footer-container">
+            <p>&copy; All rights reserved {% now "Y" %}. Libya TradeNet</p>
+            <p>Last updated on {% now "j F, Y" %}</p>
+        </div>
+    </div>
+</footer>

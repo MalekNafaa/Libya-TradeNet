@@ -1,0 +1,97 @@
+/* Header specific styles - remove global reset to avoid conflicts */
+
+/* 🔹 Top Bar */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 40px;
+  background-color: #222;
+  color: white;
+  font-size: 14px;
+}
+
+.top-bar span {
+  margin-left: 15px;
+  cursor: pointer;
+}
+
+/* 🔹 Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background: white;
+  border-bottom: 1px solid #eee;
+}
+
+.menu span {
+  margin-left: 20px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+/* 🔹 Hero Section */
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 60px 40px;
+  min-height: 500px;
+  background-image: url('../image/the-central-bank-of-libya-en.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 0;
+}
+
+.hero-text {
+  position: relative;
+  z-index: 1;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+}
+
+.hero-text h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.hero-text p {
+  color: rgba(255,255,255,0.9);
+  margin-bottom: 20px;
+  max-width: 400px;
+}
+
+/* 🔍 Search */
+.search-box {
+  display: flex;
+  width: 300px;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 20px 0 0 20px;
+}
+
+.search-box button {
+  padding: 10px 15px;
+  border: none;
+  background: #3b82f6;
+  color: white;
+  border-radius: 0 20px 20px 0;
+  cursor: pointer;
+}

@@ -1,0 +1,335 @@
+/* Home page specific styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f8f9fa;
+    min-height: 100vh;
+    color: #333;
+}
+
+.main-content {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.hero-section {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    padding: 60px 40px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    margin-bottom: 40px;
+}
+
+.hero-title {
+    color: #1e3c72;
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.hero-subtitle {
+    color: #666;
+    font-size: 20px;
+    margin-bottom: 40px;
+    line-height: 1.5;
+}
+
+.status-badge {
+    display: inline-block;
+    background: #28a745;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 30px;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.service-card {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.service-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: white;
+    font-size: 24px;
+}
+
+.service-title {
+    color: #1e3c72;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.service-description {
+    color: #666;
+    line-height: 1.6;
+}
+
+.footer {
+    background: rgba(30, 60, 114, 0.95);
+    color: white;
+    text-align: center;
+    padding: 30px 20px;
+    margin-top: 60px;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.version-info {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 32px;
+    }
+    
+    .hero-subtitle {
+        font-size: 16px;
+    }
+    
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+}
+/* Container to keep things centered */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.sector-guide {
+    background-color: #262626;
+    padding-bottom: 50px;
+}
+
+.blue-banner {
+    background-color: #2582eb; /* The blue color from your image */
+    color: white;
+    padding: 80px 0 120px 0; /* Extra bottom padding to create space for overlap */
+}
+
+.blue-banner h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+/* The White Card */
+.info-card-wrapper {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    margin-top: -60px; /* This pulls the card UP into the blue area */
+    padding: 40px;
+}
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+}
+
+.info-item {
+    padding: 20px;
+    border-right: 1px solid #eee; /* Thin vertical divider */
+}
+
+.info-item:last-child {
+    border-right: none;
+}
+
+/* Style the icon container */
+.icon-box {
+    width: 48px;
+    height: 48px;
+    background-color: #f0f7ff; /* Very light blue background */
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    color: #2582eb; /* Brand Blue */
+}
+
+.icon-box svg {
+    width: 24px;
+    height: 24px;
+}
+
+.info-item h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #111;
+    margin-bottom: 15px;
+    min-height: 45px; /* Ensures text aligns even if height varies */
+}
+
+.view-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+.view-link:hover {
+    color: #2582eb;
+}
+
+.view-link .arrow {
+    margin-left: 5px;
+    font-size: 1rem;
+}
+
+/* Mobile Tweak */
+@media (max-width: 768px) {
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+    .info-item {
+        border-right: none;
+        border-bottom: 1px solid #eee;
+    }
+}
+
+.market-section-bg {
+    background-image: url("../image/text-background.svg");
+    background-size: cover;
+    min-height: auto;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    align-items: stretch;
+    padding: 60px 0;
+}
+
+/* Container should not constrain flex layout */
+.market-section-bg .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Use Flexbox for left-right layout */
+.market-text-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 40px;
+}
+
+/* Text Section - Left side */
+.market-content {
+    flex: 1;
+    max-width: 500px;
+    padding: 40px;
+    background-color: transparent;
+    border-radius: 8px;
+}
+
+/* Image Section - Right side */
+.market-image {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.market-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.market-title {
+    color: #2582eb;         /* Your brand blue */
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.market-description {
+    color: #111;            /* Darker text for readability over BG */
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.more-link {
+    color: #2582eb;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s;
+}
+
+.more-link:hover {
+    border-bottom: 2px solid #2582eb;
+}
+
+/* Responsive for Mobile */
+@media (max-width: 992px) {
+    .market-section-bg {
+        padding: 60px 0;
+    }
+
+    .market-text-wrapper {
+        flex-direction: column; /* Stack vertically on small screens */
+        justify-content: center;
+    }
+
+    .market-content {
+        max-width: 100%;
+        margin: 0 20px;
+    }
+}
+
+/* Keep side-by-side layout on larger screens */
+@media (min-width: 993px) {
+    .market-text-wrapper {
+        flex-direction: row; /* Ensure side-by-side on larger screens */
+    }
+}

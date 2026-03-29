@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}تسجيل الدخول | قانة Libya TradeNet{% endblock %}
+
+{% block styles %}
+<style>
+    .login-container {
+        max-width: 400px;
+        margin: auto;
+        padding-top: 100px;
+    }
+    
+    .card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.95);
+    }
+    
+    .card-body {
+        padding: 2.5rem;
+    }
+    
+    .form-control {
+        border-radius: 10px;
+        border: 1px solid #e3e6f0;
+        padding: 12px 15px;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+    
+    .form-group label {
+        font-weight: 600;
+        color: #5a5c69;
+        margin-bottom: 0.5rem;
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 10px;
+        padding: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+    }
+    
+    .alert {
+        border-radius: 10px;
+        border: none;
+    }
+    
+    img.logo {
+        max-height: 180px;
+        filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.1));
+    }
+    
+    h4 {
+        color: #5a5c69;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+        .login-container {
+            padding-top: 50px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        
+        .card-body {
+            padding: 2rem 1.5rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block page %}
+<div class="container login-container">
+    <div class="card shadow-lg">
+        <div class="card-body text-center">
+            <!-- Logo Image -->
+            <img src="{% static 'image/logo_44.png' %}" alt="GANA Logo"
+                 class="img-fluid d-block mx-auto mb-4 logo" onerror="this.style.display='none'">
+            
+            <!-- Fallback text if logo fails to load -->
+            <div class="mb-4" style="font-size: 2rem; font-weight: bold; color: #667eea;">
+                قانة GANA
+            </div>
+            
+            <!-- Login Heading -->
+            <h4 class="mb-4">تسجيل الدخول</h4>
+
+            {% if form.errors %}
+                <div class="alert alert-danger" role="alert">
+                    تأكد من صحة البريد الإلكتروني وكلمة المرور.
+                </div>
+            {% endif %}
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+
+                <div class="form-group mb-3 text-start">
+                    <label for="id_username">اسم المستخدم</label>
+                    <input type="text" class="form-control" name="username" id="id_username" 
+                           placeholder="أدخل اسم المستخدم" required>
+                </div>
+
+                <div class="form-group mb-3 text-start">
+                    <label for="id_password">كلمة المرور</label>
+                    <input type="password" class="form-control" name="password" id="id_password" 
+                           placeholder="أدخل كلمة المرور" required>
+                </div>
+
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-primary w-100">
+                        تسجيل الدخول
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock page %}
+
+{% block scripts %}
+<script>
+document.querySelector('form').addEventListener('submit', function() {
+    // Optional: Show loading state
+    const submitBtn = this.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>جاري تسجيل الدخول...';
+});
+</script>
+{% endblock %}
