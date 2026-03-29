@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}تسجيل الدخول | قانة Libya TradeNet{% endblock %}
+{% block title %}Login | Libya TradeNet{% endblock %}
 
 {% block styles %}
 <style>
@@ -94,20 +94,19 @@
     <div class="card shadow-lg">
         <div class="card-body text-center">
             <!-- Logo Image -->
-            <img src="{% static 'image/logo_44.png' %}" alt="GANA Logo"
+            <img src="{% static 'image/LNT-svg.svg' %}" alt="LTN Logo"
                  class="img-fluid d-block mx-auto mb-4 logo" onerror="this.style.display='none'">
             
             <!-- Fallback text if logo fails to load -->
             <div class="mb-4" style="font-size: 2rem; font-weight: bold; color: #667eea;">
-                قانة GANA
+                Libyan TradeNet
             </div>
-            
             <!-- Login Heading -->
-            <h4 class="mb-4">تسجيل الدخول</h4>
+            <h4 class="mb-4">Login</h4>
 
             {% if form.errors %}
                 <div class="alert alert-danger" role="alert">
-                    تأكد من صحة البريد الإلكتروني وكلمة المرور.
+                    Please check your username and password.
                 </div>
             {% endif %}
 
@@ -123,20 +122,20 @@
                 {% csrf_token %}
 
                 <div class="form-group mb-3 text-start">
-                    <label for="id_username">اسم المستخدم</label>
+                    <label for="id_username">Username</label>
                     <input type="text" class="form-control" name="username" id="id_username" 
-                           placeholder="أدخل اسم المستخدم" required>
+                           placeholder="Enter username" required>
                 </div>
 
                 <div class="form-group mb-3 text-start">
-                    <label for="id_password">كلمة المرور</label>
+                    <label for="id_password">Password</label>
                     <input type="password" class="form-control" name="password" id="id_password" 
-                           placeholder="أدخل كلمة المرور" required>
+                           placeholder="Enter password" required>
                 </div>
 
                 <div class="form-group text-center">
                     <button type="submit" class="btn btn-primary w-100">
-                        تسجيل الدخول
+                        Login
                     </button>
                 </div>
             </form>
@@ -151,7 +150,7 @@ document.querySelector('form').addEventListener('submit', function() {
     // Optional: Show loading state
     const submitBtn = this.querySelector('button[type="submit"]');
     submitBtn.disabled = true;
-    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>جاري تسجيل الدخول...';
+    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Logging in...';
 });
 </script>
 {% endblock %}
