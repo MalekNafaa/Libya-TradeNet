@@ -7,16 +7,12 @@ import dj_database_url
 
 DEBUG = False
 
-# Allow Render domains and custom domains
+# Allow all Render subdomains and localhost
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    '.onrender.com',  # All Render subdomains
+    '*',  # Allow all hosts temporarily for Render subdomains
 ]
-
-# Also add from environment if set
-if os.environ.get('ALLOWED_HOSTS'):
-    ALLOWED_HOSTS.extend(os.environ.get('ALLOWED_HOSTS', '').split(','))
 
 # Database - uses DATABASE_URL from environment
 DATABASES = {
