@@ -1,0 +1,248 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr" direction="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content=""/>
+    <meta name="author" content=""/>
+    <meta name="robots" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Libya TradeNet">
+    <meta property="og:title" content="Libya TradeNet"/>
+    <meta property="og:description" content="Libya TradeNet"/>
+    <meta property="og:image" content="https://jobick.dexignlab.com/xhtml/social-image.png"/>
+    <meta name="format-detection" content="telephone=no">
+
+    <!-- PAGE TITLE HERE -->
+    <title>{% if bar.title %}{{ bar.title }} | {% endif %} Libya TradeNet</title>
+
+    <!-- FAVICONS ICON -->
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}"/>
+    <link href="{% static 'vendor/jquery-nice-select/css/nice-select.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/select2/css/select2.min.css' %}" rel="stylesheet"/>
+
+    <link href="{% static 'css/style.css' %}?v=1.2" rel="stylesheet">
+
+    <!-- LTR Layout Fix -->
+    <style>
+        /* Sidebar on LEFT for LTR */
+        .dlabnav {
+            left: 0 !important;
+            right: auto !important;
+        }
+        .content-body {
+            margin-left: 17.1875rem !important;
+            margin-right: 0 !important;
+        }
+
+        /* Header LTR - use IDs for maximum specificity */
+        html[lang="en"] #ltr-nav-header,
+        html[dir="ltr"] #ltr-nav-header,
+        #ltr-nav-header.nav-header {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-end !important;
+            text-align: right !important;
+            flex-direction: row !important;
+            width: 100% !important;
+            height: auto !important;
+        }
+        html[lang="en"] #ltr-brand-logo,
+        html[dir="ltr"] #ltr-brand-logo,
+        #ltr-brand-logo.brand-logo {
+            margin: 0 !important;
+            padding-left: 0 !important;
+            padding-right: 1rem !important;
+            order: 2 !important;
+            display: flex !important;
+            justify-content: flex-end !important;
+            margin-left: auto !important;
+            margin-right: 0 !important;
+        }
+        html[lang="en"] #ltr-nav-control,
+        html[dir="ltr"] #ltr-nav-control,
+        #ltr-nav-control.nav-control {
+            position: static !important;
+            order: 1 !important;
+            margin-left: 0 !important;
+            margin-right: 1rem !important;
+            left: 0 !important;
+            right: auto !important;
+            top: auto !important;
+            bottom: auto !important;
+        }
+
+        /* Sidebar menu items left-aligned */
+        .dlabnav .metismenu > li > a {
+            text-align: left !important;
+        }
+        .dlabnav .metismenu ul a {
+            padding-left: 2.5rem !important;
+            text-align: left !important;
+        }
+    </style>
+
+    {% include 'libya_trade_dashboard/templates/parts/head.html' %}
+
+    {% block styles %}
+    {% endblock styles %}
+</head>
+<body>
+
+<div id="preloader">
+        <div class="spinner-border text-primary loading-spinner" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+{% block page %}
+<div id="main-wrapper">
+
+    {% include 'libya_trade_dashboard/templates/parts/header.html' %}
+
+    {% include 'libya_trade_dashboard/templates/parts/sidebar.html' %}
+    <div class="content-body">
+        <div class="container-fluid">
+            {% include 'libya_trade_dashboard/templates/components/messages.html' %}
+            {% include 'libya_trade_dashboard/templates/parts/title.html' %}
+        
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+
+    {% include 'libya_trade_dashboard/templates/parts/footer.html' %}
+
+</div>
+{% endblock page %}
+
+<script src="{% static 'vendor/global/global.min.js' %}"></script>
+
+<script src="{% static 'vendor/jquery-nice-select/js/jquery.nice-select.min.js' %}"></script>
+
+<script src="{% static 'vendor/peity/jquery.peity.min.js' %}"></script>
+
+<script src="{% static 'vendor/owl-carousel/owl.carousel.js' %}"></script>
+
+<script src="{% static 'js/custom.min.js' %}"></script>
+<script src="{% static 'js/dlabnav-init.js' %}"></script>
+
+<script>
+    // Force LTR layout with MutationObserver to override theme changes
+    document.addEventListener('DOMContentLoaded', function() {
+        const navHeader = document.getElementById('ltr-nav-header');
+        const brandLogo = document.getElementById('ltr-brand-logo');
+        const navControl = document.getElementById('ltr-nav-control');
+        
+        let isApplying = false;
+        
+        function applyLTRStyles() {
+            if (isApplying) return;
+            isApplying = true;
+            
+            if (navHeader) {
+                navHeader.style.display = 'flex';
+                navHeader.style.alignItems = 'center';
+                navHeader.style.justifyContent = 'flex-end';  // Changed to flex-end for right alignment
+                navHeader.style.textAlign = 'right';  // Changed to right
+                navHeader.style.flexDirection = 'row';
+            }
+            if (brandLogo) {
+                brandLogo.style.margin = '0';
+                brandLogo.style.paddingLeft = '0';  // Changed to 0
+                brandLogo.style.paddingRight = '1rem';  // Changed to 1rem
+                brandLogo.style.order = '2';  // Changed to 2 (comes after hamburger)
+                brandLogo.style.display = 'flex';
+                brandLogo.style.justifyContent = 'flex-end';  // Changed to flex-end
+                brandLogo.style.marginRight = '0';
+                brandLogo.style.marginLeft = 'auto';  // Changed to auto to push to right
+            }
+            if (navControl) {
+                navControl.style.position = 'static';
+                navControl.style.order = '1';  // Changed to 1 (comes first)
+                navControl.style.marginLeft = '0';  // Changed to 0
+                navControl.style.marginRight = '1rem';  // Changed to 1rem
+            }
+            
+            // Reorder elements
+            if (navHeader && brandLogo && navControl) {
+                navHeader.insertBefore(navControl, navHeader.firstChild);  // Hamburger first
+                navHeader.appendChild(brandLogo);  // Logo last
+            }
+            
+            setTimeout(() => { isApplying = false; }, 100);
+        }
+        
+        // Apply immediately
+        applyLTRStyles();
+        
+        // Apply again after theme scripts finish
+        setTimeout(applyLTRStyles, 500);
+        
+        // Watch for any DOM changes and reapply (with debouncing)
+        const observer = new MutationObserver(function(mutations) {
+            if (!isApplying) {
+                applyLTRStyles();
+            }
+        });
+        
+        if (navHeader) {
+            observer.observe(navHeader, { 
+                attributes: true, 
+                childList: true, 
+                subtree: true,
+                attributeFilter: ['style', 'class'] 
+            });
+        }
+    });
+
+    const spinner = document.createElement('i');
+    spinner.classList.add('spinner-border', 'spinner-border-sm', 'loading-spinner', 'me-2', 'align-middle', 'text-white');
+    spinner.setAttribute('role', 'status');
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const forms = document.getElementsByTagName('form');
+
+        for (let i = 0; i < forms.length; i++) {
+            forms[i].addEventListener('submit', function (e) {
+                const submitButton = e.submitter || e.target.querySelector('[type="submit"]');
+                setTimeout(() => {
+                    submitButton.disabled = true;
+                    if (submitButton.tagName === 'BUTTON') {
+                        submitButton.prepend(spinner);
+                    }
+                }, 0);
+
+            });
+        }
+    });
+
+</script>
+
+{% block scripts %}
+
+{% endblock %}
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Only inside forms that have our scope class
+    $('.js-select2-scope select').each(function () {
+      const $el = $(this);
+      const placeholder =
+        $el.attr('data-placeholder') ||
+        $el.attr('placeholder') ||
+        $el.find('option[value=""]').text() || 'Select...';
+
+      $el.select2({
+        width: '100%',
+        dir: document.documentElement.getAttribute('dir') || 'ltr',
+        placeholder: placeholder,
+        allowClear: !!placeholder
+      });
+    });
+  });
+</script>
+<script src="{% static 'vendor/select2/js/select2.full.min.js' %}"></script>
+
+</body>
+</html>

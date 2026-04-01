@@ -1,0 +1,18 @@
+{% for but in buttons %}
+    {% if but %}
+        {% if but.div is not True %}
+            <a href="{{ but.url|default:"#" }}" {{ but.attrs|default:'' }}
+               class="btn {{ but.color|default:'text-white btn-primary' }} px-4 py-2 btn-icon">
+                {% if not but.html %}
+                    <i class="fs-6 align-middle {{ but.icon|default:"fa fa-plus" }} {% if but.label %}me-1{% endif %}"></i>{% endif %}
+                {% if but.label %}
+                    <span>{{ but.label|default:"إضافة" }}</span>
+                {% endif %}
+            </a>
+        {% else %}
+            {% autoescape off %}
+                {{ but.html }}
+            {% endautoescape %}
+        {% endif %}
+    {% endif %}
+{% endfor %}

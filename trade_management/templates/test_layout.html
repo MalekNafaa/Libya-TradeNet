@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <title>Test Layout</title>
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <style>
+        /* Override everything */
+        .nav-header {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-end !important;
+            text-align: right !important;
+            background: red !important;
+            height: 60px !important;
+            width: 100% !important;
+        }
+        .brand-logo {
+            margin-left: auto !important;
+            padding-right: 1rem !important;
+            background: blue !important;
+        }
+        .nav-control {
+            margin-right: 1rem !important;
+            background: green !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-header">
+        <div class="nav-control">☰</div>
+        <a href="/" class="brand-logo">LOGO</a>
+    </div>
+    
+    <h1>Test Page - Logo should be on RIGHT</h1>
+</body>
+</html>

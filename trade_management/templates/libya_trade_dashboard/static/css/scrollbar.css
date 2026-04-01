@@ -1,0 +1,38 @@
+/*
+ *  STYLE 7
+ */
+.scrollbar
+{
+  margin-left: 30px;
+  float: left;
+  height: auto;
+ width: inherit;
+
+overflow-y: auto;
+  margin-bottom: 25px;
+}
+/*style="height: auto;  width: auto;  overflow-y: auto;*/
+
+#style-7::-webkit-scrollbar-track
+{
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  background-color: #F5F5F5;
+  border-radius: 6px;
+}
+
+#style-7::-webkit-scrollbar
+{
+  width: 10px;
+  background-color: #F5F5F5;
+}
+
+#style-7::-webkit-scrollbar-thumb
+{
+  border-radius: 10px;
+  background-image: -webkit-gradient(linear,
+                     left bottom,
+                     left top,
+                     color-stop(0.44, rgb(40, 90, 193)),
+                     color-stop(0.72, rgba(26, 127, 201, 0.75)),
+                     color-stop(0.86, rgb(49, 136, 229)));
+}

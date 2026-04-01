@@ -1,0 +1,257 @@
+{% extends "libya_trade_dashboard/templates/base.html" %}
+{% load static %}
+
+{% block styles %}
+<style>
+  .kpi-card {
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  }
+  .kpi-card .card-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .kpi-icon {
+    font-size: 2rem;
+    opacity: 0.25;
+  }
+  .table-licenses th, 
+  .table-licenses td {
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .card-subtitle, .card-title {
+    color: #fff;
+  }
+  h1 {
+    font-size: 2.5rem !important;
+    margin-bottom: 0;
+  }
+</style>
+{% endblock styles %}
+
+{% block content %}
+<div class="mt-4">
+
+  {% if not has_company %}
+  <!-- No Company Message -->
+  <div class="alert alert-info text-center">
+    <h4>No Company Registered</h4>
+    <p>Please contact the administrator to register your company in the system.</p>
+  </div>
+  {% else %}
+
+  <!-- Company Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h3>{{ company_name }}</h3>
+      <small class="text-muted">Company #: {{ company_number }} | Tax ID: {{ tax_number }}</small>
+    </div>
+    <div>
+      {% if company.status == 'ACTIVE' %}
+        <span class="badge bg-success fs-6">{{ company_status }}</span>
+      {% elif company.status == 'SUSPENDED' %}
+        <span class="badge bg-warning fs-6">{{ company_status }}</span>
+      {% else %}
+        <span class="badge bg-danger fs-6">{{ company_status }}</span>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- KPI Counters -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-3">
+      <div class="card kpi-card text-white bg-primary">
+        <div class="card-body">
+          <div>
+            <h6 class="card-subtitle">Total Imports</h6>
+            <h1 class="card-title">{{ total_imports|default:0 }}</h1>
+          </div>
+          <div class="kpi-icon"><i class="fa fa-ship"></i></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card kpi-card text-white bg-success">
+        <div class="card-body">
+          <div>
+            <h6 class="card-subtitle">Completed Imports</h6>
+            <h1 class="card-title">{{ completed_imports|default:0 }}</h1>
+          </div>
+          <div class="kpi-icon"><i class="fa fa-check-circle"></i></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card kpi-card text-white bg-warning">
+        <div class="card-body">
+          <div>
+            <h6 class="card-subtitle">In Progress</h6>
+            <h1 class="card-title">{{ unfinished_imports|default:0 }}</h1>
+          </div>
+          <div class="kpi-icon"><i class="fa fa-clock"></i></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card kpi-card text-white bg-info">
+        <div class="card-body">
+          <div>
+            <h6 class="card-subtitle">Trust Score</h6>
+            <h1 class="card-title">{{ trust_score|default:0 }}</h1>
+          </div>
+          <div class="kpi-icon"><i class="fa fa-star"></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alerts -->
+  {% if expired_licenses > 0 or expiring_soon > 0 %}
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="alert alert-warning">
+        <h5><i class="fa fa-exclamation-triangle"></i> License Alerts</h5>
+        <ul class="mb-0">
+          {% if expired_licenses > 0 %}
+          <li>You have {{ expired_licenses }} expired license(s)</li>
+          {% endif %}
+          {% if expiring_soon > 0 %}
+          <li>You have {{ expiring_soon }} license(s) expiring within 30 days</li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="row">
+    <!-- Imports Chart -->
+    <div class="col-md-6">
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <strong>Import Activity</strong>
+        </div>
+        <div class="card-body">
+          <canvas id="importsChart" height="120"></canvas>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Licenses Table -->
+    <div class="col-md-6">
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <strong>Licenses</strong>
+          <small class="text-muted"> ({{ valid_licenses }} valid of {{ total_licenses }})</small>
+        </div>
+        <div class="card-body">
+          {% if licenses_list %}
+            <div class="table-responsive">
+              <table class="table table-striped table-licenses">
+                <thead class="table-light">
+                  <tr>
+                    <th>License #</th>
+                    <th>Type</th>
+                    <th>Expiry Date</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for license in licenses_list %}
+                  <tr>
+                    <td>{{ license.license_number }}</td>
+                    <td>{{ license.get_license_type_display }}</td>
+                    <td>{{ license.expiry_date|date:"Y-m-d" }}</td>
+                    <td>
+                      {% if license.status == 'VALID' %}
+                        <span class="badge bg-success">Valid</span>
+                      {% else %}
+                        <span class="badge bg-danger">Expired</span>
+                      {% endif %}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          {% else %}
+            <p class="text-center text-muted">No licenses registered.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tax Summary -->
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card shadow-sm">
+        <div class="card-header bg-secondary text-white">
+          <strong>Tax & Fees Summary</strong>
+        </div>
+        <div class="card-body">
+          <div class="row text-center">
+            <div class="col-md-4">
+              <h4 class="text-primary">{{ total_imports }}</h4>
+              <small>Total Operations</small>
+            </div>
+            <div class="col-md-4">
+              <h4 class="text-success">{{ estimated_tax|floatformat:2 }} LYD</h4>
+              <small>Estimated Tax</small>
+            </div>
+            <div class="col-md-4">
+              <h4 class="text-info">{{ trust_score }}</h4>
+              <small>Trust Score</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% endif %}
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const ctx = document.getElementById("importsChart").getContext("2d");
+    const labels = JSON.parse('{{ chart_labels|escapejs }}');
+    const dataPoints = JSON.parse('{{ chart_data|escapejs }}');
+
+    new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: labels,
+        datasets: [{
+          label: "Number of Imports",
+          data: dataPoints,
+          backgroundColor: "rgba(54, 162, 235, 0.6)",
+          borderColor: "rgba(54, 162, 235, 1)",
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 1
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          }
+        }
+      }
+    });
+  });
+</script>
+{% endblock scripts %}
