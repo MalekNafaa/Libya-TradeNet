@@ -52,25 +52,59 @@
         html[dir="ltr"] #ltr-brand-logo,
         #ltr-brand-logo.brand-logo {
             margin: 0 !important;
-            padding-left: 0 !important;
-            padding-right: 1rem !important;
+            padding-left: 1rem !important;
+            padding-right: 0 !important;
             order: 2 !important;
             display: flex !important;
-            justify-content: flex-end !important;
-            margin-left: auto !important;
-            margin-right: 0 !important;
+            justify-content: flex-start !important;
+            margin-left: 0 !important;
+            margin-right: auto !important;
         }
         html[lang="en"] #ltr-nav-control,
         html[dir="ltr"] #ltr-nav-control,
         #ltr-nav-control.nav-control {
             position: static !important;
             order: 1 !important;
-            margin-left: 0 !important;
-            margin-right: 1rem !important;
-            left: 0 !important;
+            margin-left: 1rem !important;
+            margin-right: 0 !important;
+            margin-top: 0.5rem !important;
+            left: auto !important;
             right: auto !important;
             top: auto !important;
             bottom: auto !important;
+        }
+        
+        /* Override theme's absolute positioning for nav-control */
+        .nav-header #ltr-nav-control.nav-control {
+            position: static !important;
+            left: auto !important;
+            right: auto !important;
+            top: auto !important;
+            bottom: auto !important;
+        }
+        
+        /* Force margins with highest specificity */
+        #ltr-nav-header.nav-header #ltr-nav-control.nav-control {
+            margin-left: 1rem !important;
+            margin-right: 0 !important;
+            margin-top: 0.5rem !important;
+            margin-bottom: 0 !important;
+        }
+        
+        /* Override any universal selector margin resets */
+        #ltr-nav-header.nav-header > #ltr-nav-control.nav-control:first-child {
+            margin-left: 1rem !important;
+            margin-right: 0 !important;
+            margin-top: 0.5rem !important;
+            margin-bottom: 0 !important;
+        }
+        
+        /* Most specific rule possible */
+        body div#main-wrapper div#ltr-nav-header.nav-header div#ltr-nav-control.nav-control {
+            margin-left: 1rem !important;
+            margin-right: 0 !important;
+            margin-top: 0.5rem !important;
+            margin-bottom: 0 !important;
         }
 
         /* Sidebar menu items left-aligned */
@@ -134,13 +168,13 @@
         const navHeader = document.getElementById('ltr-nav-header');
         const brandLogo = document.getElementById('ltr-brand-logo');
         const navControl = document.getElementById('ltr-nav-control');
-        
+
         let isApplying = false;
-        
+
         function applyLTRStyles() {
             if (isApplying) return;
             isApplying = true;
-            
+
             if (navHeader) {
                 navHeader.style.display = 'flex';
                 navHeader.style.alignItems = 'center';
@@ -161,40 +195,53 @@
             if (navControl) {
                 navControl.style.position = 'static';
                 navControl.style.order = '1';  // Changed to 1 (comes first)
-                navControl.style.marginLeft = '0';  // Changed to 0
-                navControl.style.marginRight = '1rem';  // Changed to 1rem
+                navControl.style.marginLeft = '1rem';  // Changed to 1rem - move away from left edge
+                navControl.style.marginRight = '0';  // Changed to 0
+                navControl.style.marginTop = '0.5rem';  // Add top margin
+                navControl.style.marginBottom = '0';  // Add bottom margin
             }
-            
+
             // Reorder elements
             if (navHeader && brandLogo && navControl) {
                 navHeader.insertBefore(navControl, navHeader.firstChild);  // Hamburger first
                 navHeader.appendChild(brandLogo);  // Logo last
             }
-            
+
             setTimeout(() => { isApplying = false; }, 100);
         }
-        
+
         // Apply immediately
         applyLTRStyles();
-        
+
         // Apply again after theme scripts finish
         setTimeout(applyLTRStyles, 500);
-        
+
         // Watch for any DOM changes and reapply (with debouncing)
         const observer = new MutationObserver(function(mutations) {
             if (!isApplying) {
                 applyLTRStyles();
             }
         });
-        
+
         if (navHeader) {
-            observer.observe(navHeader, { 
-                attributes: true, 
-                childList: true, 
+            observer.observe(navHeader, {
+                attributes: true,
+                childList: true,
                 subtree: true,
-                attributeFilter: ['style', 'class'] 
+                attributeFilter: ['style', 'class']
             });
         }
+
+        // Ensure sidebar starts closed
+        setTimeout(() => {
+            const sidebar = document.querySelector('.dlabnav');
+            if (sidebar && !sidebar.classList.contains('menu-close')) {
+                const hamburger = document.querySelector('.hamburger');
+                if (hamburger) {
+                    hamburger.click();
+                }
+            }
+        }, 1000);
     });
 
     const spinner = document.createElement('i');
@@ -243,6 +290,26 @@
   });
 </script>
 <script src="{% static 'vendor/select2/js/select2.full.min.js' %}"></script>
+
+<script>
+    // FINAL OVERRIDE: Force nav-control margins after everything loads
+    window.addEventListener('load', function() {
+        const navControl = document.getElementById('ltr-nav-control');
+        if (navControl) {
+            console.log('FINAL OVERRIDE: Applying margins to nav-control');
+            navControl.style.cssText = 'position: static !important; order: 1 !important; margin-left: 0.5rem !important; margin-right: 0 !important; margin-top: 0.5rem !important; margin-bottom: 0 !important; left: auto !important; right: auto !important; top: auto !important; bottom: auto !important;';
+        }
+    });
+    
+    // Also try after a short delay to catch any late theme scripts
+    setTimeout(function() {
+        const navControl = document.getElementById('ltr-nav-control');
+        if (navControl) {
+            console.log('TIMEOUT OVERRIDE: Applying margins to nav-control');
+            navControl.style.cssText = 'position: static !important; order: 1 !important; margin-left: 0.5rem !important; margin-right: 0 !important; margin-top: 0.5rem !important; margin-bottom: 0 !important; left: auto !important; right: auto !important; top: auto !important; bottom: auto !important;';
+        }
+    }, 2000);
+</script>
 
 </body>
 </html>

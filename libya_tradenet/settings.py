@@ -108,8 +108,14 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
-
 USE_TZ = True
+
+# Admin language settings
+LANGUAGE_COOKIE_NAME = 'django_language'
+LANGUAGES = [
+    ('en', 'English'),
+    ('ar', 'Arabic'),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/6.0/ref/settings/#default-auto-field

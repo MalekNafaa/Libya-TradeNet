@@ -57,7 +57,7 @@ function getUrlParams(dParam)
         dlabSettingsOptions.containerLayout = $('#container_layout').val();
         /*Check container layout on resize END */
         
-		new dlabSettings(dlabSettingsOptions); 
+		new dlabSettings(dlabSettingsOptions);
 	});
 	
 })(jQuery);

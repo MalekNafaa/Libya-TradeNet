@@ -2899,7 +2899,7 @@ a {
     .nav-header .brand-title {
       display: none; } }
 
-.nav-control {
+/* .nav-control {
   cursor: pointer;
   position: absolute;
   right: -3.5rem;
@@ -2915,7 +2915,7 @@ a {
       right: -3rem; } }
   @media only screen and (max-width: 575px) {
     .nav-control {
-      right: -2.5rem; } }
+      right: -2.5rem; } } */
 
 .hamburger {
   display: inline-block;
