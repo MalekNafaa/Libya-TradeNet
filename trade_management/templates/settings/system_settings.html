@@ -1,0 +1,103 @@
+{% extends 'libya_trade_dashboard/templates/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row page-titles">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li class="breadcrumb-item active">System Settings</li>
+    </ol>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header"><h4 class="card-title">Regional Settings</h4></div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Language</label>
+                            <select class="form-select" name="language">
+                                {% for code, name in languages %}
+                                <option value="{{ code }}" {% if settings.language == code %}selected{% endif %}>{{ name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Time Zone</label>
+                            <select class="form-select" name="timezone">
+                                {% for tz in timezones %}
+                                <option value="{{ tz }}" {% if settings.timezone == tz %}selected{% endif %}>{{ tz }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Currency</label>
+                            <select class="form-select" name="currency">
+                                {% for code, name in currencies %}
+                                <option value="{{ code }}" {% if settings.currency == code %}selected{% endif %}>{{ name }} ({{ code }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Date Format</label>
+                            <select class="form-select" name="date_format">
+                                <option value="YYYY-MM-DD" {% if settings.date_format == 'YYYY-MM-DD' %}selected{% endif %}>YYYY-MM-DD</option>
+                                <option value="DD/MM/YYYY" {% if settings.date_format == 'DD/MM/YYYY' %}selected{% endif %}>DD/MM/YYYY</option>
+                                <option value="MM/DD/YYYY" {% if settings.date_format == 'MM/DD/YYYY' %}selected{% endif %}>MM/DD/YYYY</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <button type="submit" class="btn btn-primary">Save Settings</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header"><h5 class="card-title">Data & Privacy</h5></div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-0">Download My Data</h6>
+                            <small class="text-muted">Export all your trade data</small>
+                        </div>
+                        <button class="btn btn-outline-primary btn-sm">Export</button>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-0 text-danger">Delete Account</h6>
+                            <small class="text-muted">Permanently remove all data</small>
+                        </div>
+                        <button class="btn btn-outline-danger btn-sm">Delete</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header"><h5 class="card-title">System Info</h5></div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Version</span>
+                        <strong>1.0.0</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Last Updated</span>
+                        <strong>Apr 2026</strong>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

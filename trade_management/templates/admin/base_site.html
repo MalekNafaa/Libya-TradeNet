@@ -1,0 +1,77 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+/* Force LTR for admin */
+html, body {
+    direction: ltr !important;
+    text-align: left !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+}
+#header {
+    direction: ltr !important;
+    text-align: left !important;
+}
+#branding h1 {
+    text-align: left !important;
+    float: left !important;
+}
+.breadcrumbs {
+    direction: ltr !important;
+    text-align: left !important;
+}
+.object-tools {
+    direction: ltr !important;
+    text-align: right !important;
+}
+#content {
+    direction: ltr !important;
+    text-align: left !important;
+}
+#content h1, #content h2, #content h3 {
+    text-align: left !important;
+}
+#content .form-row {
+    direction: ltr !important;
+    text-align: left !important;
+}
+#content .submit-row {
+    direction: ltr !important;
+    text-align: left !important;
+}
+#content .help {
+    text-align: left !important;
+}
+#content .errorlist {
+    text-align: left !important;
+}
+#content-related {
+    direction: ltr !important;
+    text-align: left !important;
+}
+#changelist {
+    direction: ltr !important;
+}
+#changelist table {
+    direction: ltr !important;
+    text-align: left !important;
+}
+#changelist table th {
+    text-align: left !important;
+}
+#changelist table td {
+    text-align: left !important;
+}
+.addlink, .changelink {
+    direction: ltr !important;
+}
+</style>
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">Libya TradeNet Admin</a></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

@@ -1,0 +1,199 @@
+{% extends 'libya_trade_dashboard/templates/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row page-titles">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li class="breadcrumb-item active">Trade Reports</li>
+    </ol>
+</div>
+
+<!-- Date Filter -->
+<div class="row mb-3">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="get" class="row align-items-end">
+                    <div class="col-md-4">
+                        <label class="form-label">Start Date</label>
+                        <input type="date" class="form-control" name="start_date" value="{{ start_date }}">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">End Date</label>
+                        <input type="date" class="form-control" name="end_date" value="{{ end_date }}">
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fa fa-filter"></i> Generate Report
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Summary Cards -->
+<div class="row">
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-primary text-white">
+            <div class="card-body text-center">
+                <h3 class="text-white">{{ total_imports }}</h3>
+                <span>Total Imports</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-success text-white">
+            <div class="card-body text-center">
+                <h3 class="text-white">{{ approved_imports }}</h3>
+                <span>Approved</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-danger text-white">
+            <div class="card-body text-center">
+                <h3 class="text-white">{{ rejected_imports }}</h3>
+                <span>Rejected</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-info text-white">
+            <div class="card-body text-center">
+                <h3 class="text-white">${{ total_value|floatformat:0 }}</h3>
+                <span>Total Value</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Country Statistics -->
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header"><h5 class="card-title">Imports by Country</h5></div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Country</th>
+                                <th>Count</th>
+                                <th>Value (USD)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for country, stats in country_stats.items %}
+                            <tr>
+                                <td>{{ country }}</td>
+                                <td>{{ stats.count }}</td>
+                                <td>${{ stats.value|floatformat:2 }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="3" class="text-center text-muted">No data available</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header"><h5 class="card-title">Import Status Distribution</h5></div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Approved
+                        <span class="badge bg-success rounded-pill">{{ approved_imports }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Rejected
+                        <span class="badge bg-danger rounded-pill">{{ rejected_imports }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Under Review
+                        <span class="badge bg-warning rounded-pill">{{ under_review_imports }}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Imports Table -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">Recent Import Permits</h5>
+                <span class="badge bg-secondary">Last 50</span>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-sm">
+                        <thead>
+                            <tr>
+                                <th>Permit #</th>
+                                <th>Company</th>
+                                <th>Origin</th>
+                                <th>Goods</th>
+                                <th>Value</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for permit in permits %}
+                            <tr>
+                                <td>{{ permit.permit_number }}</td>
+                                <td>{{ permit.company.name }}</td>
+                                <td>{{ permit.country_of_origin }}</td>
+                                <td>{{ permit.goods_description|truncatechars:30 }}</td>
+                                <td>${{ permit.total_value_usd }}</td>
+                                <td>{{ permit.created_at|date:"M d, Y" }}</td>
+                                <td>
+                                    {% if permit.status == 'APPROVED' %}
+                                        <span class="badge bg-success">Approved</span>
+                                    {% elif permit.status == 'REJECTED' %}
+                                        <span class="badge bg-danger">Rejected</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">{{ permit.status }}</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="7" class="text-center text-muted">No imports found for selected period</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Export Options -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header"><h5 class="card-title">Export Report</h5></div>
+            <div class="card-body">
+                <p class="text-muted">Download this report in different formats:</p>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-outline-primary"><i class="fa fa-file-pdf"></i> PDF</button>
+                    <button type="button" class="btn btn-outline-success"><i class="fa fa-file-excel"></i> Excel</button>
+                    <button type="button" class="btn btn-outline-secondary"><i class="fa fa-file-csv"></i> CSV</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

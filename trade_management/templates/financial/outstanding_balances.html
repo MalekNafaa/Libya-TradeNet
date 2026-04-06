@@ -1,0 +1,166 @@
+{% extends 'libya_trade_dashboard/templates/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row page-titles">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'financial_dashboard' %}">Financial</a></li>
+        <li class="breadcrumb-item active">Outstanding Balances</li>
+    </ol>
+</div>
+
+<!-- Summary Cards -->
+<div class="row">
+    <div class="col-xl-4 col-md-6">
+        <div class="card bg-warning text-white">
+            <div class="card-body text-center">
+                <h3 class="text-white">${{ total_pending|floatformat:2 }}</h3>
+                <span>Pending Taxes</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4 col-md-6">
+        <div class="card bg-danger text-white">
+            <div class="card-body text-center">
+                <h3 class="text-white">${{ total_overdue|floatformat:2 }}</h3>
+                <span>Overdue Taxes</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4 col-md-6">
+        <div class="card bg-dark text-white">
+            <div class="card-body text-center">
+                <h3 class="text-white">${{ total_fines_unpaid|floatformat:2 }}</h3>
+                <span>Unpaid Fines</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Grand Total -->
+<div class="row">
+    <div class="col-12">
+        <div class="card border-danger">
+            <div class="card-body bg-danger text-white d-flex justify-content-between align-items-center">
+                <div>
+                    <h4 class="text-white mb-0"><i class="fa fa-exclamation-circle"></i> Total Outstanding</h4>
+                    <small>Immediate payment required to avoid penalties</small>
+                </div>
+                <h2 class="text-white mb-0">${{ grand_total|floatformat:2 }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Pending Taxes -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="card-title mb-0"><i class="fa fa-clock text-warning"></i> Pending & Overdue Taxes</h4>
+                <a href="{% url 'tax_payments' %}" class="btn btn-success btn-sm">Pay Now</a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Tax Number</th>
+                                <th>Import Permit</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Due Date</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for tax in pending_taxes %}
+                            <tr class="{% if tax.payment_status == 'OVERDUE' %}table-danger{% else %}table-warning{% endif %}">
+                                <td>{{ tax.tax_number }}</td>
+                                <td>{{ tax.import_permit.permit_number|default:"N/A" }}</td>
+                                <td>{{ tax.get_tax_type_display }}</td>
+                                <td>${{ tax.amount_paid|floatformat:2 }}</td>
+                                <td>{{ tax.due_date|date:"M d, Y" }}</td>
+                                <td>
+                                    {% if tax.payment_status == 'PENDING' %}
+                                        <span class="badge bg-warning"><i class="fa fa-clock"></i> Pending</span>
+                                    {% elif tax.payment_status == 'OVERDUE' %}
+                                        <span class="badge bg-danger"><i class="fa fa-exclamation"></i> Overdue</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'tax_payments' %}" class="btn btn-success btn-sm"><i class="fa fa-credit-card"></i> Pay</a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="7" class="text-center py-4">
+                                    <p class="text-success mb-0"><i class="fa fa-check-circle"></i> No outstanding tax payments!</p>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Unpaid Fines -->
+<div class="row">
+    <div class="col-12">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h4 class="card-title mb-0 text-white"><i class="fa fa-gavel"></i> Unpaid Inspection Fines</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Permit</th>
+                                <th>Inspection Date</th>
+                                <th>Result</th>
+                                <th>Fine Amount</th>
+                                <th>Reason</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for fine in inspection_fines %}
+                            <tr class="table-danger">
+                                <td>{{ fine.import_permit.permit_number }}</td>
+                                <td>{{ fine.inspection_date|date:"M d, Y" }}</td>
+                                <td><span class="badge bg-danger">{{ fine.get_result_display }}</span></td>
+                                <td><strong>${{ fine.fine_amount|floatformat:2 }}</strong></td>
+                                <td>{{ fine.condition_notes|truncatechars:50 }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center py-4">
+                                    <p class="text-success mb-0"><i class="fa fa-check-circle"></i> No unpaid fines!</p>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Payment Warning -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="alert alert-warning">
+            <h5><i class="fa fa-exclamation-triangle"></i> Late Payment Warning</h5>
+            <p>Overdue taxes and unpaid fines accumulate penalties at <strong>2% per month</strong>. Please settle your outstanding balances promptly to avoid additional charges and potential restrictions on your import activities.</p>
+            <hr>
+            <a href="{% url 'tax_payments' %}" class="btn btn-warning">Make Payment Now</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

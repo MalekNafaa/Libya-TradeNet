@@ -1,0 +1,195 @@
+{% extends 'libya_trade_dashboard/templates/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row page-titles">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'import_permits' %}">Imports</a></li>
+        <li class="breadcrumb-item active">Apply for Import Permit</li>
+    </ol>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Import Permit Application</h4>
+                <p class="text-muted">Submit details for your import shipment</p>
+            </div>
+            <div class="card-body">
+                <form method="post" class="js-form-submit">
+                    {% csrf_token %}
+                    
+                    <!-- Company Selection -->
+                    <div class="form-section mb-4">
+                        <h5 class="border-bottom pb-2 mb-3"><i class="fa fa-building text-primary"></i> Company Information</h5>
+                        <div class="mb-3">
+                            <label for="company" class="form-label">Company <span class="text-danger">*</span></label>
+                            <select class="form-select" id="company" name="company" required>
+                                <option value="">Select Company</option>
+                                {% for company in companies %}
+                                <option value="{{ company.id }}">{{ company.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="related_license" class="form-label">Related Import License</label>
+                            <select class="form-select" id="related_license" name="related_license">
+                                <option value="">Select License (Optional)</option>
+                                {% for license in valid_licenses %}
+                                <option value="{{ license.id }}">{{ license.license_number }} - {{ license.get_license_type_display }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Shipment Details -->
+                    <div class="form-section mb-4">
+                        <h5 class="border-bottom pb-2 mb-3"><i class="fa fa-ship text-primary"></i> Shipment Details</h5>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="shipment_type" class="form-label">Shipment Type <span class="text-danger">*</span></label>
+                                <select class="form-select" id="shipment_type" name="shipment_type" required>
+                                    {% for code, name in shipment_types %}
+                                    <option value="{{ code }}">{{ name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="bl_awb_number" class="form-label">Bill of Lading / AWB Number</label>
+                                <input type="text" class="form-control" id="bl_awb_number" name="bl_awb_number" placeholder="e.g., MAEU1234567">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="vessel_flight_name" class="form-label">Vessel / Flight Name</label>
+                                <input type="text" class="form-control" id="vessel_flight_name" name="vessel_flight_name" placeholder="e.g., MSC Oscar">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="container_number" class="form-label">Container Number</label>
+                                <input type="text" class="form-control" id="container_number" name="container_number" placeholder="e.g., MSKU1234567">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Route Information -->
+                    <div class="form-section mb-4">
+                        <h5 class="border-bottom pb-2 mb-3"><i class="fa fa-route text-primary"></i> Route Information</h5>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="country_of_origin" class="form-label">Country of Origin <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="country_of_origin" name="country_of_origin" placeholder="e.g., China" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="port_of_loading" class="form-label">Port of Loading</label>
+                                <input type="text" class="form-control" id="port_of_loading" name="port_of_loading" placeholder="e.g., Shanghai">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="port_of_entry" class="form-label">Port of Entry <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="port_of_entry" name="port_of_entry" value="Tripoli Port" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="expected_arrival_date" class="form-label">Expected Arrival Date <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="expected_arrival_date" name="expected_arrival_date" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Goods Description -->
+                    <div class="form-section mb-4">
+                        <h5 class="border-bottom pb-2 mb-3"><i class="fa fa-box text-primary"></i> Goods Description</h5>
+                        <div class="mb-3">
+                            <label for="goods_description" class="form-label">Description of Goods <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="goods_description" name="goods_description" rows="3" required placeholder="Detailed description of the goods being imported..."></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="hs_code" class="form-label">HS Code</label>
+                                <input type="text" class="form-control" id="hs_code" name="hs_code" placeholder="e.g., 8471.30.01">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="quantity" class="form-label">Quantity <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="unit_of_measure" class="form-label">Unit of Measure</label>
+                                <input type="text" class="form-control" id="unit_of_measure" name="unit_of_measure" value="units">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="total_value_usd" class="form-label">Total Value (USD) <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" id="total_value_usd" name="total_value_usd" placeholder="0.00" step="0.01" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="currency" class="form-label">Currency</label>
+                                <select class="form-select" id="currency" name="currency">
+                                    <option value="USD" selected>USD - US Dollar</option>
+                                    <option value="EUR">EUR - Euro</option>
+                                    <option value="GBP">GBP - British Pound</option>
+                                    <option value="CNY">CNY - Chinese Yuan</option>
+                                    <option value="TRY">TRY - Turkish Lira</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Exchange Control -->
+                    <div class="form-section mb-4">
+                        <h5 class="border-bottom pb-2 mb-3"><i class="fa fa-university text-primary"></i> Exchange Control (Libya Central Bank)</h5>
+                        <div class="mb-3">
+                            <label for="exchange_reference" class="form-label">Exchange Approval Reference</label>
+                            <input type="text" class="form-control" id="exchange_reference" name="exchange_reference" placeholder="Central Bank exchange approval number">
+                            <small class="text-muted">If you have obtained foreign exchange approval, enter the reference number here.</small>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'import_permits' %}" class="btn btn-light">Cancel</a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-paper-plane"></i> Submit Application
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar Info -->
+    <div class="col-lg-4 col-md-12">
+        <div class="card">
+            <div class="card-header"><h5 class="card-title">Required Documents</h5></div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><i class="fa fa-check text-success"></i> Commercial Invoice</li>
+                    <li class="list-group-item"><i class="fa fa-check text-success"></i> Packing List</li>
+                    <li class="list-group-item"><i class="fa fa-check text-success"></i> Bill of Lading / AWB</li>
+                    <li class="list-group-item"><i class="fa fa-check text-success"></i> Certificate of Origin</li>
+                    <li class="list-group-item"><i class="fa fa-check text-success"></i> Import License (if applicable)</li>
+                </ul>
+                <p class="text-muted small mt-2">Upload these documents after submitting your application.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header"><h5 class="card-title">Processing Timeline</h5></div>
+            <div class="card-body">
+                <ol class="list-group list-group-numbered list-group-flush">
+                    <li class="list-group-item">Submit application</li>
+                    <li class="list-group-item">Document verification (2-3 days)</li>
+                    <li class="list-group-item">Customs review (3-5 days)</li>
+                    <li class="list-group-item">Inspection scheduling</li>
+                    <li class="list-group-item">Permit issuance</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('expected_arrival_date').min = new Date().toISOString().split('T')[0];
+</script>
+{% endblock %}

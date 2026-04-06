@@ -1,0 +1,241 @@
+{% extends 'libya_trade_dashboard/templates/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row page-titles">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'my_licenses' %}">Licenses</a></li>
+        <li class="breadcrumb-item active">Application Status</li>
+    </ol>
+</div>
+
+<!-- Status Summary Cards -->
+<div class="row">
+    <div class="col-xl-2 col-sm-6 col-6">
+        <div class="card {% if current_filter == 'DRAFT' %}border-primary{% endif %}">
+            <div class="card-body text-center">
+                <h3 class="text-primary">{{ draft_count }}</h3>
+                <span class="text-muted">Draft</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-2 col-sm-6 col-6">
+        <div class="card {% if current_filter == 'SUBMITTED' %}border-info{% endif %}">
+            <div class="card-body text-center">
+                <h3 class="text-info">{{ submitted_count }}</h3>
+                <span class="text-muted">Submitted</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-2 col-sm-6 col-6">
+        <div class="card {% if current_filter == 'UNDER_REVIEW' %}border-warning{% endif %}">
+            <div class="card-body text-center">
+                <h3 class="text-warning">{{ under_review_count }}</h3>
+                <span class="text-muted">Under Review</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-2 col-sm-6 col-6">
+        <div class="card {% if current_filter == 'APPROVED' %}border-success{% endif %}">
+            <div class="card-body text-center">
+                <h3 class="text-success">{{ approved_count }}</h3>
+                <span class="text-muted">Approved</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-2 col-sm-6 col-6">
+        <div class="card {% if current_filter == 'REJECTED' %}border-danger{% endif %}">
+            <div class="card-body text-center">
+                <h3 class="text-danger">{{ rejected_count }}</h3>
+                <span class="text-muted">Rejected</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-2 col-sm-6 col-6">
+        <div class="card">
+            <div class="card-body text-center">
+                <h3>{{ applications.count }}</h3>
+                <span class="text-muted">Total</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Filter Buttons -->
+<div class="row mb-3">
+    <div class="col-12">
+        <div class="btn-group" role="group">
+            <a href="{% url 'application_status' %}" class="btn btn-outline-secondary {% if not current_filter %}active{% endif %}">All</a>
+            <a href="?status=DRAFT" class="btn btn-outline-secondary {% if current_filter == 'DRAFT' %}active{% endif %}">Draft</a>
+            <a href="?status=SUBMITTED" class="btn btn-outline-secondary {% if current_filter == 'SUBMITTED' %}active{% endif %}">Submitted</a>
+            <a href="?status=UNDER_REVIEW" class="btn btn-outline-secondary {% if current_filter == 'UNDER_REVIEW' %}active{% endif %}">Under Review</a>
+            <a href="?status=APPROVED" class="btn btn-outline-secondary {% if current_filter == 'APPROVED' %}active{% endif %}">Approved</a>
+            <a href="?status=REJECTED" class="btn btn-outline-secondary {% if current_filter == 'REJECTED' %}active{% endif %}">Rejected</a>
+        </div>
+        <a href="{% url 'apply_license' %}" class="btn btn-primary float-end">
+            <i class="fa fa-plus"></i> New Application
+        </a>
+    </div>
+</div>
+
+<!-- Applications Table -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">License Applications</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Application #</th>
+                                <th>Company</th>
+                                <th>License Type</th>
+                                <th>Submitted</th>
+                                <th>Status</th>
+                                <th>Progress</th>
+                                <th>Reviewed By</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for app in applications %}
+                            <tr>
+                                <td><strong>{{ app.application_number }}</strong></td>
+                                <td>{{ app.company.name }}</td>
+                                <td>{{ app.get_license_type_display }}</td>
+                                <td>
+                                    {% if app.submitted_at %}
+                                        {{ app.submitted_at|date:"M d, Y H:i" }}
+                                    {% else %}
+                                        <span class="text-muted">Not submitted</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if app.status == 'DRAFT' %}
+                                        <span class="badge bg-secondary">Draft</span>
+                                    {% elif app.status == 'SUBMITTED' %}
+                                        <span class="badge bg-info">Submitted</span>
+                                    {% elif app.status == 'UNDER_REVIEW' %}
+                                        <span class="badge bg-warning">Under Review</span>
+                                    {% elif app.status == 'APPROVED' %}
+                                        <span class="badge bg-success">Approved</span>
+                                    {% elif app.status == 'REJECTED' %}
+                                        <span class="badge bg-danger">Rejected</span>
+                                    {% else %}
+                                        <span class="badge bg-dark">{{ app.get_status_display }}</span>
+                                    {% endif %}
+                                </td>
+                                <td style="width: 200px;">
+                                    <div class="progress" style="height: 20px;">
+                                        {% if app.status == 'DRAFT' %}
+                                            <div class="progress-bar bg-secondary" style="width: 20%">20%</div>
+                                        {% elif app.status == 'SUBMITTED' %}
+                                            <div class="progress-bar bg-info" style="width: 40%">40%</div>
+                                        {% elif app.status == 'UNDER_REVIEW' %}
+                                            <div class="progress-bar bg-warning" style="width: 70%">70%</div>
+                                        {% elif app.status == 'APPROVED' %}
+                                            <div class="progress-bar bg-success" style="width: 100%">100%</div>
+                                        {% elif app.status == 'REJECTED' %}
+                                            <div class="progress-bar bg-danger" style="width: 100%">Rejected</div>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                                <td>
+                                    {% if app.reviewed_by %}
+                                        {{ app.reviewed_by.get_full_name|default:app.reviewed_by.username }}
+                                        <br><small class="text-muted">{{ app.reviewed_at|date:"M d, Y" }}</small>
+                                    {% else %}
+                                        <span class="text-muted">Pending</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#appModal{{ app.id }}">
+                                        <i class="fa fa-eye"></i> Details
+                                    </button>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="8" class="text-center py-4">
+                                    <p class="text-muted mb-3">No applications found.</p>
+                                    <a href="{% url 'apply_license' %}" class="btn btn-primary">Submit Your First Application</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Application Detail Modals -->
+{% for app in applications %}
+<div class="modal fade" id="appModal{{ app.id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Application Details - {{ app.application_number }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Company:</strong> {{ app.company.name }}</p>
+                        <p><strong>License Type:</strong> {{ app.get_license_type_display }}</p>
+                        <p><strong>Status:</strong> {{ app.get_status_display }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Submitted:</strong> {{ app.submitted_at|date:"M d, Y H:i"|default:"Not submitted" }}</p>
+                        <p><strong>Created:</strong> {{ app.created_at|date:"M d, Y" }}</p>
+                        <p><strong>Last Updated:</strong> {{ app.updated_at|date:"M d, Y H:i" }}</p>
+                    </div>
+                </div>
+                
+                <hr>
+                
+                <h6>Proposed Import Items:</h6>
+                <p class="text-muted">{{ app.proposed_import_items|linebreaks }}</p>
+                
+                {% if app.estimated_annual_value > 0 %}
+                <p><strong>Estimated Annual Value:</strong> ${{ app.estimated_annual_value }}</p>
+                {% endif %}
+                
+                {% if app.country_of_origin %}
+                <p><strong>Country of Origin:</strong> {{ app.country_of_origin }}</p>
+                {% endif %}
+                
+                {% if app.review_notes %}
+                <hr>
+                <h6>Review Notes:</h6>
+                <div class="alert alert-info">
+                    {{ app.review_notes|linebreaks }}
+                </div>
+                {% endif %}
+                
+                {% if app.status == 'REJECTED' %}
+                <div class="alert alert-danger">
+                    <strong>This application was rejected.</strong> You may submit a new application after addressing the issues noted above.
+                </div>
+                {% elif app.status == 'APPROVED' %}
+                <div class="alert alert-success">
+                    <strong>Congratulations!</strong> Your license application has been approved. Please complete the payment to receive your license.
+                </div>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                {% if app.status == 'DRAFT' %}
+                <button type="button" class="btn btn-primary">Continue Editing</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

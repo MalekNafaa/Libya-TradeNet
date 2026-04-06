@@ -1,0 +1,185 @@
+{% extends 'libya_trade_dashboard/templates/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row page-titles">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li class="breadcrumb-item active">Financial Dashboard</li>
+    </ol>
+</div>
+
+<!-- Summary Cards -->
+<div class="row">
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <p class="text-white mb-0">Total Tax Paid</p>
+                        <h2 class="text-white mb-0">${{ total_tax_paid|floatformat:2 }}</h2>
+                    </div>
+                    <i class="fa fa-check-circle fa-3x opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <p class="text-white mb-0">Pending Taxes</p>
+                        <h2 class="text-white mb-0">${{ total_tax_pending|floatformat:2 }}</h2>
+                    </div>
+                    <i class="fa fa-clock fa-3x opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-danger text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <p class="text-white mb-0">Overdue Taxes</p>
+                        <h2 class="text-white mb-0">${{ total_tax_overdue|floatformat:2 }}</h2>
+                    </div>
+                    <i class="fa fa-exclamation-triangle fa-3x opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <p class="text-white mb-0">License Fees</p>
+                        <h2 class="text-white mb-0">${{ total_license_fees|floatformat:2 }}</h2>
+                    </div>
+                    <i class="fa fa-id-card fa-3x opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Fines & Duties -->
+<div class="row">
+    <div class="col-md-6">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h5 class="card-title mb-0 text-white"><i class="fa fa-gavel"></i> Fines & Penalties</h5>
+            </div>
+            <div class="card-body text-center">
+                <h3 class="text-danger">${{ total_fines|floatformat:2 }}</h3>
+                <p class="text-muted">Total fines from inspections and violations</p>
+                <a href="{% url 'outstanding_balances' %}" class="btn btn-outline-danger btn-sm">View Details</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card border-info">
+            <div class="card-header bg-info text-white">
+                <h5 class="card-title mb-0 text-white"><i class="fa fa-dollar-sign"></i> Import Duties</h5>
+            </div>
+            <div class="card-body text-center">
+                <h3 class="text-info">${{ total_duties|floatformat:2 }}</h3>
+                <p class="text-muted">Customs duties paid on imports</p>
+                <a href="{% url 'tax_payments' %}" class="btn btn-outline-info btn-sm">View Details</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Grand Total -->
+<div class="row">
+    <div class="col-12">
+        <div class="card bg-dark text-white">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h4 class="text-white mb-0">Total Financial Obligations</h4>
+                    <small class="opacity-75">All taxes, fees, fines, and duties</small>
+                </div>
+                <h2 class="text-white mb-0">${{ grand_total|floatformat:2 }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Links -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header"><h5 class="card-title">Quick Actions</h5></div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 mb-2">
+                        <a href="{% url 'tax_payments' %}" class="btn btn-primary w-100">
+                            <i class="fa fa-money-bill"></i> Pay Taxes
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{% url 'payment_history' %}" class="btn btn-success w-100">
+                            <i class="fa fa-history"></i> Payment History
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{% url 'outstanding_balances' %}" class="btn btn-warning w-100">
+                            <i class="fa fa-balance-scale"></i> Outstanding Balances
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{% url 'financial_reports' %}" class="btn btn-info w-100">
+                            <i class="fa fa-chart-bar"></i> Financial Reports
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tax Info -->
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header"><h5 class="card-title">Tax Information</h5></div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Import Duty Rate</span>
+                        <strong>5% - 20%</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>VAT on Imports</span>
+                        <strong>0%</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Processing Fee</span>
+                        <strong>$50 - $200</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Late Payment Penalty</span>
+                        <strong>2% per month</strong>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header"><h5 class="card-title">Payment Methods</h5></div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><i class="fa fa-university text-primary"></i> Bank Transfer</li>
+                    <li class="list-group-item"><i class="fa fa-building text-primary"></i> Central Bank of Libya</li>
+                    <li class="list-group-item"><i class="fa fa-file-invoice text-primary"></i> Customs Payment Certificate</li>
+                    <li class="list-group-item"><i class="fa fa-receipt text-primary"></i> Electronic Payment (Coming Soon)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

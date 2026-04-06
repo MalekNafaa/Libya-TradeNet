@@ -1,0 +1,252 @@
+{% extends 'libya_trade_dashboard/templates/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row page-titles">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li class="breadcrumb-item active">Inspection Reports</li>
+    </ol>
+</div>
+
+<!-- Date Filter -->
+<div class="row mb-3">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="get" class="row align-items-end">
+                    <div class="col-md-4">
+                        <label class="form-label">Start Date</label>
+                        <input type="date" class="form-control" name="start_date" value="{{ start_date }}">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">End Date</label>
+                        <input type="date" class="form-control" name="end_date" value="{{ end_date }}">
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fa fa-filter"></i> Generate Report
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Inspection Statistics -->
+<div class="row">
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-success text-white">
+            <div class="card-body text-center">
+                <h3 class="text-white">{{ passed }}</h3>
+                <span>Passed</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-danger text-white">
+            <div class="card-body text-center">
+                <h3 class="text-white">{{ failed }}</h3>
+                <span>Failed / Stopped</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-info text-white">
+            <div class="card-body text-center">
+                <h3 class="text-white">{{ conditional }}</h3>
+                <span>Conditional</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-warning text-white">
+            <div class="card-body text-center">
+                <h3 class="text-white">{{ pending }}</h3>
+                <span>Pending</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Total Inspections -->
+<div class="row">
+    <div class="col-12">
+        <div class="card bg-primary text-white">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h4 class="text-white mb-0">Total Inspections</h4>
+                    <small>For the selected period</small>
+                </div>
+                <h2 class="text-white mb-0">{{ total_inspections }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Inspection Results Distribution -->
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header"><h5 class="card-title">Results Distribution</h5></div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Passed (Cleared)
+                        <span class="badge bg-success rounded-pill">{{ passed }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Failed (Stopped/Returned)
+                        <span class="badge bg-danger rounded-pill">{{ failed }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Conditional (Fined/Partial)
+                        <span class="badge bg-info rounded-pill">{{ conditional }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Pending (Scheduled)
+                        <span class="badge bg-warning rounded-pill">{{ pending }}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header"><h5 class="card-title">Common Issues</h5></div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    {% for category, count in category_issues.items %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ category }}
+                        <span class="badge bg-danger rounded-pill">{{ count }}</span>
+                    </li>
+                    {% empty %}
+                    <li class="list-group-item text-muted">No issues recorded</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Inspection Records Table -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">Inspection Records</h5>
+                <span class="badge bg-secondary">Last 50</span>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-sm">
+                        <thead>
+                            <tr>
+                                <th>Permit #</th>
+                                <th>Date</th>
+                                <th>Location</th>
+                                <th>Result</th>
+                                <th>Condition</th>
+                                <th>Fine</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for inspection in inspections %}
+                            <tr>
+                                <td>{{ inspection.import_permit.permit_number }}</td>
+                                <td>{{ inspection.inspection_date|date:"M d, Y" }}</td>
+                                <td>{{ inspection.location }}</td>
+                                <td>
+                                    {% if inspection.result == 'PASSED' %}
+                                        <span class="badge bg-success">Passed</span>
+                                    {% elif inspection.result == 'FAILED' %}
+                                        <span class="badge bg-danger">Failed</span>
+                                    {% elif inspection.result == 'CONDITIONAL' %}
+                                        <span class="badge bg-info">Conditional</span>
+                                    {% elif inspection.result == 'PENDING' %}
+                                        <span class="badge bg-warning">Pending</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ inspection.condition_notes|truncatechars:30|default:"-" }}</td>
+                                <td>
+                                    {% if inspection.fine_amount > 0 %}
+                                        <span class="text-danger">${{ inspection.fine_amount }}</span>
+                                    {% else %}
+                                        <span class="text-muted">-</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-info btn-xs" data-bs-toggle="modal" data-bs-target="#inspectionModal{{ inspection.id }}">
+                                        <i class="fa fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="7" class="text-center text-muted">No inspections found for selected period</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Export Options -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header"><h5 class="card-title">Export Report</h5></div>
+            <div class="card-body">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-outline-primary"><i class="fa fa-file-pdf"></i> PDF</button>
+                    <button type="button" class="btn btn-outline-success"><i class="fa fa-file-excel"></i> Excel</button>
+                    <button type="button" class="btn btn-outline-secondary"><i class="fa fa-file-csv"></i> CSV</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Detail Modals -->
+{% for inspection in inspections %}
+<div class="modal fade" id="inspectionModal{{ inspection.id }}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header 
+                {% if inspection.result == 'PASSED' %}bg-success text-white
+                {% elif inspection.result == 'FAILED' %}bg-danger text-white
+                {% elif inspection.result == 'CONDITIONAL' %}bg-info text-white
+                {% elif inspection.result == 'PENDING' %}bg-warning text-white
+                {% endif %}">
+                <h5 class="modal-title">Inspection Details</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Permit:</strong> {{ inspection.import_permit.permit_number }}</p>
+                <p><strong>Date:</strong> {{ inspection.inspection_date|date:"M d, Y H:i" }}</p>
+                <p><strong>Location:</strong> {{ inspection.location }}</p>
+                <p><strong>Result:</strong> {{ inspection.get_result_display }}</p>
+                {% if inspection.condition_notes %}
+                <hr>
+                <p><strong>Notes:</strong></p>
+                <p>{{ inspection.condition_notes }}</p>
+                {% endif %}
+                {% if inspection.fine_amount > 0 %}
+                <hr>
+                <p class="text-danger"><strong>Fine Amount:</strong> ${{ inspection.fine_amount }}</p>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

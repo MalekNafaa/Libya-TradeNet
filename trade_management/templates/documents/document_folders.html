@@ -1,0 +1,122 @@
+{% extends 'libya_trade_dashboard/templates/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row page-titles">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li class="breadcrumb-item active">Document Folders</li>
+    </ol>
+</div>
+
+<!-- Folders Overview -->
+<div class="row">
+    <div class="col-md-4">
+        <div class="card bg-primary text-white">
+            <div class="card-body text-center">
+                <h2 class="text-white mb-0">{{ folders|length }}</h2>
+                <span>Import Permits (Folders)</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-info text-white">
+            <div class="card-body text-center">
+                <h2 class="text-white mb-0">{{ unassigned_count }}</h2>
+                <span>Unassigned Documents</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-success text-white">
+            <div class="card-body text-center">
+                <h2 class="text-white mb-0"><i class="fa fa-folder-open"></i></h2>
+                <span>Document Repository</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Folders Grid -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="card-title mb-0"><i class="fa fa-folder-open text-warning"></i> Trade Document Folders</h4>
+                <span class="text-muted small">Organized by Import Permit Number</span>
+            </div>
+            <div class="card-body">
+                {% if folders %}
+                <div class="row">
+                    {% for folder in folders %}
+                    <div class="col-md-6 col-lg-4 col-xl-3 mb-4">
+                        <a href="{% url 'document_folder_detail' folder.id %}" class="text-decoration-none">
+                            <div class="card border-0 shadow-sm h-100 folder-card">
+                                <div class="card-body text-center">
+                                    <div class="mb-3">
+                                        <i class="fa fa-folder fa-4x text-warning"></i>
+                                    </div>
+                                    <h5 class="card-title text-dark mb-1">Trade #{{ folder.id }}</h5>
+                                    <p class="text-muted small mb-2">{{ folder.permit_number|default:folder.permit_number }}</p>
+                                    <div class="d-flex justify-content-center gap-2 mb-2">
+                                        <span class="badge bg-{% if folder.status == 'APPROVED' %}success{% elif folder.status == 'REJECTED' %}danger{% else %}warning{% endif %}">
+                                            {{ folder.get_status_display }}
+                                        </span>
+                                    </div>
+                                    <p class="text-muted small mb-1">
+                                        <i class="fa fa-building"></i> {{ folder.company.name }}
+                                    </p>
+                                    <p class="text-muted small mb-0">
+                                        <i class="fa fa-file"></i> {{ folder.doc_count }} document{{ folder.doc_count|pluralize }}
+                                    </p>
+                                </div>
+                                <div class="card-footer bg-light text-center">
+                                    <small class="text-muted">{{ folder.created_at|date:"M d, Y" }}</small>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center py-5">
+                    <i class="fa fa-folder-open fa-5x text-muted mb-3"></i>
+                    <h5 class="text-muted">No Import Permits Yet</h5>
+                    <p class="text-muted">Create an import permit to start organizing documents.</p>
+                    <a href="{% url 'apply_import' %}" class="btn btn-primary mt-2">
+                        <i class="fa fa-plus"></i> Apply for Import Permit
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Unassigned Documents -->
+{% if unassigned_count > 0 %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card border-warning">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="card-title mb-0"><i class="fa fa-exclamation-triangle"></i> Unassigned Documents</h5>
+            </div>
+            <div class="card-body">
+                <p class="mb-0">You have {{ unassigned_count }} document{{ unassigned_count|pluralize }} not linked to any import permit.</p>
+                <a href="{% url 'all_documents' %}" class="btn btn-warning btn-sm mt-2">View All Documents</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<style>
+.folder-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.folder-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
+}
+</style>
+{% endblock %}

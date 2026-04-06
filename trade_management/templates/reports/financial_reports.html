@@ -1,0 +1,219 @@
+{% extends 'libya_trade_dashboard/templates/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row page-titles">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li class="breadcrumb-item active">Financial Reports</li>
+    </ol>
+</div>
+
+<!-- Date Filter -->
+<div class="row mb-3">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="get" class="row align-items-end">
+                    <div class="col-md-4">
+                        <label class="form-label">Start Date</label>
+                        <input type="date" class="form-control" name="start_date" value="{{ start_date }}">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">End Date</label>
+                        <input type="date" class="form-control" name="end_date" value="{{ end_date }}">
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fa fa-filter"></i> Generate Report
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Revenue Summary -->
+<div class="row">
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-primary text-white">
+            <div class="card-body text-center">
+                <h3 class="text-white">${{ total_tax_revenue|floatformat:2 }}</h3>
+                <span>Tax Revenue</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-success text-white">
+            <div class="card-body text-center">
+                <h3 class="text-white">${{ total_license_revenue|floatformat:2 }}</h3>
+                <span>License Fees</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-danger text-white">
+            <div class="card-body text-center">
+                <h3 class="text-white">${{ total_fines|floatformat:2 }}</h3>
+                <span>Fines & Penalties</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-info text-white">
+            <div class="card-body text-center">
+                <h3 class="text-white">${{ total_duties|floatformat:2 }}</h3>
+                <span>Import Duties</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Total Revenue -->
+<div class="row">
+    <div class="col-12">
+        <div class="card bg-dark text-white">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h4 class="text-white mb-0">Total Revenue</h4>
+                    <small>For the selected period</small>
+                </div>
+                <h2 class="text-white mb-0">${{ total_revenue|floatformat:2 }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Revenue Breakdown -->
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header"><h5 class="card-title">Revenue by Category</h5></div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Import Taxes (Customs)</span>
+                        <strong>${{ total_tax_revenue|floatformat:2 }}</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>License & Permit Fees</span>
+                        <strong>${{ total_license_revenue|floatformat:2 }}</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Fines & Violations</span>
+                        <strong>${{ total_fines|floatformat:2 }}</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Import Duties</span>
+                        <strong>${{ total_duties|floatformat:2 }}</strong>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header"><h5 class="card-title">Payment Methods Used</h5></div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span><i class="fa fa-university text-primary"></i> Bank Transfer</span>
+                        <span class="badge bg-primary">Primary</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span><i class="fa fa-building text-success"></i> Central Bank</span>
+                        <span class="badge bg-secondary">--</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span><i class="fa fa-file-invoice text-info"></i> Customs Certificate</span>
+                        <span class="badge bg-secondary">--</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Financial Summary Table -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header"><h5 class="card-title">Financial Summary</h5></div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Amount</th>
+                                <th>% of Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Tax Revenue</td>
+                                <td>${{ total_tax_revenue|floatformat:2 }}</td>
+                                <td>
+                                    {% if total_revenue > 0 %}
+                                        {{ total_tax_revenue|div:total_revenue|mul:100|floatformat:1 }}%
+                                    {% else %}0%{% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>License Fees</td>
+                                <td>${{ total_license_revenue|floatformat:2 }}</td>
+                                <td>
+                                    {% if total_revenue > 0 %}
+                                        {{ total_license_revenue|div:total_revenue|mul:100|floatformat:1 }}%
+                                    {% else %}0%{% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Fines</td>
+                                <td>${{ total_fines|floatformat:2 }}</td>
+                                <td>
+                                    {% if total_revenue > 0 %}
+                                        {{ total_fines|div:total_revenue|mul:100|floatformat:1 }}%
+                                    {% else %}0%{% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Import Duties</td>
+                                <td>${{ total_duties|floatformat:2 }}</td>
+                                <td>
+                                    {% if total_revenue > 0 %}
+                                        {{ total_duties|div:total_revenue|mul:100|floatformat:1 }}%
+                                    {% else %}0%{% endif %}
+                                </td>
+                            </tr>
+                            <tr class="table-dark">
+                                <td><strong>Total</strong></td>
+                                <td><strong>${{ total_revenue|floatformat:2 }}</strong></td>
+                                <td><strong>100%</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Export Options -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header"><h5 class="card-title">Export Report</h5></div>
+            <div class="card-body">
+                <p class="text-muted">Download financial report for accounting purposes:</p>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-outline-primary"><i class="fa fa-file-pdf"></i> PDF</button>
+                    <button type="button" class="btn btn-outline-success"><i class="fa fa-file-excel"></i> Excel</button>
+                    <button type="button" class="btn btn-outline-secondary"><i class="fa fa-file-csv"></i> CSV</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

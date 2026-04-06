@@ -1,0 +1,247 @@
+{% extends 'libya_trade_dashboard/templates/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row page-titles">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'my_licenses' %}">Licenses</a></li>
+        <li class="breadcrumb-item active">License Renewal</li>
+    </ol>
+</div>
+
+<!-- Expired Licenses Section -->
+{% if expired_licenses %}
+<div class="row">
+    <div class="col-12">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white d-flex justify-content-between align-items-center">
+                <h4 class="card-title mb-0 text-white">
+                    <i class="fa fa-exclamation-circle"></i> Expired Licenses (Requires Immediate Renewal)
+                </h4>
+                <span class="badge bg-white text-danger">{{ expired_licenses.count }}</span>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>License Number</th>
+                                <th>Company</th>
+                                <th>Type</th>
+                                <th>Expired On</th>
+                                <th>Days Overdue</th>
+                                <th>Renewal Fee</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for license in expired_licenses %}
+                            <tr class="table-danger">
+                                <td><strong>{{ license.license_number }}</strong></td>
+                                <td>{{ license.company.name }}</td>
+                                <td>{{ license.get_license_type_display }}</td>
+                                <td>{{ license.expiry_date|date:"M d, Y" }}</td>
+                                <td><span class="text-danger">{{ license.expiry_date|timesince }}</span></td>
+                                <td><strong class="renewal-fee" data-type="{{ license.license_type }}">$--</strong></td>
+                                <td><button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#renewModal{{ license.id }}"><i class="fa fa-refresh"></i> Renew</button></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Expiring Soon Section -->
+{% if expiring_soon %}
+<div class="row">
+    <div class="col-12">
+        <div class="card border-warning">
+            <div class="card-header bg-warning text-white d-flex justify-content-between align-items-center">
+                <h4 class="card-title mb-0 text-white"><i class="fa fa-clock"></i> Expiring Soon (Within 30 Days)</h4>
+                <span class="badge bg-white text-warning">{{ expiring_soon.count }}</span>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>License Number</th><th>Company</th><th>Type</th><th>Expiry Date</th><th>Days Left</th><th>Renewal Fee</th><th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for license in expiring_soon %}
+                            <tr class="table-warning">
+                                <td><strong>{{ license.license_number }}</strong></td>
+                                <td>{{ license.company.name }}</td>
+                                <td>{{ license.get_license_type_display }}</td>
+                                <td>{{ license.expiry_date|date:"M d, Y" }}</td>
+                                <td><span class="text-warning">{{ license.expiry_date|timeuntil }}</span></td>
+                                <td><strong class="renewal-fee" data-type="{{ license.license_type }}">$--</strong></td>
+                                <td><button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#renewModal{{ license.id }}"><i class="fa fa-refresh"></i> Renew</button></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% if not expired_licenses and not expiring_soon %}
+<div class="row"><div class="col-12"><div class="card"><div class="card-body text-center py-5"><i class="fa fa-check-circle fa-4x text-success mb-3"></i><h4>All Licenses Are Valid</h4><p class="text-muted">No expired or expiring licenses.</p><a href="{% url 'my_licenses' %}" class="btn btn-primary">View All Licenses</a></div></div></div></div>
+{% endif %}
+
+<!-- Fee Schedule -->
+<div class="row mt-4">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header"><h5 class="card-title">Renewal Fee Schedule</h5></div>
+            <div class="card-body">
+                <table class="table table-sm">
+                    <thead><tr><th>Type</th><th>1 Year</th><th>2 Years</th><th>3 Years</th></tr></thead>
+                    <tbody>
+                        <tr><td>Medical</td><td>$350</td><td>$700</td><td>$1050</td></tr>
+                        <tr><td>Chemical</td><td>$400</td><td>$800</td><td>$1200</td></tr>
+                        <tr><td>Automotive</td><td>$380</td><td>$760</td><td>$1140</td></tr>
+                        <tr><td>Construction</td><td>$320</td><td>$640</td><td>$960</td></tr>
+                        <tr><td>Food</td><td>$280</td><td>$560</td><td>$840</td></tr>
+                        <tr><td>Electronics</td><td>$250</td><td>$500</td><td>$750</td></tr>
+                        <tr><td>Textile</td><td>$200</td><td>$400</td><td>$600</td></tr>
+                        <tr><td>Other</td><td>$180</td><td>$360</td><td>$540</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header"><h5 class="card-title">Renewal Info</h5></div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><i class="fa fa-check text-success"></i> Processed in 3 business days</li>
+                    <li class="list-group-item"><i class="fa fa-check text-success"></i> No extra documents needed</li>
+                    <li class="list-group-item"><i class="fa fa-check text-success"></i> Valid during processing</li>
+                    <li class="list-group-item"><i class="fa fa-exclamation-triangle text-warning"></i> Late renewals: +25% penalty</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modals -->
+{% for license in expired_licenses %}
+<div class="modal fade" id="renewModal{{ license.id }}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="license_id" value="{{ license.id }}">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title text-white">Renew Expired License</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger"><strong>Warning:</strong> Expired on {{ license.expiry_date|date:"M d, Y" }}. 25% penalty applies.</div>
+                    <p><strong>License:</strong> {{ license.license_number }}</p>
+                    <p><strong>Type:</strong> {{ license.get_license_type_display }}</p>
+                    <p><strong>Company:</strong> {{ license.company.name }}</p>
+                    <hr>
+                    <div class="mb-3">
+                        <label class="form-label">Renewal Period</label>
+                        <select class="form-select" name="renewal_period" required>
+                            <option value="1">1 Year - <span class="expired-fee-1" data-type="{{ license.license_type }}">$--</span> (with penalty)</option>
+                            <option value="2">2 Years - <span class="expired-fee-2" data-type="{{ license.license_type }}">$--</span> (with penalty)</option>
+                            <option value="3">3 Years - <span class="expired-fee-3" data-type="{{ license.license_type }}">$--</span> (with penalty)</option>
+                        </select>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" required>
+                        <label class="form-check-label">I accept the renewal fee including the late penalty.</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Proceed to Payment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% for license in expiring_soon %}
+<div class="modal fade" id="renewModal{{ license.id }}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="license_id" value="{{ license.id }}">
+                <div class="modal-header bg-warning text-white">
+                    <h5 class="modal-title text-white">Renew License</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning">Expires in {{ license.expiry_date|timeuntil }}. Renew now to avoid interruption.</div>
+                    <p><strong>License:</strong> {{ license.license_number }}</p>
+                    <p><strong>Type:</strong> {{ license.get_license_type_display }}</p>
+                    <p><strong>Company:</strong> {{ license.company.name }}</p>
+                    <hr>
+                    <div class="mb-3">
+                        <label class="form-label">Renewal Period</label>
+                        <select class="form-select" name="renewal_period" required>
+                            <option value="1">1 Year - <span class="renewal-fee" data-type="{{ license.license_type }}">$--</span></option>
+                            <option value="2">2 Years - <span class="renewal-fee-2x" data-type="{{ license.license_type }}">$--</span></option>
+                            <option value="3">3 Years - <span class="renewal-fee-3x" data-type="{{ license.license_type }}">$--</span></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-warning">Proceed to Payment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+<script>
+const renewalFees = {
+    'MEDICAL': 350, 'CHEMICAL': 400, 'AUTOMOTIVE': 380, 'CONSTRUCTION': 320,
+    'FOOD': 280, 'ELECTRONICS': 250, 'TEXTILE': 200, 'OTHER': 180
+};
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.renewal-fee').forEach(el => {
+        const t = el.getAttribute('data-type');
+        if (renewalFees[t]) el.textContent = '$' + renewalFees[t].toFixed(2);
+    });
+    document.querySelectorAll('.renewal-fee-2x').forEach(el => {
+        const t = el.getAttribute('data-type');
+        if (renewalFees[t]) el.textContent = '$' + (renewalFees[t] * 2).toFixed(2);
+    });
+    document.querySelectorAll('.renewal-fee-3x').forEach(el => {
+        const t = el.getAttribute('data-type');
+        if (renewalFees[t]) el.textContent = '$' + (renewalFees[t] * 3).toFixed(2);
+    });
+    document.querySelectorAll('.expired-fee-1').forEach(el => {
+        const t = el.getAttribute('data-type');
+        if (renewalFees[t]) el.textContent = '$' + (renewalFees[t] * 1.25).toFixed(2);
+    });
+    document.querySelectorAll('.expired-fee-2').forEach(el => {
+        const t = el.getAttribute('data-type');
+        if (renewalFees[t]) el.textContent = '$' + (renewalFees[t] * 2 * 1.25).toFixed(2);
+    });
+    document.querySelectorAll('.expired-fee-3').forEach(el => {
+        const t = el.getAttribute('data-type');
+        if (renewalFees[t]) el.textContent = '$' + (renewalFees[t] * 3 * 1.25).toFixed(2);
+    });
+});
+</script>
+{% endblock %}

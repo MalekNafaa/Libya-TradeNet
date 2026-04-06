@@ -1,0 +1,277 @@
+{% extends 'libya_trade_dashboard/templates/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row page-titles">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'import_permits' %}">Imports</a></li>
+        <li class="breadcrumb-item active">Inspections</li>
+    </ol>
+</div>
+
+<!-- Inspection Status Cards -->
+<div class="row">
+    <div class="col-xl-3 col-sm-6">
+        <div class="card bg-warning text-white">
+            <div class="card-body text-center">
+                <h3 class="text-white">{{ pending_count }}</h3>
+                <span>Pending Inspection</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+        <div class="card bg-success text-white">
+            <div class="card-body text-center">
+                <h3 class="text-white">{{ passed_count }}</h3>
+                <span>Passed</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+        <div class="card bg-danger text-white">
+            <div class="card-body text-center">
+                <h3 class="text-white">{{ failed_count }}</h3>
+                <span>Failed / Stopped</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+        <div class="card bg-info text-white">
+            <div class="card-body text-center">
+                <h3 class="text-white">{{ conditional_count }}</h3>
+                <span>Conditional Pass</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Awaiting Inspection Alert -->
+{% if approved_permits %}
+<div class="row">
+    <div class="col-12">
+        <div class="alert alert-warning">
+            <h5><i class="fa fa-bell"></i> Imports Awaiting Inspection</h5>
+            <p>The following approved imports need to be scheduled for inspection:</p>
+            <ul>
+                {% for permit in approved_permits %}
+                <li><strong>{{ permit.permit_number }}</strong> - {{ permit.goods_description|truncatechars:50 }} ({{ permit.company.name }})</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Inspections Table -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="card-title mb-0">Inspection Records</h4>
+                <span class="badge bg-primary">{{ inspections.count }} Total</span>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Permit #</th>
+                                <th>Company</th>
+                                <th>Inspection Date</th>
+                                <th>Location</th>
+                                <th>Result</th>
+                                <th>Condition Notes</th>
+                                <th>Actions Taken</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for inspection in inspections %}
+                            <tr>
+                                <td><strong>{{ inspection.import_permit.permit_number }}</strong></td>
+                                <td>{{ inspection.import_permit.company.name }}</td>
+                                <td>{{ inspection.inspection_date|date:"M d, Y H:i" }}</td>
+                                <td>{{ inspection.location }}</td>
+                                <td>
+                                    {% if inspection.result == 'PASSED' %}
+                                        <span class="badge bg-success"><i class="fa fa-check"></i> Passed</span>
+                                    {% elif inspection.result == 'FAILED' %}
+                                        <span class="badge bg-danger"><i class="fa fa-times"></i> Failed</span>
+                                    {% elif inspection.result == 'PENDING' %}
+                                        <span class="badge bg-warning"><i class="fa fa-clock"></i> Pending</span>
+                                    {% elif inspection.result == 'CONDITIONAL' %}
+                                        <span class="badge bg-info"><i class="fa fa-exclamation"></i> Conditional</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ inspection.condition_notes|default:"-"|truncatechars:50 }}</td>
+                                <td>
+                                    {% if inspection.result == 'FAILED' %}
+                                        <span class="text-danger">
+                                            {% if inspection.discrepancies_found %}
+                                                <i class="fa fa-ban"></i> Import Stopped
+                                            {% else %}
+                                                <i class="fa fa-gavel"></i> Fine Applied
+                                            {% endif %}
+                                        </span>
+                                    {% elif inspection.result == 'CONDITIONAL' %}
+                                        <span class="text-warning"><i class="fa fa-money-bill"></i> Partial Release</span>
+                                    {% elif inspection.result == 'PASSED' %}
+                                        <span class="text-success"><i class="fa fa-check-circle"></i> Cleared</span>
+                                    {% else %}
+                                        <span class="text-muted">-</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#inspectionModal{{ inspection.id }}">
+                                        <i class="fa fa-eye"></i> View
+                                    </button>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="8" class="text-center py-4">
+                                    <p class="text-muted mb-0">No inspection records found.</p>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Inspection Legend -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header"><h5 class="card-title">Inspection Status Guide</h5></div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="badge bg-warning me-2 p-2"><i class="fa fa-clock"></i></span>
+                            <div>
+                                <strong>Pending</strong>
+                                <small class="d-block text-muted">Awaiting physical inspection</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="badge bg-success me-2 p-2"><i class="fa fa-check"></i></span>
+                            <div>
+                                <strong>Passed</strong>
+                                <small class="d-block text-muted">Import cleared for release</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="badge bg-info me-2 p-2"><i class="fa fa-exclamation"></i></span>
+                            <div>
+                                <strong>Conditional</strong>
+                                <small class="d-block text-muted">Release with conditions/fines</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="badge bg-danger me-2 p-2"><i class="fa fa-times"></i></span>
+                            <div>
+                                <strong>Failed</strong>
+                                <small class="d-block text-muted">Import stopped/returned</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Inspection Detail Modals -->
+{% for inspection in inspections %}
+<div class="modal fade" id="inspectionModal{{ inspection.id }}" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header 
+                {% if inspection.result == 'PASSED' %}bg-success text-white
+                {% elif inspection.result == 'FAILED' %}bg-danger text-white
+                {% elif inspection.result == 'PENDING' %}bg-warning text-white
+                {% elif inspection.result == 'CONDITIONAL' %}bg-info text-white
+                {% endif %}">
+                <h5 class="modal-title">Inspection Details - {{ inspection.import_permit.permit_number }}</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <p><strong>Company:</strong> {{ inspection.import_permit.company.name }}</p>
+                        <p><strong>Goods:</strong> {{ inspection.import_permit.goods_description }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Inspection Date:</strong> {{ inspection.inspection_date|date:"M d, Y H:i" }}</p>
+                        <p><strong>Location:</strong> {{ inspection.location }}</p>
+                    </div>
+                </div>
+
+                <div class="alert 
+                    {% if inspection.result == 'PASSED' %}alert-success
+                    {% elif inspection.result == 'FAILED' %}alert-danger
+                    {% elif inspection.result == 'PENDING' %}alert-warning
+                    {% elif inspection.result == 'CONDITIONAL' %}alert-info
+                    {% endif %}">
+                    <h5 class="alert-heading">Result: {{ inspection.get_result_display }}</h5>
+                    {% if inspection.result == 'FAILED' %}
+                        <p><strong>Action:</strong> 
+                            {% if inspection.discrepancies_found %}
+                                Import stopped due to discrepancies. Goods may be returned or destroyed.
+                            {% else %}
+                                Fine applied. Goods held until payment received.
+                            {% endif %}
+                        </p>
+                    {% elif inspection.result == 'CONDITIONAL' %}
+                        <p><strong>Action:</strong> Partial release with fines/fees. Some goods may be held.</p>
+                    {% elif inspection.result == 'PASSED' %}
+                        <p><strong>Action:</strong> Import cleared for immediate release.</p>
+                    {% endif %}
+                </div>
+
+                {% if inspection.quantity_verified %}
+                <p><strong>Quantity Verified:</strong> {{ inspection.quantity_verified }}</p>
+                {% endif %}
+
+                {% if inspection.condition_notes %}
+                <hr>
+                <h6>Condition Notes:</h6>
+                <p>{{ inspection.condition_notes|linebreaks }}</p>
+                {% endif %}
+
+                {% if inspection.discrepancies_found %}
+                <hr>
+                <h6 class="text-danger">Discrepancies Found:</h6>
+                <div class="alert alert-danger">
+                    {{ inspection.discrepancies_found|linebreaks }}
+                </div>
+                {% endif %}
+
+                {% if inspection.samples_taken %}
+                <div class="alert alert-warning">
+                    <i class="fa fa-vial"></i> <strong>Samples were taken</strong> for laboratory testing.
+                </div>
+                {% endif %}
+
+                <hr>
+                <small class="text-muted">Inspected by: {{ inspection.inspected_by.get_full_name|default:inspection.inspected_by.username }}</small>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

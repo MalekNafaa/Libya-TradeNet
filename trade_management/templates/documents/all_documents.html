@@ -1,0 +1,118 @@
+{% extends 'libya_trade_dashboard/templates/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row page-titles">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li class="breadcrumb-item active">All Documents</li>
+    </ol>
+</div>
+
+<!-- Filters -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="get" class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Filter by Type</label>
+                        <select class="form-select" name="type" onchange="this.form.submit()">
+                            <option value="">All Types</option>
+                            {% for code, name in doc_types %}
+                            <option value="{{ code }}" {% if type_filter == code %}selected{% endif %}>{{ name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Filter by Status</label>
+                        <select class="form-select" name="status" onchange="this.form.submit()">
+                            <option value="">All Statuses</option>
+                            <option value="UPLOADED" {% if status_filter == 'UPLOADED' %}selected{% endif %}>Uploaded</option>
+                            <option value="VERIFIED" {% if status_filter == 'VERIFIED' %}selected{% endif %}>Verified</option>
+                            <option value="REJECTED" {% if status_filter == 'REJECTED' %}selected{% endif %}>Rejected</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <a href="{% url 'all_documents' %}" class="btn btn-outline-secondary">Clear Filters</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Documents List -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="card-title mb-0"><i class="fa fa-files-o text-primary"></i> All Documents</h4>
+                <span class="badge bg-primary">{{ documents|length }} total</span>
+            </div>
+            <div class="card-body">
+                {% if documents %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Document</th>
+                                <th>Type</th>
+                                <th>Linked Trade</th>
+                                <th>Company</th>
+                                <th>Status</th>
+                                <th>Uploaded</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for doc in documents %}
+                            <tr>
+                                <td>
+                                    <i class="fa fa-file-text-o text-primary me-2"></i>
+                                    <strong>{{ doc.file.name|cut:"import_docs/" }}</strong>
+                                </td>
+                                <td>
+                                    <span class="badge bg-info">{{ doc.get_document_type_display }}</span>
+                                </td>
+                                <td>
+                                    {% if doc.import_permit %}
+                                    <a href="{% url 'document_folder_detail' doc.import_permit.id %}">
+                                        {{ doc.import_permit.permit_number|default:doc.import_permit.permit_number }}
+                                    </a>
+                                    {% else %}
+                                    <span class="text-muted">--</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ doc.import_permit.company.name|default:"--" }}</td>
+                                <td>
+                                    <span class="badge bg-{% if doc.status == 'VERIFIED' %}success{% elif doc.status == 'REJECTED' %}danger{% else %}warning{% endif %}">
+                                        {{ doc.get_status_display }}
+                                    </span>
+                                </td>
+                                <td>{{ doc.uploaded_at|date:"M d, Y H:i" }}</td>
+                                <td>
+                                    <a href="{{ doc.file.url }}" class="btn btn-sm btn-outline-primary" target="_blank" title="Download">
+                                        <i class="fa fa-download"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-5">
+                    <i class="fa fa-folder-open-o fa-4x text-muted mb-3"></i>
+                    <h5 class="text-muted">No Documents Found</h5>
+                    <p class="text-muted">Upload documents from a trade folder.</p>
+                    <a href="{% url 'document_folders' %}" class="btn btn-primary mt-2">
+                        <i class="fa fa-folder-open"></i> View Folders
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

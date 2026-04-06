@@ -1,0 +1,175 @@
+{% extends 'libya_trade_dashboard/templates/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row page-titles">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'import_permits' %}">Imports</a></li>
+        <li class="breadcrumb-item active">Import Documents</li>
+    </ol>
+</div>
+
+<!-- Upload Section -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header"><h4 class="card-title">Upload Document</h4></div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Import Permit</label>
+                            <select class="form-select" name="permit_id" required>
+                                <option value="">Select Permit</option>
+                                {% for permit in permits %}
+                                <option value="{{ permit.id }}" {% if selected_permit and selected_permit.id == permit.id %}selected{% endif %}>
+                                    {{ permit.permit_number }} - {{ permit.goods_description|truncatechars:30 }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Document Type</label>
+                            <select class="form-select" name="document_type" required>
+                                {% for code, name in document_types %}
+                                <option value="{{ code }}">{{ name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Select File</label>
+                            <input type="file" class="form-control" name="document" accept=".pdf,.jpg,.jpeg,.png" required>
+                        </div>
+                        <div class="col-md-2 mb-3 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fa fa-upload"></i> Upload
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <label class="form-label">Description (Optional)</label>
+                            <input type="text" class="form-control" name="description" placeholder="Brief description of this document...">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Documents List -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="card-title mb-0">
+                    {% if selected_permit %}
+                    Documents for {{ selected_permit.permit_number }}
+                    {% else %}
+                    All Import Documents
+                    {% endif %}
+                </h4>
+                {% if selected_permit %}
+                <a href="{% url 'import_documents' %}" class="btn btn-sm btn-outline-secondary">Show All</a>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Permit #</th>
+                                <th>Document Type</th>
+                                <th>File Name</th>
+                                <th>Description</th>
+                                <th>Upload Date</th>
+                                <th>Verified</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for doc in documents %}
+                            <tr>
+                                <td>{{ doc.import_permit.permit_number }}</td>
+                                <td>{{ doc.get_document_type_display }}</td>
+                                <td>{{ doc.file.name|cut:"import_docs/" }}</td>
+                                <td>{{ doc.description|default:"-" }}</td>
+                                <td>{{ doc.uploaded_at|date:"M d, Y H:i" }}</td>
+                                <td>
+                                    {% if doc.is_verified %}
+                                        <span class="badge bg-success"><i class="fa fa-check"></i> Yes</span>
+                                    {% else %}
+                                        <span class="badge bg-warning"><i class="fa fa-clock"></i> Pending</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{{ doc.file.url }}" target="_blank" class="btn btn-info btn-xs">
+                                        <i class="fa fa-eye"></i> View
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="7" class="text-center py-4">
+                                    <p class="text-muted mb-0">No documents uploaded yet.</p>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Required Documents Guide -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header"><h5 class="card-title">Required Documents Guide</h5></div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Commercial Documents</h6>
+                        <ul class="list-group list-group-flush mb-3">
+                            <li class="list-group-item d-flex justify-content-between">
+                                Commercial Invoice
+                                <span class="badge bg-danger">Required</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                Packing List
+                                <span class="badge bg-danger">Required</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                Proforma Invoice
+                                <span class="badge bg-secondary">Optional</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Shipping & Origin</h6>
+                        <ul class="list-group list-group-flush mb-3">
+                            <li class="list-group-item d-flex justify-content-between">
+                                Bill of Lading / AWB
+                                <span class="badge bg-danger">Required</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                Certificate of Origin
+                                <span class="badge bg-danger">Required</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                Inspection Certificate
+                                <span class="badge bg-warning">If Required</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

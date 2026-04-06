@@ -1,0 +1,185 @@
+{% extends 'libya_trade_dashboard/templates/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row page-titles">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'import_permits' %}">Imports</a></li>
+        <li class="breadcrumb-item active">Track Imports</li>
+    </ol>
+</div>
+
+<!-- Filter Buttons -->
+<div class="row mb-3">
+    <div class="col-12">
+        <div class="btn-group" role="group">
+            <a href="{% url 'import_tracking' %}" class="btn btn-outline-secondary {% if not current_filter %}active{% endif %}">All</a>
+            <a href="?status=DRAFT" class="btn btn-outline-secondary {% if current_filter == 'DRAFT' %}active{% endif %}">Draft</a>
+            <a href="?status=SUBMITTED" class="btn btn-outline-secondary {% if current_filter == 'SUBMITTED' %}active{% endif %}">Submitted</a>
+            <a href="?status=UNDER_REVIEW" class="btn btn-outline-secondary {% if current_filter == 'UNDER_REVIEW' %}active{% endif %}">Under Review</a>
+            <a href="?status=APPROVED" class="btn btn-outline-secondary {% if current_filter == 'APPROVED' %}active{% endif %}">Approved</a>
+            <a href="?status=REJECTED" class="btn btn-outline-secondary {% if current_filter == 'REJECTED' %}active{% endif %}">Rejected</a>
+        </div>
+        <a href="{% url 'apply_import' %}" class="btn btn-primary float-end">
+            <i class="fa fa-plus"></i> New Import
+        </a>
+    </div>
+</div>
+
+<!-- Import Tracking Cards -->
+<div class="row">
+    {% for data in permit_data %}
+    {% with permit=data.permit inspection=data.inspection %}
+    <div class="col-xl-6 col-lg-6 col-md-12">
+        <div class="card {% if permit.status == 'REJECTED' %}border-danger{% elif permit.status == 'APPROVED' %}border-success{% elif permit.status == 'UNDER_REVIEW' %}border-warning{% endif %}">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="card-title mb-0">{{ permit.permit_number }}</h5>
+                    <small class="text-muted">{{ permit.company.name }}</small>
+                </div>
+                <div class="text-end">
+                    {% if permit.status == 'DRAFT' %}
+                        <span class="badge bg-info">Draft</span>
+                    {% elif permit.status == 'SUBMITTED' %}
+                        <span class="badge bg-primary">Submitted</span>
+                    {% elif permit.status == 'UNDER_REVIEW' %}
+                        <span class="badge bg-warning">Under Review</span>
+                    {% elif permit.status == 'APPROVED' %}
+                        <span class="badge bg-success">Approved</span>
+                    {% elif permit.status == 'REJECTED' %}
+                        <span class="badge bg-danger">Rejected</span>
+                    {% elif permit.status == 'EXPIRED' %}
+                        <span class="badge bg-dark">Expired</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- Progress Tracker -->
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between mb-2">
+                        <small>Application Progress</small>
+                        <small>
+                            {% if permit.status == 'DRAFT' %}20%
+                            {% elif permit.status == 'SUBMITTED' %}40%
+                            {% elif permit.status == 'UNDER_REVIEW' %}60%
+                            {% elif permit.status == 'APPROVED' %}100%
+                            {% elif permit.status == 'REJECTED' %}Rejected
+                            {% else %}0%
+                            {% endif %}
+                        </small>
+                    </div>
+                    <div class="progress" style="height: 10px;">
+                        {% if permit.status == 'DRAFT' %}
+                            <div class="progress-bar bg-info" style="width: 20%"></div>
+                        {% elif permit.status == 'SUBMITTED' %}
+                            <div class="progress-bar bg-primary" style="width: 40%"></div>
+                        {% elif permit.status == 'UNDER_REVIEW' %}
+                            <div class="progress-bar bg-warning" style="width: 60%"></div>
+                        {% elif permit.status == 'APPROVED' %}
+                            <div class="progress-bar bg-success" style="width: 100%"></div>
+                        {% elif permit.status == 'REJECTED' %}
+                            <div class="progress-bar bg-danger" style="width: 100%"></div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Shipment Info -->
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <small class="text-muted d-block">Shipment Type</small>
+                        <strong>{{ permit.get_shipment_type_display }}</strong>
+                    </div>
+                    <div class="col-6">
+                        <small class="text-muted d-block">B/L or AWB #</small>
+                        <strong>{{ permit.bl_awb_number|default:"N/A" }}</strong>
+                    </div>
+                </div>
+
+                <!-- Route -->
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <small class="text-muted d-block">Origin</small>
+                        <strong>{{ permit.country_of_origin }}</strong>
+                    </div>
+                    <div class="col-6">
+                        <small class="text-muted d-block">Destination</small>
+                        <strong>{{ permit.port_of_entry }}</strong>
+                    </div>
+                </div>
+
+                <!-- Arrival & Value -->
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <small class="text-muted d-block">Expected Arrival</small>
+                        <strong>{{ permit.expected_arrival_date|date:"M d, Y" }}</strong>
+                    </div>
+                    <div class="col-6">
+                        <small class="text-muted d-block">Value</small>
+                        <strong>${{ permit.total_value_usd }} {{ permit.currency }}</strong>
+                    </div>
+                </div>
+
+                <!-- Inspection Status -->
+                {% if data.has_inspection %}
+                <div class="alert 
+                    {% if inspection.result == 'PASSED' %}alert-success
+                    {% elif inspection.result == 'FAILED' %}alert-danger
+                    {% elif inspection.result == 'PENDING' %}alert-warning
+                    {% elif inspection.result == 'CONDITIONAL' %}alert-info
+                    {% endif %}">
+                    <div class="d-flex align-items-center">
+                        <i class="fa 
+                            {% if inspection.result == 'PASSED' %}fa-check-circle
+                            {% elif inspection.result == 'FAILED' %}fa-times-circle
+                            {% elif inspection.result == 'PENDING' %}fa-clock
+                            {% elif inspection.result == 'CONDITIONAL' %}fa-exclamation-circle
+                            {% endif %}
+                        fa-lg me-2"></i>
+                        <div>
+                            <strong>Inspection: {{ inspection.get_result_display }}</strong>
+                            <small class="d-block">{{ inspection.inspection_date|date:"M d, Y" }} at {{ inspection.location }}</small>
+                        </div>
+                    </div>
+                    {% if inspection.condition_notes %}
+                    <hr class="my-2">
+                    <small>{{ inspection.condition_notes }}</small>
+                    {% endif %}
+                </div>
+                {% elif permit.status == 'APPROVED' %}
+                <div class="alert alert-info">
+                    <i class="fa fa-info-circle"></i> Awaiting inspection scheduling
+                </div>
+                {% endif %}
+
+                <!-- Goods Summary -->
+                <div class="border-top pt-3 mt-3">
+                    <small class="text-muted d-block mb-1">Goods Description</small>
+                    <p class="mb-0 small">{{ permit.goods_description|truncatechars:100 }}</p>
+                </div>
+            </div>
+            <div class="card-footer d-flex justify-content-between">
+                <a href="{% url 'import_documents' %}?permit={{ permit.id }}" class="btn btn-sm btn-outline-primary">
+                    <i class="fa fa-folder-open"></i> Documents
+                </a>
+                {% if permit.status == 'APPROVED' and not data.has_inspection %}
+                <span class="badge bg-warning">Pending Inspection</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endwith %}
+    {% empty %}
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body text-center py-5">
+                <i class="fa fa-box-open fa-4x text-muted mb-3"></i>
+                <h4>No Imports to Track</h4>
+                <p class="text-muted">You haven't submitted any import permit applications yet.</p>
+                <a href="{% url 'apply_import' %}" class="btn btn-primary">Apply for Import Permit</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

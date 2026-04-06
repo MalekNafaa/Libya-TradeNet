@@ -1,0 +1,170 @@
+{% extends 'libya_trade_dashboard/templates/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row page-titles">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li class="breadcrumb-item active">My Licenses</li>
+    </ol>
+</div>
+
+<!-- Status Cards -->
+<div class="row">
+    <div class="col-xl-3 col-sm-6">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h3 class="text-white">{{ valid_count }}</h3>
+                        <span>Valid Licenses</span>
+                    </div>
+                    <i class="fa fa-check-circle fa-3x opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+        <div class="card bg-danger text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h3 class="text-white">{{ expired_count }}</h3>
+                        <span>Expired</span>
+                    </div>
+                    <i class="fa fa-times-circle fa-3x opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h3 class="text-white">{{ expiring_soon_count }}</h3>
+                        <span>Expiring Soon (30 days)</span>
+                    </div>
+                    <i class="fa fa-exclamation-triangle fa-3x opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h3 class="text-white">{{ licenses.count }}</h3>
+                        <span>Total Licenses</span>
+                    </div>
+                    <i class="fa fa-id-card fa-3x opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Expiring Soon Alert -->
+{% if expiring_soon_list %}
+<div class="row">
+    <div class="col-12">
+        <div class="alert alert-warning">
+            <h5><i class="fa fa-bell"></i> Licenses Expiring Soon</h5>
+            <p>The following licenses need renewal soon:</p>
+            <ul>
+                {% for lic in expiring_soon_list %}
+                <li><strong>{{ lic.license_number }}</strong> - {{ lic.license_type }} expires on {{ lic.expiry_date }} ({{ lic.company.name }})</li>
+                {% endfor %}
+            </ul>
+            <a href="{% url 'license_renewal' %}" class="btn btn-warning btn-sm">Renew Now</a>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Licenses Table -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="card-title mb-0">My Licenses</h4>
+                <div>
+                    <a href="{% url 'apply_license' %}" class="btn btn-primary btn-sm">
+                        <i class="fa fa-plus"></i> Apply for New License
+                    </a>
+                    <a href="{% url 'license_renewal' %}" class="btn btn-warning btn-sm">
+                        <i class="fa fa-refresh"></i> Renew License
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>License Number</th>
+                                <th>Company</th>
+                                <th>Type</th>
+                                <th>Issued Date</th>
+                                <th>Expiry Date</th>
+                                <th>Status</th>
+                                <th>Days Remaining</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for license in licenses %}
+                            <tr>
+                                <td><strong>{{ license.license_number }}</strong></td>
+                                <td>{{ license.company.name }}</td>
+                                <td>{{ license.get_license_type_display }}</td>
+                                <td>{{ license.issued_date|date:"M d, Y" }}</td>
+                                <td>{{ license.expiry_date|date:"M d, Y" }}</td>
+                                <td>
+                                    {% if license.status == 'VALID' %}
+                                        <span class="badge bg-success">Valid</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">Expired</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if license.status == 'VALID' %}
+                                        {% with days_left=license.expiry_date|timeuntil:license.issued_date %}
+                                            {% if license.expiry_date <= thirty_days %}
+                                                <span class="text-warning">{{ license.expiry_date|timeuntil }}</span>
+                                            {% else %}
+                                                <span class="text-success">{{ license.expiry_date|timeuntil }}</span>
+                                            {% endif %}
+                                        {% endwith %}
+                                    {% else %}
+                                        <span class="text-danger">Expired</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-info btn-xs" title="View Details">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                    {% if license.status == 'EXPIRED' or license.expiry_date <= thirty_days %}
+                                    <a href="{% url 'license_renewal' %}" class="btn btn-warning btn-xs" title="Renew">
+                                        <i class="fa fa-refresh"></i>
+                                    </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="8" class="text-center py-4">
+                                    <p class="text-muted mb-3">No licenses found.</p>
+                                    <a href="{% url 'apply_license' %}" class="btn btn-primary">Apply for Your First License</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,139 @@
+{% extends 'libya_trade_dashboard/templates/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row page-titles">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li class="breadcrumb-item active">Import Permits</li>
+    </ol>
+</div>
+
+<!-- Status Cards -->
+<div class="row">
+    <div class="col-xl-2 col-sm-4 col-6">
+        <div class="card bg-info text-white">
+            <div class="card-body text-center">
+                <h3 class="text-white">{{ draft_count }}</h3>
+                <span>Draft</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-2 col-sm-4 col-6">
+        <div class="card bg-primary text-white">
+            <div class="card-body text-center">
+                <h3 class="text-white">{{ submitted_count }}</h3>
+                <span>Submitted</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-2 col-sm-4 col-6">
+        <div class="card bg-warning text-white">
+            <div class="card-body text-center">
+                <h3 class="text-white">{{ under_review_count }}</h3>
+                <span>Under Review</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-2 col-sm-4 col-6">
+        <div class="card bg-success text-white">
+            <div class="card-body text-center">
+                <h3 class="text-white">{{ approved_count }}</h3>
+                <span>Approved</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-2 col-sm-4 col-6">
+        <div class="card bg-danger text-white">
+            <div class="card-body text-center">
+                <h3 class="text-white">{{ rejected_count }}</h3>
+                <span>Rejected</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-2 col-sm-4 col-6">
+        <div class="card bg-dark text-white">
+            <div class="card-body text-center">
+                <h3 class="text-white">{{ expired_count }}</h3>
+                <span>Expired</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Import Permits Table -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="card-title mb-0">Import Permits</h4>
+                <a href="{% url 'apply_import' %}" class="btn btn-primary btn-sm">
+                    <i class="fa fa-plus"></i> Apply for Import Permit
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Permit #</th>
+                                <th>Company</th>
+                                <th>License</th>
+                                <th>Shipment</th>
+                                <th>Origin</th>
+                                <th>Arrival Date</th>
+                                <th>Value (USD)</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for permit in permits %}
+                            <tr>
+                                <td><strong>{{ permit.permit_number }}</strong></td>
+                                <td>{{ permit.company.name }}</td>
+                                <td>{% if permit.related_license %}{{ permit.related_license.license_number }}{% else %}<span class="text-muted">N/A</span>{% endif %}</td>
+                                <td>{{ permit.get_shipment_type_display }}</td>
+                                <td>{{ permit.country_of_origin }}</td>
+                                <td>{{ permit.expected_arrival_date|date:"M d, Y" }}</td>
+                                <td>${{ permit.total_value_usd }}</td>
+                                <td>
+                                    {% if permit.status == 'DRAFT' %}
+                                        <span class="badge bg-info">Draft</span>
+                                    {% elif permit.status == 'SUBMITTED' %}
+                                        <span class="badge bg-primary">Submitted</span>
+                                    {% elif permit.status == 'UNDER_REVIEW' %}
+                                        <span class="badge bg-warning">Under Review</span>
+                                    {% elif permit.status == 'APPROVED' %}
+                                        <span class="badge bg-success">Approved</span>
+                                    {% elif permit.status == 'REJECTED' %}
+                                        <span class="badge bg-danger">Rejected</span>
+                                    {% elif permit.status == 'EXPIRED' %}
+                                        <span class="badge bg-dark">Expired</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'import_documents' %}?permit={{ permit.id }}" class="btn btn-info btn-xs" title="Documents">
+                                        <i class="fa fa-folder-open"></i>
+                                    </a>
+                                    <a href="{% url 'import_tracking' %}?status={{ permit.status }}" class="btn btn-secondary btn-xs" title="Track">
+                                        <i class="fa fa-route"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="9" class="text-center py-4">
+                                    <p class="text-muted mb-3">No import permits found.</p>
+                                    <a href="{% url 'apply_import' %}" class="btn btn-primary">Apply for Your First Import Permit</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
