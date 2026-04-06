@@ -17,6 +17,7 @@ class Company(models.Model):
     name = models.CharField(max_length=255, unique=True)
     company_number = models.CharField(max_length=100, unique=True, blank=True)
     tax_number = models.CharField(max_length=100, unique=True, blank=True)
+    bank_iban = models.CharField(max_length=34, blank=True, verbose_name="Bank IBAN")
 
     company_type = models.CharField(
         max_length=20,

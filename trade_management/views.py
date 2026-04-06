@@ -958,3 +958,186 @@ def system_settings(request):
         'currencies': [('USD', 'US Dollar'), ('EUR', 'Euro'), ('LYD', 'Libyan Dinar')],
     }
     return render(request, 'settings/system_settings.html', context)
+
+
+# ==================== COMPANY MANAGEMENT VIEWS ====================
+
+@login_required
+def manage_companies(request):
+    """Manage companies with IBAN requirement"""
+    companies = Company.objects.filter(owner=request.user)
+    
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        
+        if action == 'create':
+            # Create new company
+            name = request.POST.get('name')
+            bank_iban = request.POST.get('bank_iban', '').strip()
+            
+            if not bank_iban:
+                messages.error(request, 'Bank IBAN is required for company registration.')
+                return redirect('manage_companies')
+            
+            company = Company(
+                name=name,
+                company_type=request.POST.get('company_type', 'LOCAL'),
+                email=request.POST.get('email', ''),
+                city=request.POST.get('city', ''),
+                address=request.POST.get('address', ''),
+                bank_iban=bank_iban,
+                owner=request.user
+            )
+            
+            date_established = request.POST.get('date_established')
+            if date_established:
+                company.date_established = date_established
+            
+            company.save()
+            messages.success(request, f'Company "{name}" registered successfully!')
+            return redirect('manage_companies')
+        
+        elif action == 'update':
+            company_id = request.POST.get('company_id')
+            try:
+                company = Company.objects.get(id=company_id, owner=request.user)
+                company.name = request.POST.get('name', company.name)
+                company.company_type = request.POST.get('company_type', company.company_type)
+                company.email = request.POST.get('email', company.email)
+                company.city = request.POST.get('city', company.city)
+                company.address = request.POST.get('address', company.address)
+                
+                bank_iban = request.POST.get('bank_iban', '').strip()
+                if bank_iban:
+                    company.bank_iban = bank_iban
+                
+                date_established = request.POST.get('date_established')
+                if date_established:
+                    company.date_established = date_established
+                
+                company.save()
+                messages.success(request, f'Company "{company.name}" updated successfully!')
+            except Company.DoesNotExist:
+                messages.error(request, 'Company not found.')
+            return redirect('manage_companies')
+    
+    context = {
+        'companies': companies,
+    }
+    return render(request, 'companies/manage_companies.html', context)
+
+
+# ==================== DOCUMENT MANAGEMENT VIEWS ====================
+
+@login_required
+def document_folders(request):
+    """Document folders organized by Import Permit (Trade)"""
+    companies = Company.objects.filter(owner=request.user)
+    
+    # Get all import permits as "folders"
+    permits = ImportPermit.objects.filter(
+        company__in=companies
+    ).select_related('company').order_by('-created_at')
+    
+    # Get document count for each permit
+    for permit in permits:
+        permit.doc_count = ImportDocument.objects.filter(import_permit=permit).count()
+    
+    # Get unassigned documents (not linked to any permit)
+    unassigned_docs = ImportDocument.objects.filter(
+        import_permit__company__in=companies,
+        import_permit__isnull=True
+    )
+    
+    context = {
+        'folders': permits,
+        'unassigned_count': unassigned_docs.count(),
+        'companies': companies,
+    }
+    return render(request, 'documents/document_folders.html', context)
+
+
+@login_required
+def document_folder_detail(request, permit_id):
+    """View documents in a specific folder (import permit)"""
+    companies = Company.objects.filter(owner=request.user)
+    
+    # Get the permit/folder
+    permit = get_object_or_404(ImportPermit, id=permit_id, company__in=companies)
+    
+    # Get all documents in this folder
+    documents = ImportDocument.objects.filter(
+        import_permit=permit
+    ).order_by('-uploaded_at')
+    
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        
+        if action == 'upload':
+            # Handle file upload
+            file = request.FILES.get('document_file')
+            doc_type = request.POST.get('document_type', 'OTHER')
+            
+            if file:
+                doc = ImportDocument(
+                    import_permit=permit,
+                    document_type=doc_type,
+                    file=file,
+                    status='UPLOADED',
+                    uploaded_by=request.user
+                )
+                doc.save()
+                messages.success(request, f'File "{file.name}" uploaded successfully!')
+            else:
+                messages.error(request, 'Please select a file to upload.')
+            return redirect('document_folder_detail', permit_id=permit.id)
+        
+        elif action == 'delete':
+            doc_id = request.POST.get('doc_id')
+            try:
+                doc = ImportDocument.objects.get(id=doc_id, import_permit=permit)
+                doc.delete()
+                messages.success(request, 'Document deleted successfully!')
+            except ImportDocument.DoesNotExist:
+                messages.error(request, 'Document not found.')
+            return redirect('document_folder_detail', permit_id=permit.id)
+    
+    # Document types for dropdown
+    doc_types = ImportDocument.DocType.choices
+    
+    context = {
+        'folder': permit,
+        'documents': documents,
+        'doc_types': doc_types,
+        'total_size': sum(d.file.size or 0 for d in documents if d.file),
+    }
+    return render(request, 'documents/document_folder_detail.html', context)
+
+
+@login_required
+def all_documents(request):
+    """View all documents across all folders"""
+    companies = Company.objects.filter(owner=request.user)
+    
+    # Get all documents
+    documents = ImportDocument.objects.filter(
+        import_permit__company__in=companies
+    ).select_related('import_permit', 'import_permit__company').order_by('-uploaded_at')
+    
+    # Filter by status if provided
+    status_filter = request.GET.get('status')
+    if status_filter:
+        documents = documents.filter(status=status_filter)
+    
+    # Filter by document type
+    type_filter = request.GET.get('type')
+    if type_filter:
+        documents = documents.filter(document_type=type_filter)
+    
+    context = {
+        'documents': documents,
+        'doc_types': ImportDocument.DocType.choices,
+        'status_filter': status_filter,
+        'type_filter': type_filter,
+    }
+    return render(request, 'documents/all_documents.html', context)

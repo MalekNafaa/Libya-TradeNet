@@ -22,7 +22,8 @@ from trade_management.views import (
     import_permits, apply_import, import_tracking, import_documents, inspections,
     tax_payments, payment_history, financial_dashboard, outstanding_balances,
     trade_reports, compliance_reports, financial_reports, inspection_reports,
-    user_profile, manage_users, notification_settings, system_settings
+    user_profile, manage_users, notification_settings, system_settings,
+    manage_companies, document_folders, document_folder_detail, all_documents
 )
 from django.shortcuts import render
 
@@ -66,6 +67,14 @@ urlpatterns = [
     path('settings/users/', manage_users, name='manage_users'),
     path('settings/notifications/', notification_settings, name='notification_settings'),
     path('settings/system/', system_settings, name='system_settings'),
+    
+    # Companies URLs
+    path('companies/', manage_companies, name='manage_companies'),
+    
+    # Document Management URLs
+    path('documents/folders/', document_folders, name='document_folders'),
+    path('documents/folder/<int:permit_id>/', document_folder_detail, name='document_folder_detail'),
+    path('documents/all/', all_documents, name='all_documents'),
     
     path('admin/', admin.site.urls),
 ]
