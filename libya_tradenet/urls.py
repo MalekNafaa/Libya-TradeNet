@@ -16,7 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from trade_management.views import home, login_view, logout_view, dashboard
+from trade_management.views import (
+    home, login_view, logout_view, dashboard,
+    my_licenses, apply_license, application_status, license_renewal,
+    import_permits, apply_import, import_tracking, import_documents, inspections,
+    tax_payments, payment_history, financial_dashboard, outstanding_balances,
+    trade_reports, compliance_reports, financial_reports, inspection_reports,
+    user_profile, manage_users, notification_settings, system_settings
+)
 from django.shortcuts import render
 
 def test_layout(request):
@@ -28,5 +35,37 @@ urlpatterns = [
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
     path('test/', test_layout, name='test_layout'),
+    
+    # Licensing URLs
+    path('licenses/', my_licenses, name='my_licenses'),
+    path('licenses/apply/', apply_license, name='apply_license'),
+    path('licenses/status/', application_status, name='application_status'),
+    path('licenses/renew/', license_renewal, name='license_renewal'),
+    
+    # Import URLs
+    path('imports/', import_permits, name='import_permits'),
+    path('imports/apply/', apply_import, name='apply_import'),
+    path('imports/tracking/', import_tracking, name='import_tracking'),
+    path('imports/documents/', import_documents, name='import_documents'),
+    path('imports/inspections/', inspections, name='inspections'),
+    
+    # Financial URLs
+    path('financial/', financial_dashboard, name='financial_dashboard'),
+    path('financial/taxes/', tax_payments, name='tax_payments'),
+    path('financial/payments/', payment_history, name='payment_history'),
+    path('financial/balances/', outstanding_balances, name='outstanding_balances'),
+    
+    # Reports URLs
+    path('reports/trade/', trade_reports, name='trade_reports'),
+    path('reports/compliance/', compliance_reports, name='compliance_reports'),
+    path('reports/financial/', financial_reports, name='financial_reports'),
+    path('reports/inspections/', inspection_reports, name='inspection_reports'),
+    
+    # Settings URLs
+    path('settings/profile/', user_profile, name='user_profile'),
+    path('settings/users/', manage_users, name='manage_users'),
+    path('settings/notifications/', notification_settings, name='notification_settings'),
+    path('settings/system/', system_settings, name='system_settings'),
+    
     path('admin/', admin.site.urls),
 ]
