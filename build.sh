@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Exit on error
+set -o errexit
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Compile translations
+python manage.py compilemessages
+
+# Collect static files
+python manage.py collectstatic --noinput
+
+# Run migrations
+python manage.py migrate
+
+echo "Build completed successfully!"

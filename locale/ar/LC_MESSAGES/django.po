@@ -1,0 +1,405 @@
+# Arabic translations for Libya TradeNet
+# Copyright (C) 2024
+# This file is distributed under the same license as the Libya TradeNet package.
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Libya TradeNet 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-01 00:00+0000\n"
+"PO-Revision-Date: 2024-01-01 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Arabic\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: templates/home.html
+msgid "Welcome to Libya TradeNet"
+msgstr "مرحباً بكم في شبكة التجارة الليبية"
+
+msgid "Your Gateway to International Trade"
+msgstr "بوابتك إلى التجارة الدولية"
+
+msgid "Dashboard"
+msgstr "لوحة التحكم"
+
+msgid "Companies"
+msgstr "الشركات"
+
+msgid "My Companies"
+msgstr "شركاتي"
+
+msgid "Add New Company"
+msgstr "إضافة شركة جديدة"
+
+msgid "Licensing"
+msgstr "التراخيص"
+
+msgid "My Licenses"
+msgstr "تراخيصي"
+
+msgid "Apply for License"
+msgstr "التقدم بطلب ترخيص"
+
+msgid "Application Status"
+msgstr "حالة الطلب"
+
+msgid "License Renewal"
+msgstr "تجديد الترخيص"
+
+msgid "Imports"
+msgstr "الواردات"
+
+msgid "Import Permits"
+msgstr "تصاريح الاستيراد"
+
+msgid "Apply for Import"
+msgstr "التقدم بطلب استيراد"
+
+msgid "Import Tracking"
+msgstr "تتبع الاستيراد"
+
+msgid "Documents"
+msgstr "المستندات"
+
+msgid "Inspections"
+msgstr "عمليات التفتيش"
+
+msgid "Financial"
+msgstr "المالية"
+
+msgid "Tax Payments"
+msgstr "مدفوعات الضرائب"
+
+msgid "Payment History"
+msgstr "سجل المدفوعات"
+
+msgid "Outstanding Balances"
+msgstr "الأرصدة المستحقة"
+
+msgid "Reports"
+msgstr "التقارير"
+
+msgid "Trade Reports"
+msgstr "تقارير التجارة"
+
+msgid "Compliance Reports"
+msgstr "تقارير الامتثال"
+
+msgid "Financial Reports"
+msgstr "التقارير المالية"
+
+msgid "Inspection Reports"
+msgstr "تقارير التفتيش"
+
+msgid "Settings"
+msgstr "الإعدادات"
+
+msgid "Profile"
+msgstr "الملف الشخصي"
+
+msgid "Manage Users"
+msgstr "إدارة المستخدمين"
+
+msgid "Notifications"
+msgstr "الإشعارات"
+
+msgid "System Settings"
+msgstr "إعدادات النظام"
+
+msgid "Login"
+msgstr "تسجيل الدخول"
+
+msgid "Logout"
+msgstr "تسجيل الخروج"
+
+msgid "Email"
+msgstr "البريد الإلكتروني"
+
+msgid "Password"
+msgstr "كلمة المرور"
+
+msgid "Remember me"
+msgstr "تذكرني"
+
+msgid "Forgot Password?"
+msgstr "هل نسيت كلمة المرور؟"
+
+msgid "Sign in"
+msgstr "تسجيل الدخول"
+
+msgid "Register"
+msgstr "التسجيل"
+
+msgid "Name"
+msgstr "الاسم"
+
+msgid "Company Name"
+msgstr "اسم الشركة"
+
+msgid "Company Number"
+msgstr "رقم الشركة"
+
+msgid "Tax Number"
+msgstr "الرقم الضريبي"
+
+msgid "Bank IBAN"
+msgstr "رقم الحساب المصرفي الدولي"
+
+msgid "Address"
+msgstr "العنوان"
+
+msgid "City"
+msgstr "المدينة"
+
+msgid "Status"
+msgstr "الحالة"
+
+msgid "Active"
+msgstr "نشط"
+
+msgid "Pending"
+msgstr "معلق"
+
+msgid "Approved"
+msgstr "معتمد"
+
+msgid "Rejected"
+msgstr "مرفوض"
+
+msgid "Save"
+msgstr "حفظ"
+
+msgid "Cancel"
+msgstr "إلغاء"
+
+msgid "Edit"
+msgstr "تعديل"
+
+msgid "Delete"
+msgstr "حذف"
+
+msgid "View"
+msgstr "عرض"
+
+msgid "Search"
+msgstr "بحث"
+
+msgid "Filter"
+msgstr "تصفية"
+
+msgid "Download"
+msgstr "تحميل"
+
+msgid "Upload"
+msgstr "رفع"
+
+msgid "Print"
+msgstr "طباعة"
+
+msgid "Submit"
+msgstr "إرسال"
+
+msgid "Back"
+msgstr "رجوع"
+
+msgid "Next"
+msgstr "التالي"
+
+msgid "Previous"
+msgstr "السابق"
+
+msgid "Actions"
+msgstr "إجراءات"
+
+msgid "Date"
+msgstr "التاريخ"
+
+msgid "Amount"
+msgstr "المبلغ"
+
+msgid "Description"
+msgstr "الوصف"
+
+msgid "Type"
+msgstr "النوع"
+
+msgid "Category"
+msgstr "الفئة"
+
+msgid "Documents"
+msgstr "المستندات"
+
+msgid "Document Type"
+msgstr "نوع المستند"
+
+msgid "File"
+msgstr "ملف"
+
+msgid "Uploaded"
+msgstr "تم الرفع"
+
+msgid "Verified"
+msgstr "تم التحقق"
+
+msgid "Rejected"
+msgstr "مرفوض"
+
+msgid "Pending"
+msgstr "معلق"
+
+msgid "Under Review"
+msgstr "قيد المراجعة"
+
+msgid "Total"
+msgstr "الإجمالي"
+
+msgid "Subtotal"
+msgstr "المجموع الفرعي"
+
+msgid "Tax"
+msgstr "الضريبة"
+
+msgid "Fee"
+msgstr "الرسوم"
+
+msgid "Payment"
+msgstr "الدفع"
+
+msgid "Balance"
+msgstr "الرصيد"
+
+msgid "Currency"
+msgstr "العملة"
+
+msgid "USD"
+msgstr "دولار أمريكي"
+
+msgid "EUR"
+msgstr "يورو"
+
+msgid "LYD"
+msgstr "دينار ليبي"
+
+msgid "Trade"
+msgstr "التجارة"
+
+msgid "Import"
+msgstr "استيراد"
+
+msgid "Export"
+msgstr "تصدير"
+
+msgid "Permit"
+msgstr "تصريح"
+
+msgid "License"
+msgstr "ترخيص"
+
+msgid "Certificate"
+msgstr "شهادة"
+
+msgid "Inspection"
+msgstr "تفتيش"
+
+msgid "Customs"
+msgstr "الجمارك"
+
+msgid "Port"
+msgstr "الميناء"
+
+msgid "Country"
+msgstr "الدولة"
+
+msgid "Origin"
+msgstr "بلد المنشأ"
+
+msgid "Destination"
+msgstr "الوجهة"
+
+msgid "Shipping"
+msgstr "الشحن"
+
+msgid "Tracking"
+msgstr "التتبع"
+
+msgid "History"
+msgstr "التاريخ"
+
+msgid "Welcome"
+msgstr "مرحباً"
+
+msgid "Welcome back"
+msgstr "مرحباً بعودتك"
+
+msgid "Hello"
+msgstr "أهلاً"
+
+msgid "Good morning"
+msgstr "صباح الخير"
+
+msgid "Good afternoon"
+msgstr "مساء الخير"
+
+msgid "Good evening"
+msgstr "مساء الخير"
+
+msgid "Language"
+msgstr "اللغة"
+
+msgid "English"
+msgstr "الإنجليزية"
+
+msgid "Arabic"
+msgstr "العربية"
+
+msgid "Logout successful"
+msgstr "تم تسجيل الخروج بنجاح"
+
+msgid "Login successful"
+msgstr "تم تسجيل الدخول بنجاح"
+
+msgid "Invalid credentials"
+msgstr "بيانات اعتماد غير صالحة"
+
+msgid "Please check your email and password"
+msgstr "يرجى التحقق من البريد الإلكتروني وكلمة المرور"
+
+msgid "Access denied"
+msgstr "تم رفض الوصول"
+
+msgid "You do not have permission to access this page"
+msgstr "ليس لديك إذن للوصول إلى هذه الصفحة"
+
+msgid "Session expired"
+msgstr "انتهت الجلسة"
+
+msgid "Please login again"
+msgstr "يرجى تسجيل الدخول مرة أخرى"
+
+msgid "Changes saved successfully"
+msgstr "تم حفظ التغييرات بنجاح"
+
+msgid "Error occurred"
+msgstr "حدث خطأ"
+
+msgid "Please try again"
+msgstr "يرجى المحاولة مرة أخرى"
+
+msgid "Confirm"
+msgstr "تأكيد"
+
+msgid "Are you sure?"
+msgstr "هل أنت متأكد؟"
+
+msgid "This action cannot be undone"
+msgstr "لا يمكن التراجع عن هذا الإجراء"
+
+msgid "Yes, proceed"
+msgstr "نعم، متابعة"
+
+msgid "No, cancel"
+msgstr "لا، إلغاء"
