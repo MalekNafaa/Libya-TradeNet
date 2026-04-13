@@ -7,7 +7,8 @@ from django.urls import reverse
 from django.utils import timezone
 from datetime import timedelta, date
 from decimal import Decimal
-from .models import Company, License, LicenseApplication, ImportPermit, ImportDocument, ImportInspection, TaxPayment
+from .models import Company, License, LicenseApplication, ImportPermit, ImportDocument, ImportInspection, TaxPayment, UserProfile
+from .decorators import role_required, government_required
 
 
 def home(request):
@@ -96,7 +97,10 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, 'تم تسجيل الدخول بنجاح!')
-                return redirect('dashboard')
+                try:
+                    return redirect(user.profile.dashboard_url())
+                except UserProfile.DoesNotExist:
+                    return redirect('dashboard')
             else:
                 messages.error(request, 'اسم المستخدم أو كلمة المرور غير صحيحة.')
         else:
@@ -1141,3 +1145,191 @@ def all_documents(request):
         'type_filter': type_filter,
     }
     return render(request, 'documents/all_documents.html', context)
+
+
+# ==================== GOVERNMENT DASHBOARDS ====================
+
+@login_required
+@role_required('CUSTOMS_OFFICER', 'ADMIN')
+def customs_dashboard(request):
+    """Customs Authority dashboard"""
+    pending_permits = ImportPermit.objects.filter(status=ImportPermit.PermitStatus.SUBMITTED).order_by('-created_at')
+    under_review = ImportPermit.objects.filter(status=ImportPermit.PermitStatus.UNDER_REVIEW)
+    approved_today = ImportPermit.objects.filter(
+        status=ImportPermit.PermitStatus.APPROVED,
+        updated_at__date=timezone.now().date()
+    )
+    pending_inspections = ImportInspection.objects.filter(result=ImportInspection.InspectionResult.PENDING)
+    recent_inspections = ImportInspection.objects.order_by('-inspection_date')[:10]
+    context = {
+        'pending_permits_count': pending_permits.count(),
+        'under_review_count': under_review.count(),
+        'approved_today_count': approved_today.count(),
+        'pending_inspections_count': pending_inspections.count(),
+        'pending_permits': pending_permits[:10],
+        'recent_inspections': recent_inspections,
+        'role_label': 'Customs Authority',
+    }
+    return render(request, 'dashboards/customs_dashboard.html', context)
+
+
+@login_required
+@role_required('TAX_OFFICER', 'ADMIN')
+def tax_dashboard(request):
+    """Tax Authority dashboard"""
+    overdue_payments = TaxPayment.objects.filter(status=TaxPayment.PaymentStatus.OVERDUE)
+    pending_payments = TaxPayment.objects.filter(status=TaxPayment.PaymentStatus.PENDING)
+    paid_this_month = TaxPayment.objects.filter(
+        status=TaxPayment.PaymentStatus.PAID,
+        paid_date__month=timezone.now().month,
+        paid_date__year=timezone.now().year
+    )
+    total_collected = sum(p.amount_paid for p in paid_this_month)
+    total_outstanding = sum(p.balance_due for p in TaxPayment.objects.exclude(
+        status__in=[TaxPayment.PaymentStatus.PAID, TaxPayment.PaymentStatus.WAIVED]
+    ))
+    context = {
+        'overdue_count': overdue_payments.count(),
+        'pending_count': pending_payments.count(),
+        'paid_this_month_count': paid_this_month.count(),
+        'total_collected': total_collected,
+        'total_outstanding': total_outstanding,
+        'overdue_payments': overdue_payments[:10],
+        'recent_payments': TaxPayment.objects.order_by('-created_at')[:10],
+        'role_label': 'Tax Authority',
+    }
+    return render(request, 'dashboards/tax_dashboard.html', context)
+
+
+@login_required
+@role_required('ANTI_CORRUPTION', 'ADMIN')
+def anticorruption_dashboard(request):
+    """Anti-Corruption Authority dashboard — read-only audit view"""
+    flagged_companies = Company.objects.filter(status=Company.CompanyStatus.BLACKLISTED)
+    suspended_companies = Company.objects.filter(status=Company.CompanyStatus.SUSPENDED)
+    rejected_applications = LicenseApplication.objects.filter(
+        status=LicenseApplication.ApplicationStatus.REJECTED
+    ).order_by('-reviewed_at')[:20]
+    all_permits = ImportPermit.objects.order_by('-created_at')[:20]
+    all_tax_payments = TaxPayment.objects.order_by('-created_at')[:20]
+    context = {
+        'flagged_companies_count': flagged_companies.count(),
+        'suspended_companies_count': suspended_companies.count(),
+        'total_companies': Company.objects.count(),
+        'total_permits': ImportPermit.objects.count(),
+        'flagged_companies': flagged_companies,
+        'suspended_companies': suspended_companies,
+        'rejected_applications': rejected_applications,
+        'recent_permits': all_permits,
+        'recent_tax_payments': all_tax_payments,
+        'role_label': 'Anti-Corruption Authority',
+    }
+    return render(request, 'dashboards/anticorruption_dashboard.html', context)
+
+
+@login_required
+@role_required('LICENSE_REGULATOR', 'ADMIN')
+def license_dashboard(request):
+    """License & Registration Authority dashboard"""
+    pending_apps = LicenseApplication.objects.filter(
+        status=LicenseApplication.ApplicationStatus.SUBMITTED
+    ).order_by('-submitted_at')
+    under_review_apps = LicenseApplication.objects.filter(
+        status=LicenseApplication.ApplicationStatus.UNDER_REVIEW
+    )
+    approved_apps = LicenseApplication.objects.filter(
+        status=LicenseApplication.ApplicationStatus.APPROVED
+    ).order_by('-reviewed_at')[:10]
+    expiring_licenses = License.objects.filter(
+        status=License.LicenseStatus.VALID,
+        expiry_date__lte=timezone.now().date() + timedelta(days=30)
+    )
+    context = {
+        'pending_count': pending_apps.count(),
+        'under_review_count': under_review_apps.count(),
+        'approved_count': approved_apps.count(),
+        'expiring_soon_count': expiring_licenses.count(),
+        'pending_applications': pending_apps[:10],
+        'under_review_apps': under_review_apps[:10],
+        'expiring_licenses': expiring_licenses[:10],
+        'role_label': 'License & Registration Authority',
+    }
+    return render(request, 'dashboards/license_dashboard.html', context)
+
+
+@login_required
+@role_required('TRADE_MINISTRY', 'ADMIN')
+def ministry_dashboard(request):
+    """Ministry of Trade overview dashboard"""
+    total_companies = Company.objects.count()
+    active_companies = Company.objects.filter(status=Company.CompanyStatus.ACTIVE).count()
+    total_permits = ImportPermit.objects.count()
+    approved_permits = ImportPermit.objects.filter(status=ImportPermit.PermitStatus.APPROVED).count()
+    total_tax_collected = sum(
+        p.amount_paid for p in TaxPayment.objects.filter(status=TaxPayment.PaymentStatus.PAID)
+    )
+    context = {
+        'total_companies': total_companies,
+        'active_companies': active_companies,
+        'total_permits': total_permits,
+        'approved_permits': approved_permits,
+        'total_tax_collected': total_tax_collected,
+        'recent_companies': Company.objects.order_by('-created_at')[:10],
+        'recent_permits': ImportPermit.objects.order_by('-created_at')[:10],
+        'role_label': 'Ministry of Trade & Economy',
+    }
+    return render(request, 'dashboards/ministry_dashboard.html', context)
+
+
+@login_required
+@role_required('ADMIN')
+def admin_dashboard(request):
+    """System Admin dashboard"""
+    users = UserProfile.objects.select_related('user').all()
+    context = {
+        'total_users': users.count(),
+        'total_companies': Company.objects.count(),
+        'total_permits': ImportPermit.objects.count(),
+        'total_licenses': License.objects.count(),
+        'total_tax_payments': TaxPayment.objects.count(),
+        'users': users.order_by('-created_at')[:20],
+        'role_label': 'System Admin',
+    }
+    return render(request, 'dashboards/admin_dashboard.html', context)
+
+
+# ==================== LANGUAGE SWITCHER ====================
+
+def set_language(request, lang_code):
+    """Switch between English and Arabic with proper URL prefix"""
+    from django.utils import translation
+    from django.http import HttpResponseRedirect
+    from urllib.parse import urlparse
+    
+    if lang_code in ['en', 'ar']:
+        translation.activate(lang_code)
+        request.session['django_language'] = lang_code
+        request.session.modified = True
+    
+    # Get the current path from referer
+    referer = request.META.get('HTTP_REFERER', '/')
+    parsed = urlparse(referer)
+    current_path = parsed.path or '/'
+    
+    # Remove any existing language prefix
+    for lang in ['en', 'ar']:
+        if current_path.startswith(f'/{lang}/'):
+            current_path = current_path[3:]
+            break
+        if current_path == f'/{lang}':
+            current_path = '/'
+            break
+    
+    # Build new URL with language prefix
+    if lang_code == 'en':
+        new_url = f'/en{current_path}'
+    else:
+        new_url = f'/ar{current_path}'
+    
+    return HttpResponseRedirect(new_url)
+

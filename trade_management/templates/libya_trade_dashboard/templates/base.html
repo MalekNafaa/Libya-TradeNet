@@ -1,6 +1,7 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
-<html lang="en" dir="ltr" direction="ltr">
+<html lang="{{ LANGUAGE_CODE|default:"en" }}" dir="{% if IS_RTL %}rtl{% else %}ltr{% endif %}">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,105 +25,13 @@
 
     <link href="{% static 'css/style.css' %}?v=1.2" rel="stylesheet">
 
-    <!-- LTR Layout Fix -->
-    <style>
-        /* Sidebar on LEFT for LTR */
-        .dlabnav {
-            left: 0 !important;
-            right: auto !important;
-        }
-        .content-body {
-            margin-left: 17.1875rem !important;
-            margin-right: 0 !important;
-        }
-
-        /* Header LTR - use IDs for maximum specificity */
-        html[lang="en"] #ltr-nav-header,
-        html[dir="ltr"] #ltr-nav-header,
-        #ltr-nav-header.nav-header {
-            display: flex !important;
-            align-items: center !important;
-            justify-content: flex-end !important;
-            text-align: right !important;
-            flex-direction: row !important;
-            width: 100% !important;
-            height: auto !important;
-        }
-        html[lang="en"] #ltr-brand-logo,
-        html[dir="ltr"] #ltr-brand-logo,
-        #ltr-brand-logo.brand-logo {
-            margin: 0 !important;
-            padding-left: 1rem !important;
-            padding-right: 0 !important;
-            order: 2 !important;
-            display: flex !important;
-            justify-content: flex-start !important;
-            margin-left: 0 !important;
-            margin-right: auto !important;
-        }
-        html[lang="en"] #ltr-nav-control,
-        html[dir="ltr"] #ltr-nav-control,
-        #ltr-nav-control.nav-control {
-            position: static !important;
-            order: 1 !important;
-            margin-left: 1rem !important;
-            margin-right: 0 !important;
-            margin-top: 0.5rem !important;
-            left: auto !important;
-            right: auto !important;
-            top: auto !important;
-            bottom: auto !important;
-        }
-        
-        /* Override theme's absolute positioning for nav-control */
-        .nav-header #ltr-nav-control.nav-control {
-            position: static !important;
-            left: auto !important;
-            right: auto !important;
-            top: auto !important;
-            bottom: auto !important;
-        }
-        
-        /* Force margins with highest specificity */
-        #ltr-nav-header.nav-header #ltr-nav-control.nav-control {
-            margin-left: 1rem !important;
-            margin-right: 0 !important;
-            margin-top: 0.5rem !important;
-            margin-bottom: 0 !important;
-        }
-        
-        /* Override any universal selector margin resets */
-        #ltr-nav-header.nav-header > #ltr-nav-control.nav-control:first-child {
-            margin-left: 1rem !important;
-            margin-right: 0 !important;
-            margin-top: 0.5rem !important;
-            margin-bottom: 0 !important;
-        }
-        
-        /* Most specific rule possible */
-        body div#main-wrapper div#ltr-nav-header.nav-header div#ltr-nav-control.nav-control {
-            margin-left: 1rem !important;
-            margin-right: 0 !important;
-            margin-top: 0.5rem !important;
-            margin-bottom: 0 !important;
-        }
-
-        /* Sidebar menu items left-aligned */
-        .dlabnav .metismenu > li > a {
-            text-align: left !important;
-        }
-        .dlabnav .metismenu ul a {
-            padding-left: 2.5rem !important;
-            text-align: left !important;
-        }
-    </style>
-
     {% include 'libya_trade_dashboard/templates/parts/head.html' %}
 
     {% block styles %}
     {% endblock styles %}
+
 </head>
-<body>
+<body {% if IS_RTL %}direction="rtl"{% endif %}>
 
 <div id="preloader">
         <div class="spinner-border text-primary loading-spinner" style="width: 3rem; height: 3rem;" role="status">
@@ -163,153 +72,48 @@
 <script src="{% static 'js/dlabnav-init.js' %}"></script>
 
 <script>
-    // Force LTR layout with MutationObserver to override theme changes
-    document.addEventListener('DOMContentLoaded', function() {
-        const navHeader = document.getElementById('ltr-nav-header');
-        const brandLogo = document.getElementById('ltr-brand-logo');
-        const navControl = document.getElementById('ltr-nav-control');
+    document.addEventListener('DOMContentLoaded', function () {
+        // RTL: nudge sidebar/nav-header to right
+        const isRTL = document.documentElement.getAttribute('dir') === 'rtl';
+        const sidebar = document.querySelector('.dlabnav');
+        const navHeader = document.querySelector('.nav-header');
 
-        let isApplying = false;
-
-        function applyLTRStyles() {
-            if (isApplying) return;
-            isApplying = true;
-
-            if (navHeader) {
-                navHeader.style.display = 'flex';
-                navHeader.style.alignItems = 'center';
-                navHeader.style.justifyContent = 'flex-end';  // Changed to flex-end for right alignment
-                navHeader.style.textAlign = 'right';  // Changed to right
-                navHeader.style.flexDirection = 'row';
-            }
-            if (brandLogo) {
-                brandLogo.style.margin = '0';
-                brandLogo.style.paddingLeft = '0';  // Changed to 0
-                brandLogo.style.paddingRight = '1rem';  // Changed to 1rem
-                brandLogo.style.order = '2';  // Changed to 2 (comes after hamburger)
-                brandLogo.style.display = 'flex';
-                brandLogo.style.justifyContent = 'flex-end';  // Changed to flex-end
-                brandLogo.style.marginRight = '0';
-                brandLogo.style.marginLeft = 'auto';  // Changed to auto to push to right
-            }
-            if (navControl) {
-                navControl.style.position = 'static';
-                navControl.style.order = '1';  // Changed to 1 (comes first)
-                navControl.style.marginLeft = '1rem';  // Changed to 1rem - move away from left edge
-                navControl.style.marginRight = '0';  // Changed to 0
-                navControl.style.marginTop = '0.5rem';  // Add top margin
-                navControl.style.marginBottom = '0';  // Add bottom margin
-            }
-
-            // Reorder elements
-            if (navHeader && brandLogo && navControl) {
-                navHeader.insertBefore(navControl, navHeader.firstChild);  // Hamburger first
-                navHeader.appendChild(brandLogo);  // Logo last
-            }
-
-            setTimeout(() => { isApplying = false; }, 100);
+        if (isRTL && sidebar) {
+            sidebar.style.setProperty('right', '0', 'important');
+            sidebar.style.setProperty('left', 'auto', 'important');
+        }
+        if (isRTL && navHeader) {
+            navHeader.style.setProperty('right', '0', 'important');
+            navHeader.style.setProperty('left', 'auto', 'important');
         }
 
-        // Apply immediately
-        applyLTRStyles();
-
-        // Apply again after theme scripts finish
-        setTimeout(applyLTRStyles, 500);
-
-        // Watch for any DOM changes and reapply (with debouncing)
-        const observer = new MutationObserver(function(mutations) {
-            if (!isApplying) {
-                applyLTRStyles();
-            }
-        });
-
-        if (navHeader) {
-            observer.observe(navHeader, {
-                attributes: true,
-                childList: true,
-                subtree: true,
-                attributeFilter: ['style', 'class']
-            });
-        }
-
-        // Ensure sidebar starts closed
-        setTimeout(() => {
-            const sidebar = document.querySelector('.dlabnav');
-            if (sidebar && !sidebar.classList.contains('menu-close')) {
-                const hamburger = document.querySelector('.hamburger');
-                if (hamburger) {
-                    hamburger.click();
-                }
-            }
-        }, 1000);
     });
 
+    // Form spinner
     const spinner = document.createElement('i');
     spinner.classList.add('spinner-border', 'spinner-border-sm', 'loading-spinner', 'me-2', 'align-middle', 'text-white');
     spinner.setAttribute('role', 'status');
 
     document.addEventListener('DOMContentLoaded', () => {
         const forms = document.getElementsByTagName('form');
-
         for (let i = 0; i < forms.length; i++) {
             forms[i].addEventListener('submit', function (e) {
                 const submitButton = e.submitter || e.target.querySelector('[type="submit"]');
-                setTimeout(() => {
+                if (submitButton) {
                     submitButton.disabled = true;
                     if (submitButton.tagName === 'BUTTON') {
-                        submitButton.prepend(spinner);
+                        submitButton.prepend(spinner.cloneNode(true));
                     }
-                }, 0);
-
+                }
             });
         }
     });
-
 </script>
 
 {% block scripts %}
 
 {% endblock %}
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    // Only inside forms that have our scope class
-    $('.js-select2-scope select').each(function () {
-      const $el = $(this);
-      const placeholder =
-        $el.attr('data-placeholder') ||
-        $el.attr('placeholder') ||
-        $el.find('option[value=""]').text() || 'Select...';
-
-      $el.select2({
-        width: '100%',
-        dir: document.documentElement.getAttribute('dir') || 'ltr',
-        placeholder: placeholder,
-        allowClear: !!placeholder
-      });
-    });
-  });
-</script>
 <script src="{% static 'vendor/select2/js/select2.full.min.js' %}"></script>
-
-<script>
-    // FINAL OVERRIDE: Force nav-control margins after everything loads
-    window.addEventListener('load', function() {
-        const navControl = document.getElementById('ltr-nav-control');
-        if (navControl) {
-            console.log('FINAL OVERRIDE: Applying margins to nav-control');
-            navControl.style.cssText = 'position: static !important; order: 1 !important; margin-left: 0.5rem !important; margin-right: 0 !important; margin-top: 0.5rem !important; margin-bottom: 0 !important; left: auto !important; right: auto !important; top: auto !important; bottom: auto !important;';
-        }
-    });
-    
-    // Also try after a short delay to catch any late theme scripts
-    setTimeout(function() {
-        const navControl = document.getElementById('ltr-nav-control');
-        if (navControl) {
-            console.log('TIMEOUT OVERRIDE: Applying margins to nav-control');
-            navControl.style.cssText = 'position: static !important; order: 1 !important; margin-left: 0.5rem !important; margin-right: 0 !important; margin-top: 0.5rem !important; margin-bottom: 0 !important; left: auto !important; right: auto !important; top: auto !important; bottom: auto !important;';
-        }
-    }, 2000);
-</script>
 
 </body>
 </html>

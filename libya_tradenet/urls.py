@@ -15,7 +15,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.conf.urls.i18n import i18n_patterns
 from trade_management.views import (
     home, login_view, logout_view, dashboard,
     my_licenses, apply_license, application_status, license_renewal,
@@ -23,19 +24,24 @@ from trade_management.views import (
     tax_payments, payment_history, financial_dashboard, outstanding_balances,
     trade_reports, compliance_reports, financial_reports, inspection_reports,
     user_profile, manage_users, notification_settings, system_settings,
-    manage_companies, document_folders, document_folder_detail, all_documents
+    manage_companies, document_folders, document_folder_detail, all_documents,
+    set_language,
+    customs_dashboard, tax_dashboard, anticorruption_dashboard,
+    license_dashboard, ministry_dashboard, admin_dashboard,
 )
 from django.shortcuts import render
 
-def test_layout(request):
-    return render(request, 'test_layout.html')
 
 urlpatterns = [
+    path('i18n/', include('django.conf.urls.i18n')),  # Language switching URLs
+    path('set-language/<str:lang_code>/', set_language, name='set_language'),
+]
+
+urlpatterns += i18n_patterns(
     path('', home, name='home'),
     path('dashboard/', dashboard, name='dashboard'),
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
-    path('test/', test_layout, name='test_layout'),
     
     # Licensing URLs
     path('licenses/', my_licenses, name='my_licenses'),
@@ -70,6 +76,14 @@ urlpatterns = [
     
     # Companies URLs
     path('companies/', manage_companies, name='manage_companies'),
+
+    # Government Dashboards
+    path('gov/customs/', customs_dashboard, name='customs_dashboard'),
+    path('gov/tax/', tax_dashboard, name='tax_dashboard'),
+    path('gov/anti-corruption/', anticorruption_dashboard, name='anticorruption_dashboard'),
+    path('gov/licenses/', license_dashboard, name='license_dashboard'),
+    path('gov/ministry/', ministry_dashboard, name='ministry_dashboard'),
+    path('gov/admin/', admin_dashboard, name='admin_dashboard'),
     
     # Document Management URLs
     path('documents/folders/', document_folders, name='document_folders'),
@@ -77,4 +91,4 @@ urlpatterns = [
     path('documents/all/', all_documents, name='all_documents'),
     
     path('admin/', admin.site.urls),
-]
+)

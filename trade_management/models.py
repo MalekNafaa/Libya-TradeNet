@@ -4,6 +4,64 @@ import uuid
 from django.utils import timezone
 
 
+class UserProfile(models.Model):
+    class Role(models.TextChoices):
+        ADMIN                  = 'ADMIN',                  'System Admin'
+        COMPANY_OWNER          = 'COMPANY_OWNER',          'Company Owner'
+        CUSTOMS_OFFICER        = 'CUSTOMS_OFFICER',        'Customs Officer'
+        TAX_OFFICER            = 'TAX_OFFICER',            'Tax Authority Officer'
+        ANTI_CORRUPTION        = 'ANTI_CORRUPTION',        'Anti-Corruption Authority'
+        LICENSE_REGULATOR      = 'LICENSE_REGULATOR',      'License Regulator'
+        TRADE_MINISTRY         = 'TRADE_MINISTRY',         'Trade Ministry'
+        VIEWER                 = 'VIEWER',                 'Read-only Viewer'
+
+    class AuthorityType(models.TextChoices):
+        NONE                   = 'NONE',                   'Not Applicable'
+        CUSTOMS_AUTHORITY      = 'CUSTOMS_AUTHORITY',      'Libyan Customs Authority'
+        TAX_AUTHORITY          = 'TAX_AUTHORITY',          'Tax Authority'
+        ANTI_CORRUPTION_AUTH   = 'ANTI_CORRUPTION_AUTH',   'Anti-Corruption Authority'
+        LICENSE_AUTHORITY      = 'LICENSE_AUTHORITY',      'License & Registration Authority'
+        TRADE_MINISTRY         = 'TRADE_MINISTRY',         'Ministry of Trade & Economy'
+        CENTRAL_BANK           = 'CENTRAL_BANK',           'Central Bank of Libya'
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    role = models.CharField(max_length=25, choices=Role.choices, default=Role.COMPANY_OWNER)
+    authority_type = models.CharField(max_length=30, choices=AuthorityType.choices, default=AuthorityType.NONE)
+    phone = models.CharField(max_length=20, blank=True)
+    department = models.CharField(max_length=100, blank=True)
+    employee_id = models.CharField(max_length=50, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'User Profile'
+        verbose_name_plural = 'User Profiles'
+
+    def __str__(self):
+        return f"{self.user.username} — {self.get_role_display()}"
+
+    def is_government_official(self):
+        return self.role in [
+            self.Role.CUSTOMS_OFFICER,
+            self.Role.TAX_OFFICER,
+            self.Role.ANTI_CORRUPTION,
+            self.Role.LICENSE_REGULATOR,
+            self.Role.TRADE_MINISTRY,
+        ]
+
+    def dashboard_url(self):
+        role_urls = {
+            self.Role.ADMIN:             'admin_dashboard',
+            self.Role.COMPANY_OWNER:     'dashboard',
+            self.Role.CUSTOMS_OFFICER:   'customs_dashboard',
+            self.Role.TAX_OFFICER:       'tax_dashboard',
+            self.Role.ANTI_CORRUPTION:   'anticorruption_dashboard',
+            self.Role.LICENSE_REGULATOR: 'license_dashboard',
+            self.Role.TRADE_MINISTRY:    'ministry_dashboard',
+            self.Role.VIEWER:            'dashboard',
+        }
+        return role_urls.get(self.role, 'dashboard')
+
+
 class Company(models.Model):
     class CompanyType(models.TextChoices):
         LOCAL = 'LOCAL', 'Local'
