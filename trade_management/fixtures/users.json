@@ -1,0 +1,51 @@
+[
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$2uJb97EvoTGlqzrtuyXR4I$IDXPZDw5FrzjpdpkERe4c5mI/s+Hor4g8i7cdSz58II=",
+    "last_login": "2026-04-13T13:38:49.231Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "admin@example.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-03-27T15:46:59.259Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$Axuq0pLYbLFZzvp3IQkbaQ$79o+OHL13els3L3Iuix32GzzUHwKzuug7vPV9S5KLFE=",
+    "last_login": "2026-04-13T11:44:40.294Z",
+    "is_superuser": false,
+    "username": "Malek",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-04-13T10:57:39.984Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "trade_management.userprofile",
+  "pk": 1,
+  "fields": {
+    "user": 2,
+    "role": "ADMIN",
+    "authority_type": "CUSTOMS_AUTHORITY",
+    "phone": "",
+    "department": "",
+    "employee_id": "",
+    "created_at": "2026-04-13T10:57:41.002Z"
+  }
+}
+]
