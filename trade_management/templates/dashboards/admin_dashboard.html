@@ -1,11 +1,12 @@
 {% extends "libya_trade_dashboard/templates/base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 <div class="row mb-4">
     <div class="col-12">
-        <h3 class="mb-0"><i class="fa fa-cogs me-2 text-primary"></i>System Admin Dashboard</h3>
-        <small class="text-muted">Full system overview — User & Data Management</small>
+        <h3 class="mb-0"><i class="fa fa-cogs me-2 text-primary"></i>{% trans "System Admin Dashboard" %}</h3>
+        <small class="text-muted">{% trans "Full system overview — User & Data Management" %}</small>
     </div>
 </div>
 
@@ -15,7 +16,7 @@
         <div class="card bg-primary text-white">
             <div class="card-body text-center">
                 <h2 class="mb-0">{{ total_users }}</h2>
-                <p class="mb-0 small">Users</p>
+                <p class="mb-0 small">{% trans "Users" %}</p>
             </div>
         </div>
     </div>
@@ -23,7 +24,7 @@
         <div class="card bg-success text-white">
             <div class="card-body text-center">
                 <h2 class="mb-0">{{ total_companies }}</h2>
-                <p class="mb-0 small">Companies</p>
+                <p class="mb-0 small">{% trans "Companies" %}</p>
             </div>
         </div>
     </div>
@@ -31,7 +32,7 @@
         <div class="card bg-info text-white">
             <div class="card-body text-center">
                 <h2 class="mb-0">{{ total_permits }}</h2>
-                <p class="mb-0 small">Import Permits</p>
+                <p class="mb-0 small">{% trans "Import Permits" %}</p>
             </div>
         </div>
     </div>
@@ -39,7 +40,7 @@
         <div class="card bg-warning text-white">
             <div class="card-body text-center">
                 <h2 class="mb-0">{{ total_licenses }}</h2>
-                <p class="mb-0 small">Licenses</p>
+                <p class="mb-0 small">{% trans "Licenses" %}</p>
             </div>
         </div>
     </div>
@@ -47,7 +48,7 @@
         <div class="card bg-secondary text-white">
             <div class="card-body text-center">
                 <h2 class="mb-0">{{ total_tax_payments }}</h2>
-                <p class="mb-0 small">Tax Payments</p>
+                <p class="mb-0 small">{% trans "Tax Payments" %}</p>
             </div>
         </div>
     </div>
@@ -56,20 +57,20 @@
 <!-- Users Table -->
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
-        <h5 class="mb-0">All Users & Roles</h5>
+        <h5 class="mb-0">{% trans "All Users & Roles" %}</h5>
     </div>
     <div class="card-body p-0">
         <div class="table-responsive">
             <table class="table table-hover mb-0">
                 <thead class="table-light">
                     <tr>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Authority</th>
-                        <th>Department</th>
-                        <th>Employee ID</th>
-                        <th>Joined</th>
+                        <th>{% trans "Username" %}</th>
+                        <th>{% trans "Email" %}</th>
+                        <th>{% trans "Role" %}</th>
+                        <th>{% trans "Authority" %}</th>
+                        <th>{% trans "Department" %}</th>
+                        <th>{% trans "Employee ID" %}</th>
+                        <th>{% trans "Joined" %}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -79,19 +80,19 @@
                         <td>{{ profile.user.email }}</td>
                         <td>
                             {% if profile.role == 'ADMIN' %}
-                                <span class="badge bg-danger">Admin</span>
+                                <span class="badge bg-danger">{% trans "Admin" %}</span>
                             {% elif profile.role == 'COMPANY_OWNER' %}
-                                <span class="badge bg-primary">Company Owner</span>
+                                <span class="badge bg-primary">{% trans "Company Owner" %}</span>
                             {% elif profile.role == 'CUSTOMS_OFFICER' %}
-                                <span class="badge bg-info">Customs</span>
+                                <span class="badge bg-info">{% trans "Customs" %}</span>
                             {% elif profile.role == 'TAX_OFFICER' %}
-                                <span class="badge bg-warning text-dark">Tax</span>
+                                <span class="badge bg-warning text-dark">{% trans "Tax" %}</span>
                             {% elif profile.role == 'ANTI_CORRUPTION' %}
-                                <span class="badge bg-dark">Anti-Corruption</span>
+                                <span class="badge bg-dark">{% trans "Anti-Corruption" %}</span>
                             {% elif profile.role == 'LICENSE_REGULATOR' %}
-                                <span class="badge bg-success">License Reg.</span>
+                                <span class="badge bg-success">{% trans "License Reg." %}</span>
                             {% elif profile.role == 'TRADE_MINISTRY' %}
-                                <span class="badge bg-secondary">Ministry</span>
+                                <span class="badge bg-secondary">{% trans "Ministry" %}</span>
                             {% else %}
                                 <span class="badge bg-light text-dark">{{ profile.get_role_display }}</span>
                             {% endif %}
@@ -102,7 +103,7 @@
                         <td>{{ profile.user.date_joined|date:"d M Y" }}</td>
                     </tr>
                     {% empty %}
-                    <tr><td colspan="7" class="text-center text-muted py-4">No users found.</td></tr>
+                    <tr><td colspan="7" class="text-center text-muted py-4">{% trans "No users found." %}</td></tr>
                     {% endfor %}
                 </tbody>
             </table>

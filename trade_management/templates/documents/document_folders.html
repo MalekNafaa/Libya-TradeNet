@@ -1,11 +1,12 @@
 {% extends 'libya_trade_dashboard/templates/base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 <div class="row page-titles">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
-        <li class="breadcrumb-item active">Document Folders</li>
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">{% trans "Dashboard" %}</a></li>
+        <li class="breadcrumb-item active">{% trans "Document Folders" %}</li>
     </ol>
 </div>
 
@@ -15,7 +16,7 @@
         <div class="card bg-primary text-white">
             <div class="card-body text-center">
                 <h2 class="text-white mb-0">{{ folders|length }}</h2>
-                <span>Import Permits (Folders)</span>
+                <span>{% trans "Import Permits (Folders)" %}</span>
             </div>
         </div>
     </div>
@@ -23,7 +24,7 @@
         <div class="card bg-info text-white">
             <div class="card-body text-center">
                 <h2 class="text-white mb-0">{{ unassigned_count }}</h2>
-                <span>Unassigned Documents</span>
+                <span>{% trans "Unassigned Documents" %}</span>
             </div>
         </div>
     </div>
@@ -31,7 +32,7 @@
         <div class="card bg-success text-white">
             <div class="card-body text-center">
                 <h2 class="text-white mb-0"><i class="fa fa-folder-open"></i></h2>
-                <span>Document Repository</span>
+                <span>{% trans "Document Repository" %}</span>
             </div>
         </div>
     </div>
@@ -42,8 +43,8 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h4 class="card-title mb-0"><i class="fa fa-folder-open text-warning"></i> Trade Document Folders</h4>
-                <span class="text-muted small">Organized by Import Permit Number</span>
+                <h4 class="card-title mb-0"><i class="fa fa-folder-open text-warning"></i> {% trans "Trade Document Folders" %}</h4>
+                <span class="text-muted small">{% trans "Organized by Import Permit Number" %}</span>
             </div>
             <div class="card-body">
                 {% if folders %}
@@ -81,10 +82,10 @@
                 {% else %}
                 <div class="text-center py-5">
                     <i class="fa fa-folder-open fa-5x text-muted mb-3"></i>
-                    <h5 class="text-muted">No Import Permits Yet</h5>
-                    <p class="text-muted">Create an import permit to start organizing documents.</p>
+                    <h5 class="text-muted">{% trans "No Import Permits Yet" %}</h5>
+                    <p class="text-muted">{% trans "Create an import permit to start organizing documents." %}</p>
                     <a href="{% url 'apply_import' %}" class="btn btn-primary mt-2">
-                        <i class="fa fa-plus"></i> Apply for Import Permit
+                        <i class="fa fa-plus"></i> {% trans "Apply for Import Permit" %}
                     </a>
                 </div>
                 {% endif %}
@@ -99,11 +100,11 @@
     <div class="col-12">
         <div class="card border-warning">
             <div class="card-header bg-warning text-dark">
-                <h5 class="card-title mb-0"><i class="fa fa-exclamation-triangle"></i> Unassigned Documents</h5>
+                <h5 class="card-title mb-0"><i class="fa fa-exclamation-triangle"></i> {% trans "Unassigned Documents" %}</h5>
             </div>
             <div class="card-body">
                 <p class="mb-0">You have {{ unassigned_count }} document{{ unassigned_count|pluralize }} not linked to any import permit.</p>
-                <a href="{% url 'all_documents' %}" class="btn btn-warning btn-sm mt-2">View All Documents</a>
+                <a href="{% url 'all_documents' %}" class="btn btn-warning btn-sm mt-2">{% trans "View All Documents" %}</a>
             </div>
         </div>
     </div>

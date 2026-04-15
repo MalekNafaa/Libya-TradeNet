@@ -1,11 +1,12 @@
 {% extends 'libya_trade_dashboard/templates/base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 <div class="row page-titles">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
-        <li class="breadcrumb-item active">Compliance Reports</li>
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">{% trans "Dashboard" %}</a></li>
+        <li class="breadcrumb-item active">{% trans "Compliance Reports" %}</li>
     </ol>
 </div>
 
@@ -15,35 +16,35 @@
         <div class="card border-success">
             <div class="card-header bg-success text-white text-center">
                 <h3 class="text-white mb-0">{{ compliance_rate }}%</h3>
-                <span>Overall Compliance Rate</span>
+                <span>{% trans "Overall Compliance Rate" %}</span>
             </div>
             <div class="card-body text-center">
-                <p class="text-muted">Based on inspection results</p>
+                <p class="text-muted">{% trans "Based on inspection results" %}</p>
                 {% if compliance_rate >= 90 %}
-                    <span class="badge bg-success"><i class="fa fa-check-circle"></i> Excellent</span>
+                    <span class="badge bg-success"><i class="fa fa-check-circle"></i> {% trans "Excellent" %}</span>
                 {% elif compliance_rate >= 70 %}
-                    <span class="badge bg-warning"><i class="fa fa-exclamation-circle"></i> Good</span>
+                    <span class="badge bg-warning"><i class="fa fa-exclamation-circle"></i> {% trans "Good" %}</span>
                 {% else %}
-                    <span class="badge bg-danger"><i class="fa fa-times-circle"></i> Needs Improvement</span>
+                    <span class="badge bg-danger"><i class="fa fa-times-circle"></i> {% trans "Needs Improvement" %}</span>
                 {% endif %}
             </div>
         </div>
     </div>
     <div class="col-md-6">
         <div class="card">
-            <div class="card-header"><h5 class="card-title">Compliance Status</h5></div>
+            <div class="card-header"><h5 class="card-title">{% trans "Compliance Status" %}</h5></div>
             <div class="card-body">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item d-flex justify-content-between">
-                        <span><i class="fa fa-check text-success"></i> Passed Inspections</span>
+                        <span><i class="fa fa-check text-success"></i> {% trans "Passed Inspections" %}</span>
                         <strong>{{ passed_inspections }}</strong>
                     </li>
                     <li class="list-group-item d-flex justify-content-between">
-                        <span><i class="fa fa-exclamation text-warning"></i> Conditional</span>
+                        <span><i class="fa fa-exclamation text-warning"></i> {% trans "Conditional" %}</span>
                         <strong>{{ conditional_inspections }}</strong>
                     </li>
                     <li class="list-group-item d-flex justify-content-between">
-                        <span><i class="fa fa-times text-danger"></i> Failed</span>
+                        <span><i class="fa fa-times text-danger"></i> {% trans "Failed" %}</span>
                         <strong>{{ failed_inspections }}</strong>
                     </li>
                 </ul>
@@ -56,31 +57,31 @@
 <div class="row">
     <div class="col-md-6">
         <div class="card">
-            <div class="card-header"><h5 class="card-title">License Status</h5></div>
+            <div class="card-header"><h5 class="card-title">{% trans "License Status" %}</h5></div>
             <div class="card-body">
                 <div class="row text-center">
                     <div class="col-4">
                         <h4 class="text-success">{{ valid_licenses }}</h4>
-                        <small class="text-muted">Valid</small>
+                        <small class="text-muted">{% trans "Valid" %}</small>
                     </div>
                     <div class="col-4">
                         <h4 class="text-danger">{{ expired_licenses }}</h4>
-                        <small class="text-muted">Expired</small>
+                        <small class="text-muted">{% trans "Expired" %}</small>
                     </div>
                     <div class="col-4">
                         <h4 class="text-dark">{{ revoked_licenses }}</h4>
-                        <small class="text-muted">Revoked</small>
+                        <small class="text-muted">{% trans "Revoked" %}</small>
                     </div>
                 </div>
                 <hr>
                 {% if expired_licenses > 0 %}
                 <div class="alert alert-warning">
-                    <i class="fa fa-exclamation-triangle"></i> You have {{ expired_licenses }} expired license(s) requiring renewal.
-                    <a href="{% url 'license_renewal' %}" class="btn btn-warning btn-sm float-end">Renew Now</a>
+                    <i class="fa fa-exclamation-triangle"></i> {% trans "You have" %} {{ expired_licenses }} {% trans "expired license(s) requiring renewal." %}
+                    <a href="{% url 'license_renewal' %}" class="btn btn-warning btn-sm float-end">{% trans "Renew Now" %}</a>
                 </div>
                 {% else %}
                 <div class="alert alert-success">
-                    <i class="fa fa-check-circle"></i> All licenses are valid and up-to-date.
+                    <i class="fa fa-check-circle"></i> {% trans "All licenses are valid and up-to-date." %}
                 </div>
                 {% endif %}
             </div>
@@ -88,30 +89,30 @@
     </div>
     <div class="col-md-6">
         <div class="card">
-            <div class="card-header"><h5 class="card-title">Import Permit Compliance</h5></div>
+            <div class="card-header"><h5 class="card-title">{% trans "Import Permit Compliance" %}</h5></div>
             <div class="card-body">
                 <div class="row text-center">
                     <div class="col-4">
                         <h4 class="text-success">{{ approved_permits }}</h4>
-                        <small class="text-muted">Approved</small>
+                        <small class="text-muted">{% trans "Approved" %}</small>
                     </div>
                     <div class="col-4">
                         <h4 class="text-danger">{{ rejected_permits }}</h4>
-                        <small class="text-muted">Rejected</small>
+                        <small class="text-muted">{% trans "Rejected" %}</small>
                     </div>
                     <div class="col-4">
                         <h4 class="text-dark">{{ expired_permits }}</h4>
-                        <small class="text-muted">Expired</small>
+                        <small class="text-muted">{% trans "Expired" %}</small>
                     </div>
                 </div>
                 <hr>
                 {% if rejected_permits > 0 %}
                 <div class="alert alert-danger">
-                    <i class="fa fa-times-circle"></i> {{ rejected_permits }} permit(s) were rejected. Review and reapply if needed.
+                    <i class="fa fa-times-circle"></i> {{ rejected_permits }} {% trans "permit(s) were rejected. Review and reapply if needed." %}
                 </div>
                 {% else %}
                 <div class="alert alert-success">
-                    <i class="fa fa-check-circle"></i> No rejected permits on record.
+                    <i class="fa fa-check-circle"></i> {% trans "No rejected permits on record." %}
                 </div>
                 {% endif %}
             </div>
@@ -123,36 +124,36 @@
 <div class="row mt-4">
     <div class="col-12">
         <div class="card">
-            <div class="card-header"><h5 class="card-title">Compliance Guidelines</h5></div>
+            <div class="card-header"><h5 class="card-title">{% trans "Compliance Guidelines" %}</h5></div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
                         <div class="alert alert-info">
-                            <h6><i class="fa fa-id-card"></i> Licenses</h6>
+                            <h6><i class="fa fa-id-card"></i> {% trans "Licenses" %}</h6>
                             <ul class="small mb-0">
-                                <li>Keep licenses current</li>
-                                <li>Renew 30 days before expiry</li>
-                                <li>Display license at business premises</li>
+                                <li>{% trans "Keep licenses current" %}</li>
+                                <li>{% trans "Renew 30 days before expiry" %}</li>
+                                <li>{% trans "Display license at business premises" %}</li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="alert alert-info">
-                            <h6><i class="fa fa-file-import"></i> Imports</h6>
+                            <h6><i class="fa fa-file-import"></i> {% trans "Imports" %}</h6>
                             <ul class="small mb-0">
-                                <li>Submit accurate declarations</li>
-                                <li>Pay duties on time</li>
-                                <li>Cooperate with inspections</li>
+                                <li>{% trans "Submit accurate declarations" %}</li>
+                                <li>{% trans "Pay duties on time" %}</li>
+                                <li>{% trans "Cooperate with inspections" %}</li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="alert alert-info">
-                            <h6><i class="fa fa-clipboard-check"></i> Inspections</h6>
+                            <h6><i class="fa fa-clipboard-check"></i> {% trans "Inspections" %}</h6>
                             <ul class="small mb-0">
-                                <li>Maintain proper documentation</li>
-                                <li>Ensure goods match declaration</li>
-                                <li>Address violations promptly</li>
+                                <li>{% trans "Maintain proper documentation" %}</li>
+                                <li>{% trans "Ensure goods match declaration" %}</li>
+                                <li>{% trans "Address violations promptly" %}</li>
                             </ul>
                         </div>
                     </div>
@@ -166,17 +167,17 @@
 <div class="row mt-4">
     <div class="col-12">
         <div class="card">
-            <div class="card-header"><h5 class="card-title">Companies Overview</h5></div>
+            <div class="card-header"><h5 class="card-title">{% trans "Companies Overview" %}</h5></div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-sm">
                         <thead>
                             <tr>
-                                <th>Company</th>
-                                <th>Valid Licenses</th>
-                                <th>Approved Imports</th>
-                                <th>Inspection Pass Rate</th>
-                                <th>Status</th>
+                                <th>{% trans "Company" %}</th>
+                                <th>{% trans "Valid Licenses" %}</th>
+                                <th>{% trans "Approved Imports" %}</th>
+                                <th>{% trans "Inspection Pass Rate" %}</th>
+                                <th>{% trans "Status" %}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -186,11 +187,11 @@
                                 <td>{{ company.licenses.count }}</td>
                                 <td>{{ company.imports.count }}</td>
                                 <td>--</td>
-                                <td><span class="badge bg-success">Active</span></td>
+                                <td><span class="badge bg-success">{% trans "Active" %}</span></td>
                             </tr>
                             {% empty %}
                             <tr>
-                                <td colspan="5" class="text-center">No companies found</td>
+                                <td colspan="5" class="text-center">{% trans "No companies found" %}</td>
                             </tr>
                             {% endfor %}
                         </tbody>

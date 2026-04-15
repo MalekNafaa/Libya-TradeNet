@@ -1302,12 +1302,10 @@ def admin_dashboard(request):
 
 def set_language(request, lang_code):
     """Switch between English and Arabic with proper URL prefix"""
-    from django.utils import translation
     from django.http import HttpResponseRedirect
     from urllib.parse import urlparse
     
     if lang_code in ['en', 'ar']:
-        translation.activate(lang_code)
         request.session['django_language'] = lang_code
         request.session.modified = True
     

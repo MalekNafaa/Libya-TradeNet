@@ -1,12 +1,13 @@
 {% extends 'libya_trade_dashboard/templates/base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 <div class="row page-titles">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="{% url 'my_licenses' %}">Licenses</a></li>
-        <li class="breadcrumb-item active">Apply for License</li>
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">{% trans "Dashboard" %}</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'my_licenses' %}">{% trans "Licenses" %}</a></li>
+        <li class="breadcrumb-item active">{% trans "Apply for License" %}</li>
     </ol>
 </div>
 
@@ -14,8 +15,8 @@
     <div class="col-lg-8 col-md-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">License Application Form</h4>
-                <p class="text-muted">Complete the form below to apply for a new import license</p>
+                <h4 class="card-title">{% trans "License Application Form" %}</h4>
+                <p class="text-muted">{% trans "Complete the form below to apply for a new import license" %}</p>
             </div>
             <div class="card-body">
                 <form method="post" enctype="multipart/form-data" class="js-form-submit">
@@ -24,13 +25,13 @@
                     <!-- General Information -->
                     <div class="form-section mb-4">
                         <h5 class="border-bottom pb-2 mb-3">
-                            <i class="fa fa-info-circle text-primary"></i> General Information
+                            <i class="fa fa-info-circle text-primary"></i> {% trans "General Information" %}
                         </h5>
                         
                         <div class="mb-3">
-                            <label for="company" class="form-label">Company <span class="text-danger">*</span></label>
+                            <label for="company" class="form-label">{% trans "Company" %} <span class="text-danger">*</span></label>
                             <select class="form-select" id="company" name="company" required>
-                                <option value="">Select Company</option>
+                                <option value="">{% trans "Select Company" %}</option>
                                 {% for company in companies %}
                                 <option value="{{ company.id }}">{{ company.name }} ({{ company.company_number }})</option>
                                 {% endfor %}
@@ -41,34 +42,34 @@
                     <!-- License Details -->
                     <div class="form-section mb-4">
                         <h5 class="border-bottom pb-2 mb-3">
-                            <i class="fa fa-id-card text-primary"></i> License Details
+                            <i class="fa fa-id-card text-primary"></i> {% trans "License Details" %}
                         </h5>
                         
                         <div class="mb-3">
-                            <label for="license_type" class="form-label">License Type <span class="text-danger">*</span></label>
+                            <label for="license_type" class="form-label">{% trans "License Type" %} <span class="text-danger">*</span></label>
                             <select class="form-select" id="license_type" name="license_type" required onchange="updateFee()">
-                                <option value="">Select License Type</option>
+                                <option value="">{% trans "Select License Type" %}</option>
                                 {% for type_code, type_name in license_types %}
                                 <option value="{{ type_code }}">{{ type_name }}</option>
                                 {% endfor %}
                             </select>
-                            <small class="text-muted">Select the category of goods you intend to import</small>
+                            <small class="text-muted">{% trans "Select the category of goods you intend to import" %}</small>
                         </div>
 
                         <div class="mb-3">
-                            <label for="proposed_items" class="form-label">Proposed Import Items <span class="text-danger">*</span></label>
+                            <label for="proposed_items" class="form-label">{% trans "Proposed Import Items" %} <span class="text-danger">*</span></label>
                             <textarea class="form-control" id="proposed_items" name="proposed_items" rows="3" required
                                 placeholder="Describe the goods you plan to import (e.g., Medical equipment, electronics, food products...)"></textarea>
                         </div>
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="estimated_value" class="form-label">Estimated Annual Value (USD)</label>
+                                <label for="estimated_value" class="form-label">{% trans "Estimated Annual Value (USD)" %}</label>
                                 <input type="number" class="form-control" id="estimated_value" name="estimated_value" 
                                     placeholder="e.g., 50000" min="0" step="0.01">
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="country_of_origin" class="form-label">Primary Country of Origin</label>
+                                <label for="country_of_origin" class="form-label">{% trans "Primary Country of Origin" %}</label>
                                 <input type="text" class="form-control" id="country_of_origin" name="country_of_origin" 
                                     placeholder="e.g., China, Turkey, UAE">
                             </div>
@@ -78,24 +79,24 @@
                     <!-- Supporting Documents -->
                     <div class="form-section mb-4">
                         <h5 class="border-bottom pb-2 mb-3">
-                            <i class="fa fa-folder-open text-primary"></i> Supporting Documents
+                            <i class="fa fa-folder-open text-primary"></i> {% trans "Supporting Documents" %}
                         </h5>
-                        <p class="text-muted small mb-3">Upload the following required documents (PDF, JPG, or PNG)</p>
+                        <p class="text-muted small mb-3">{% trans "Upload the following required documents (PDF, JPG, or PNG)" %}</p>
                         
                         <div class="mb-3">
-                            <label for="business_reg" class="form-label">Business Registration Certificate</label>
+                            <label for="business_reg" class="form-label">{% trans "Business Registration Certificate" %}</label>
                             <input type="file" class="form-control" id="business_reg" name="business_reg" 
                                 accept=".pdf,.jpg,.jpeg,.png">
                         </div>
 
                         <div class="mb-3">
-                            <label for="tax_clearance" class="form-label">Tax Clearance Certificate</label>
+                            <label for="tax_clearance" class="form-label">{% trans "Tax Clearance Certificate" %}</label>
                             <input type="file" class="form-control" id="tax_clearance" name="tax_clearance" 
                                 accept=".pdf,.jpg,.jpeg,.png">
                         </div>
 
                         <div class="mb-3">
-                            <label for="bank_reference" class="form-label">Bank Reference Letter</label>
+                            <label for="bank_reference" class="form-label">{% trans "Bank Reference Letter" %}</label>
                             <input type="file" class="form-control" id="bank_reference" name="bank_reference" 
                                 accept=".pdf,.jpg,.jpeg,.png">
                         </div>
@@ -104,18 +105,18 @@
                     <!-- Application Fee -->
                     <div class="form-section mb-4">
                         <h5 class="border-bottom pb-2 mb-3">
-                            <i class="fa fa-money-bill text-primary"></i> Application Fee
+                            <i class="fa fa-money-bill text-primary"></i> {% trans "Application Fee" %}
                         </h5>
                         
                         <div class="alert alert-info">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <strong>Application Fee:</strong>
+                                    <strong>{% trans "Application Fee:" %}</strong>
                                     <span id="fee_amount" class="h4 ms-2">$0.00</span>
                                 </div>
                                 <div class="text-end">
-                                    <small class="d-block text-muted">Fee varies by license type</small>
-                                    <small class="d-block text-muted">Payment due after approval</small>
+                                    <small class="d-block text-muted">{% trans "Fee varies by license type" %}</small>
+                                    <small class="d-block text-muted">{% trans "Payment due after approval" %}</small>
                                 </div>
                             </div>
                         </div>
@@ -123,15 +124,15 @@
                         <div class="form-check mb-3">
                             <input class="form-check-input" type="checkbox" id="terms" name="terms" required>
                             <label class="form-check-label" for="terms">
-                                I confirm that all information provided is accurate and complete. I understand that providing false information may result in rejection of this application and potential legal consequences.
+                                {% trans "I confirm that all information provided is accurate and complete. I understand that providing false information may result in rejection of this application and potential legal consequences." %}
                             </label>
                         </div>
                     </div>
 
                     <div class="d-flex justify-content-between">
-                        <a href="{% url 'my_licenses' %}" class="btn btn-light">Cancel</a>
+                        <a href="{% url 'my_licenses' %}" class="btn btn-light">{% trans "Cancel" %}</a>
                         <button type="submit" class="btn btn-primary">
-                            <i class="fa fa-paper-plane"></i> Submit Application
+                            <i class="fa fa-paper-plane"></i> {% trans "Submit Application" %}
                         </button>
                     </div>
                 </form>
@@ -143,19 +144,19 @@
     <div class="col-lg-4 col-md-12">
         <div class="card">
             <div class="card-header">
-                <h5 class="card-title">Fee Schedule</h5>
+                <h5 class="card-title">{% trans "Fee Schedule" %}</h5>
             </div>
             <div class="card-body">
                 <table class="table table-sm">
                     <tbody>
-                        <tr><td>Medical</td><td class="text-end"><strong>$500.00</strong></td></tr>
-                        <tr><td>Chemical</td><td class="text-end"><strong>$600.00</strong></td></tr>
-                        <tr><td>Automotive</td><td class="text-end"><strong>$550.00</strong></td></tr>
-                        <tr><td>Construction</td><td class="text-end"><strong>$450.00</strong></td></tr>
-                        <tr><td>Food</td><td class="text-end"><strong>$400.00</strong></td></tr>
-                        <tr><td>Electronics</td><td class="text-end"><strong>$350.00</strong></td></tr>
-                        <tr><td>Textile</td><td class="text-end"><strong>$300.00</strong></td></tr>
-                        <tr><td>Other</td><td class="text-end"><strong>$250.00</strong></td></tr>
+                        <tr><td>{% trans "Medical" %}</td><td class="text-end"><strong>$500.00</strong></td></tr>
+                        <tr><td>{% trans "Chemical" %}</td><td class="text-end"><strong>$600.00</strong></td></tr>
+                        <tr><td>{% trans "Automotive" %}</td><td class="text-end"><strong>$550.00</strong></td></tr>
+                        <tr><td>{% trans "Construction" %}</td><td class="text-end"><strong>$450.00</strong></td></tr>
+                        <tr><td>{% trans "Food" %}</td><td class="text-end"><strong>$400.00</strong></td></tr>
+                        <tr><td>{% trans "Electronics" %}</td><td class="text-end"><strong>$350.00</strong></td></tr>
+                        <tr><td>{% trans "Textile" %}</td><td class="text-end"><strong>$300.00</strong></td></tr>
+                        <tr><td>{% trans "Other" %}</td><td class="text-end"><strong>$250.00</strong></td></tr>
                     </tbody>
                 </table>
             </div>
@@ -163,15 +164,15 @@
 
         <div class="card">
             <div class="card-header">
-                <h5 class="card-title">Application Process</h5>
+                <h5 class="card-title">{% trans "Application Process" %}</h5>
             </div>
             <div class="card-body">
                 <ol class="list-group list-group-numbered list-group-flush">
-                    <li class="list-group-item">Submit application with required documents</li>
-                    <li class="list-group-item">Application review (3-5 business days)</li>
-                    <li class="list-group-item">Background check verification</li>
-                    <li class="list-group-item">Pay application fee upon approval</li>
-                    <li class="list-group-item">License issued and delivered</li>
+                    <li class="list-group-item">{% trans "Submit application with required documents" %}</li>
+                    <li class="list-group-item">{% trans "Application review (3-5 business days)" %}</li>
+                    <li class="list-group-item">{% trans "Background check verification" %}</li>
+                    <li class="list-group-item">{% trans "Pay application fee upon approval" %}</li>
+                    <li class="list-group-item">{% trans "License issued and delivered" %}</li>
                 </ol>
             </div>
         </div>

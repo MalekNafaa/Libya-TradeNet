@@ -1,11 +1,12 @@
 {% extends 'libya_trade_dashboard/templates/base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 <div class="row page-titles">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
-        <li class="breadcrumb-item active">Manage Users</li>
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">{% trans "Dashboard" %}</a></li>
+        <li class="breadcrumb-item active">{% trans "Manage Users" %}</li>
     </ol>
 </div>
 
@@ -13,9 +14,9 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h4 class="card-title mb-0">Company Users</h4>
+                <h4 class="card-title mb-0">{% trans "Company Users" %}</h4>
                 <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addUserModal">
-                    <i class="fa fa-plus"></i> Add User
+                    <i class="fa fa-plus"></i> {% trans "Add User" %}
                 </button>
             </div>
             <div class="card-body">
@@ -23,12 +24,12 @@
                     <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th>User</th>
-                                <th>Email</th>
-                                <th>Company</th>
-                                <th>Role</th>
-                                <th>Status</th>
-                                <th>Actions</th>
+                                <th>{% trans "User" %}</th>
+                                <th>{% trans "Email" %}</th>
+                                <th>{% trans "Company" %}</th>
+                                <th>{% trans "Role" %}</th>
+                                <th>{% trans "Status" %}</th>
+                                <th>{% trans "Actions" %}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -39,8 +40,8 @@
                                 </td>
                                 <td>{{ user.email }}</td>
                                 <td>{% for company in companies %}{{ company.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
-                                <td><span class="badge bg-primary">Owner</span></td>
-                                <td><span class="badge bg-success">Active</span></td>
+                                <td><span class="badge bg-primary">{% trans "Owner" %}</span></td>
+                                <td><span class="badge bg-success">{% trans "Active" %}</span></td>
                                 <td>
                                     <button class="btn btn-info btn-xs"><i class="fa fa-edit"></i></button>
                                     <button class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>
@@ -49,7 +50,7 @@
                             {% empty %}
                             <tr>
                                 <td colspan="6" class="text-center py-4">
-                                    <p class="text-muted mb-0">No users found.</p>
+                                    <p class="text-muted mb-0">{% trans "No users found." %}</p>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -64,24 +65,24 @@
 <div class="row">
     <div class="col-md-6">
         <div class="card">
-            <div class="card-header"><h5 class="card-title">Role Permissions</h5></div>
+            <div class="card-header"><h5 class="card-title">{% trans "Role Permissions" %}</h5></div>
             <div class="card-body">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item d-flex justify-content-between">
                         <span><strong>Owner</strong></span>
-                        <span class="text-muted">Full access</span>
+                        <span class="text-muted">{% trans "Full access" %}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between">
                         <span><strong>Manager</strong></span>
-                        <span class="text-muted">Can manage imports & licenses</span>
+                        <span class="text-muted">{% trans "Can manage imports & licenses" %}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between">
                         <span><strong>Accountant</strong></span>
-                        <span class="text-muted">Financial access only</span>
+                        <span class="text-muted">{% trans "Financial access only" %}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between">
                         <span><strong>Viewer</strong></span>
-                        <span class="text-muted">Read-only access</span>
+                        <span class="text-muted">{% trans "Read-only access" %}</span>
                     </li>
                 </ul>
             </div>
@@ -89,13 +90,13 @@
     </div>
     <div class="col-md-6">
         <div class="card">
-            <div class="card-header"><h5 class="card-title">User Guidelines</h5></div>
+            <div class="card-header"><h5 class="card-title">{% trans "User Guidelines" %}</h5></div>
             <div class="card-body">
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><i class="fa fa-check text-success"></i> Each user must have unique email</li>
-                    <li class="list-group-item"><i class="fa fa-check text-success"></i> Assign appropriate role</li>
-                    <li class="list-group-item"><i class="fa fa-check text-success"></i> Deactivate, don't delete ex-users</li>
-                    <li class="list-group-item"><i class="fa fa-check text-success"></i> Regular password updates</li>
+                    <li class="list-group-item"><i class="fa fa-check text-success"></i> {% trans "Each user must have unique email" %}</li>
+                    <li class="list-group-item"><i class="fa fa-check text-success"></i> {% trans "Assign appropriate role" %}</li>
+                    <li class="list-group-item"><i class="fa fa-check text-success"></i> {% trans "Deactivate, don't delete ex-users" %}</li>
+                    <li class="list-group-item"><i class="fa fa-check text-success"></i> {% trans "Regular password updates" %}</li>
                 </ul>
             </div>
         </div>
@@ -109,20 +110,20 @@
             <form method="post">
                 {% csrf_token %}
                 <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title text-white">Add New User</h5>
+                    <h5 class="modal-title text-white">{% trans "Add New User" %}</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label">Full Name</label>
+                        <label class="form-label">{% trans "Full Name" %}</label>
                         <input type="text" class="form-control" placeholder="Enter full name" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Email</label>
+                        <label class="form-label">{% trans "Email" %}</label>
                         <input type="email" class="form-control" placeholder="Enter email address" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Role</label>
+                        <label class="form-label">{% trans "Role" %}</label>
                         <select class="form-select">
                             <option value="manager">Manager</option>
                             <option value="accountant">Accountant</option>
@@ -130,7 +131,7 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Company</label>
+                        <label class="form-label">{% trans "Company" %}</label>
                         <select class="form-select">
                             {% for company in companies %}
                             <option value="{{ company.id }}">{{ company.name }}</option>
@@ -139,8 +140,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Add User</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "Cancel" %}</button>
+                    <button type="submit" class="btn btn-primary">{% trans "Add User" %}</button>
                 </div>
             </form>
         </div>

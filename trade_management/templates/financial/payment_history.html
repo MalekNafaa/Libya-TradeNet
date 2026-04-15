@@ -1,12 +1,13 @@
 {% extends 'libya_trade_dashboard/templates/base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 <div class="row page-titles">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="{% url 'financial_dashboard' %}">Financial</a></li>
-        <li class="breadcrumb-item active">Payment History</li>
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">{% trans "Dashboard" %}</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'financial_dashboard' %}">{% trans "Financial" %}</a></li>
+        <li class="breadcrumb-item active">{% trans "Payment History" %}</li>
     </ol>
 </div>
 
@@ -16,8 +17,8 @@
         <div class="card bg-success text-white">
             <div class="card-body d-flex justify-content-between align-items-center">
                 <div>
-                    <h4 class="text-white mb-0">Total Payments Made</h4>
-                    <small>All completed transactions</small>
+                    <h4 class="text-white mb-0">{% trans "Total Payments Made" %}</h4>
+                    <small>{% trans "All completed transactions" %}</small>
                 </div>
                 <h2 class="text-white mb-0">${{ total_paid|floatformat:2 }}</h2>
             </div>
@@ -30,19 +31,19 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">Transaction History</h4>
+                <h4 class="card-title">{% trans "Transaction History" %}</h4>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th>Date</th>
-                                <th>Type</th>
-                                <th>Reference</th>
-                                <th>Description</th>
-                                <th>Amount</th>
-                                <th>Status</th>
+                                <th>{% trans "Date" %}</th>
+                                <th>{% trans "Type" %}</th>
+                                <th>{% trans "Reference" %}</th>
+                                <th>{% trans "Description" %}</th>
+                                <th>{% trans "Amount" %}</th>
+                                <th>{% trans "Status" %}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -66,7 +67,7 @@
                             {% empty %}
                             <tr>
                                 <td colspan="6" class="text-center py-4">
-                                    <p class="text-muted mb-0">No payment history found.</p>
+                                    <p class="text-muted mb-0">{% trans "No payment history found." %}</p>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -82,18 +83,18 @@
 <div class="row mt-4">
     <div class="col-12">
         <div class="card">
-            <div class="card-header"><h5 class="card-title">Payment Receipts</h5></div>
+            <div class="card-header"><h5 class="card-title">{% trans "Payment Receipts" %}</h5></div>
             <div class="card-body">
-                <p class="text-muted">Official receipts for your payments can be downloaded from here. Receipts include:</p>
+                <p class="text-muted">{% trans "Official receipts for your payments can be downloaded from here. Receipts include:" %}</p>
                 <ul>
-                    <li>Transaction reference number</li>
-                    <li>Date and time of payment</li>
-                    <li>Payment method used</li>
-                    <li>Amount paid with breakdown</li>
-                    <li>Official stamp and signature</li>
+                    <li>{% trans "Transaction reference number" %}</li>
+                    <li>{% trans "Date and time of payment" %}</li>
+                    <li>{% trans "Payment method used" %}</li>
+                    <li>{% trans "Amount paid with breakdown" %}</li>
+                    <li>{% trans "Official stamp and signature" %}</li>
                 </ul>
                 <div class="alert alert-info">
-                    <i class="fa fa-info-circle"></i> Keep your receipts for accounting and audit purposes.
+                    <i class="fa fa-info-circle"></i> {% trans "Keep your receipts for accounting and audit purposes." %}
                 </div>
             </div>
         </div>

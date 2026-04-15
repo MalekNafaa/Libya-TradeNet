@@ -1,12 +1,13 @@
 {% extends 'libya_trade_dashboard/templates/base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 <div class="row page-titles">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="{% url 'my_licenses' %}">Licenses</a></li>
-        <li class="breadcrumb-item active">Application Status</li>
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">{% trans "Dashboard" %}</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'my_licenses' %}">{% trans "Licenses" %}</a></li>
+        <li class="breadcrumb-item active">{% trans "Application Status" %}</li>
     </ol>
 </div>
 
@@ -16,7 +17,7 @@
         <div class="card {% if current_filter == 'DRAFT' %}border-primary{% endif %}">
             <div class="card-body text-center">
                 <h3 class="text-primary">{{ draft_count }}</h3>
-                <span class="text-muted">Draft</span>
+                <span class="text-muted">{% trans "Draft" %}</span>
             </div>
         </div>
     </div>
@@ -24,7 +25,7 @@
         <div class="card {% if current_filter == 'SUBMITTED' %}border-info{% endif %}">
             <div class="card-body text-center">
                 <h3 class="text-info">{{ submitted_count }}</h3>
-                <span class="text-muted">Submitted</span>
+                <span class="text-muted">{% trans "Submitted" %}</span>
             </div>
         </div>
     </div>
@@ -32,7 +33,7 @@
         <div class="card {% if current_filter == 'UNDER_REVIEW' %}border-warning{% endif %}">
             <div class="card-body text-center">
                 <h3 class="text-warning">{{ under_review_count }}</h3>
-                <span class="text-muted">Under Review</span>
+                <span class="text-muted">{% trans "Under Review" %}</span>
             </div>
         </div>
     </div>
@@ -40,7 +41,7 @@
         <div class="card {% if current_filter == 'APPROVED' %}border-success{% endif %}">
             <div class="card-body text-center">
                 <h3 class="text-success">{{ approved_count }}</h3>
-                <span class="text-muted">Approved</span>
+                <span class="text-muted">{% trans "Approved" %}</span>
             </div>
         </div>
     </div>
@@ -48,7 +49,7 @@
         <div class="card {% if current_filter == 'REJECTED' %}border-danger{% endif %}">
             <div class="card-body text-center">
                 <h3 class="text-danger">{{ rejected_count }}</h3>
-                <span class="text-muted">Rejected</span>
+                <span class="text-muted">{% trans "Rejected" %}</span>
             </div>
         </div>
     </div>
@@ -56,7 +57,7 @@
         <div class="card">
             <div class="card-body text-center">
                 <h3>{{ applications.count }}</h3>
-                <span class="text-muted">Total</span>
+                <span class="text-muted">{% trans "Total" %}</span>
             </div>
         </div>
     </div>
@@ -66,15 +67,15 @@
 <div class="row mb-3">
     <div class="col-12">
         <div class="btn-group" role="group">
-            <a href="{% url 'application_status' %}" class="btn btn-outline-secondary {% if not current_filter %}active{% endif %}">All</a>
-            <a href="?status=DRAFT" class="btn btn-outline-secondary {% if current_filter == 'DRAFT' %}active{% endif %}">Draft</a>
-            <a href="?status=SUBMITTED" class="btn btn-outline-secondary {% if current_filter == 'SUBMITTED' %}active{% endif %}">Submitted</a>
-            <a href="?status=UNDER_REVIEW" class="btn btn-outline-secondary {% if current_filter == 'UNDER_REVIEW' %}active{% endif %}">Under Review</a>
-            <a href="?status=APPROVED" class="btn btn-outline-secondary {% if current_filter == 'APPROVED' %}active{% endif %}">Approved</a>
-            <a href="?status=REJECTED" class="btn btn-outline-secondary {% if current_filter == 'REJECTED' %}active{% endif %}">Rejected</a>
+            <a href="{% url 'application_status' %}" class="btn btn-outline-secondary {% if not current_filter %}active{% endif %}">{% trans "All" %}</a>
+            <a href="?status=DRAFT" class="btn btn-outline-secondary {% if current_filter == 'DRAFT' %}active{% endif %}">{% trans "Draft" %}</a>
+            <a href="?status=SUBMITTED" class="btn btn-outline-secondary {% if current_filter == 'SUBMITTED' %}active{% endif %}">{% trans "Submitted" %}</a>
+            <a href="?status=UNDER_REVIEW" class="btn btn-outline-secondary {% if current_filter == 'UNDER_REVIEW' %}active{% endif %}">{% trans "Under Review" %}</a>
+            <a href="?status=APPROVED" class="btn btn-outline-secondary {% if current_filter == 'APPROVED' %}active{% endif %}">{% trans "Approved" %}</a>
+            <a href="?status=REJECTED" class="btn btn-outline-secondary {% if current_filter == 'REJECTED' %}active{% endif %}">{% trans "Rejected" %}</a>
         </div>
         <a href="{% url 'apply_license' %}" class="btn btn-primary float-end">
-            <i class="fa fa-plus"></i> New Application
+            <i class="fa fa-plus"></i> {% trans "New Application" %}
         </a>
     </div>
 </div>
@@ -84,21 +85,21 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">License Applications</h4>
+                <h4 class="card-title">{% trans "License Applications" %}</h4>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover">
                         <thead class="thead-dark">
                             <tr>
-                                <th>Application #</th>
-                                <th>Company</th>
-                                <th>License Type</th>
-                                <th>Submitted</th>
-                                <th>Status</th>
-                                <th>Progress</th>
-                                <th>Reviewed By</th>
-                                <th>Actions</th>
+                                <th>{% trans "Application #" %}</th>
+                                <th>{% trans "Company" %}</th>
+                                <th>{% trans "License Type" %}</th>
+                                <th>{% trans "Submitted" %}</th>
+                                <th>{% trans "Status" %}</th>
+                                <th>{% trans "Progress" %}</th>
+                                <th>{% trans "Reviewed By" %}</th>
+                                <th>{% trans "Actions" %}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -111,20 +112,20 @@
                                     {% if app.submitted_at %}
                                         {{ app.submitted_at|date:"M d, Y H:i" }}
                                     {% else %}
-                                        <span class="text-muted">Not submitted</span>
+                                        <span class="text-muted">{% trans "Not submitted" %}</span>
                                     {% endif %}
                                 </td>
                                 <td>
                                     {% if app.status == 'DRAFT' %}
-                                        <span class="badge bg-secondary">Draft</span>
+                                        <span class="badge bg-secondary">{% trans "Draft" %}</span>
                                     {% elif app.status == 'SUBMITTED' %}
-                                        <span class="badge bg-info">Submitted</span>
+                                        <span class="badge bg-info">{% trans "Submitted" %}</span>
                                     {% elif app.status == 'UNDER_REVIEW' %}
-                                        <span class="badge bg-warning">Under Review</span>
+                                        <span class="badge bg-warning">{% trans "Under Review" %}</span>
                                     {% elif app.status == 'APPROVED' %}
-                                        <span class="badge bg-success">Approved</span>
+                                        <span class="badge bg-success">{% trans "Approved" %}</span>
                                     {% elif app.status == 'REJECTED' %}
-                                        <span class="badge bg-danger">Rejected</span>
+                                        <span class="badge bg-danger">{% trans "Rejected" %}</span>
                                     {% else %}
                                         <span class="badge bg-dark">{{ app.get_status_display }}</span>
                                     {% endif %}
@@ -149,20 +150,20 @@
                                         {{ app.reviewed_by.get_full_name|default:app.reviewed_by.username }}
                                         <br><small class="text-muted">{{ app.reviewed_at|date:"M d, Y" }}</small>
                                     {% else %}
-                                        <span class="text-muted">Pending</span>
+                                        <span class="text-muted">{% trans "Pending" %}</span>
                                     {% endif %}
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#appModal{{ app.id }}">
-                                        <i class="fa fa-eye"></i> Details
+                                        <i class="fa fa-eye"></i> {% trans "Details" %}
                                     </button>
                                 </td>
                             </tr>
                             {% empty %}
                             <tr>
                                 <td colspan="8" class="text-center py-4">
-                                    <p class="text-muted mb-3">No applications found.</p>
-                                    <a href="{% url 'apply_license' %}" class="btn btn-primary">Submit Your First Application</a>
+                                    <p class="text-muted mb-3">{% trans "No applications found." %}</p>
+                                    <a href="{% url 'apply_license' %}" class="btn btn-primary">{% trans "Submit Your First Application" %}</a>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -180,39 +181,39 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Application Details - {{ app.application_number }}</h5>
+                <h5 class="modal-title">{% trans "Application Details" %} - {{ app.application_number }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <p><strong>Company:</strong> {{ app.company.name }}</p>
-                        <p><strong>License Type:</strong> {{ app.get_license_type_display }}</p>
-                        <p><strong>Status:</strong> {{ app.get_status_display }}</p>
+                        <p><strong>{% trans "Company:" %}</strong> {{ app.company.name }}</p>
+                        <p><strong>{% trans "License Type:" %}</strong> {{ app.get_license_type_display }}</p>
+                        <p><strong>{% trans "Status:" %}</strong> {{ app.get_status_display }}</p>
                     </div>
                     <div class="col-md-6">
-                        <p><strong>Submitted:</strong> {{ app.submitted_at|date:"M d, Y H:i"|default:"Not submitted" }}</p>
-                        <p><strong>Created:</strong> {{ app.created_at|date:"M d, Y" }}</p>
-                        <p><strong>Last Updated:</strong> {{ app.updated_at|date:"M d, Y H:i" }}</p>
+                        <p><strong>{% trans "Submitted:" %}</strong> {{ app.submitted_at|date:"M d, Y H:i"|default:_('Not submitted') }}</p>
+                        <p><strong>{% trans "Created:" %}</strong> {{ app.created_at|date:"M d, Y" }}</p>
+                        <p><strong>{% trans "Last Updated:" %}</strong> {{ app.updated_at|date:"M d, Y H:i" }}</p>
                     </div>
                 </div>
                 
                 <hr>
                 
-                <h6>Proposed Import Items:</h6>
+                <h6>{% trans "Proposed Import Items:" %}</h6>
                 <p class="text-muted">{{ app.proposed_import_items|linebreaks }}</p>
                 
                 {% if app.estimated_annual_value > 0 %}
-                <p><strong>Estimated Annual Value:</strong> ${{ app.estimated_annual_value }}</p>
+                <p><strong>{% trans "Estimated Annual Value:" %}</strong> ${{ app.estimated_annual_value }}</p>
                 {% endif %}
                 
                 {% if app.country_of_origin %}
-                <p><strong>Country of Origin:</strong> {{ app.country_of_origin }}</p>
+                <p><strong>{% trans "Country of Origin:" %}</strong> {{ app.country_of_origin }}</p>
                 {% endif %}
                 
                 {% if app.review_notes %}
                 <hr>
-                <h6>Review Notes:</h6>
+                <h6>{% trans "Review Notes:" %}</h6>
                 <div class="alert alert-info">
                     {{ app.review_notes|linebreaks }}
                 </div>
@@ -220,18 +221,18 @@
                 
                 {% if app.status == 'REJECTED' %}
                 <div class="alert alert-danger">
-                    <strong>This application was rejected.</strong> You may submit a new application after addressing the issues noted above.
+                    <strong>{% trans "This application was rejected." %}</strong> {% trans "You may submit a new application after addressing the issues noted above." %}
                 </div>
                 {% elif app.status == 'APPROVED' %}
                 <div class="alert alert-success">
-                    <strong>Congratulations!</strong> Your license application has been approved. Please complete the payment to receive your license.
+                    <strong>{% trans "Congratulations!" %}</strong> {% trans "Your license application has been approved. Please complete the payment to receive your license." %}
                 </div>
                 {% endif %}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "Close" %}</button>
                 {% if app.status == 'DRAFT' %}
-                <button type="button" class="btn btn-primary">Continue Editing</button>
+                <button type="button" class="btn btn-primary">{% trans "Continue Editing" %}</button>
                 {% endif %}
             </div>
         </div>

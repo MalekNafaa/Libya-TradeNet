@@ -1,12 +1,13 @@
 {% extends 'libya_trade_dashboard/templates/base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 <div class="row page-titles">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="{% url 'financial_dashboard' %}">Financial</a></li>
-        <li class="breadcrumb-item active">Tax Payments</li>
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">{% trans "Dashboard" %}</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'financial_dashboard' %}">{% trans "Financial" %}</a></li>
+        <li class="breadcrumb-item active">{% trans "Tax Payments" %}</li>
     </ol>
 </div>
 
@@ -16,7 +17,7 @@
         <div class="card bg-success text-white">
             <div class="card-body text-center">
                 <h3 class="text-white">{{ paid_count }}</h3>
-                <span>Paid</span>
+                <span>{% trans "Paid" %}</span>
             </div>
         </div>
     </div>
@@ -24,7 +25,7 @@
         <div class="card bg-warning text-white">
             <div class="card-body text-center">
                 <h3 class="text-white">{{ pending_count }}</h3>
-                <span>Pending</span>
+                <span>{% trans "Pending" %}</span>
             </div>
         </div>
     </div>
@@ -32,7 +33,7 @@
         <div class="card bg-danger text-white">
             <div class="card-body text-center">
                 <h3 class="text-white">{{ overdue_count }}</h3>
-                <span>Overdue</span>
+                <span>{% trans "Overdue" %}</span>
             </div>
         </div>
     </div>
@@ -43,22 +44,22 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h4 class="card-title mb-0">Tax Payments</h4>
-                <a href="{% url 'outstanding_balances' %}" class="btn btn-primary btn-sm">Pay Now</a>
+                <h4 class="card-title mb-0">{% trans "Tax Payments" %}</h4>
+                <a href="{% url 'outstanding_balances' %}" class="btn btn-primary btn-sm">{% trans "Pay Now" %}</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th>Tax Number</th>
-                                <th>Company</th>
-                                <th>Import Permit</th>
-                                <th>Tax Type</th>
-                                <th>Amount</th>
-                                <th>Due Date</th>
-                                <th>Status</th>
-                                <th>Actions</th>
+                                <th>{% trans "Tax Number" %}</th>
+                                <th>{% trans "Company" %}</th>
+                                <th>{% trans "Import Permit" %}</th>
+                                <th>{% trans "Tax Type" %}</th>
+                                <th>{% trans "Amount" %}</th>
+                                <th>{% trans "Due Date" %}</th>
+                                <th>{% trans "Status" %}</th>
+                                <th>{% trans "Actions" %}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -72,29 +73,29 @@
                                 <td>{{ tax.due_date|date:"M d, Y" }}</td>
                                 <td>
                                     {% if tax.payment_status == 'PAID' %}
-                                        <span class="badge bg-success"><i class="fa fa-check"></i> Paid</span>
+                                        <span class="badge bg-success"><i class="fa fa-check"></i> {% trans "Paid" %}</span>
                                     {% elif tax.payment_status == 'PENDING' %}
-                                        <span class="badge bg-warning"><i class="fa fa-clock"></i> Pending</span>
+                                        <span class="badge bg-warning"><i class="fa fa-clock"></i> {% trans "Pending" %}</span>
                                     {% elif tax.payment_status == 'OVERDUE' %}
-                                        <span class="badge bg-danger"><i class="fa fa-exclamation"></i> Overdue</span>
+                                        <span class="badge bg-danger"><i class="fa fa-exclamation"></i> {% trans "Overdue" %}</span>
                                     {% elif tax.payment_status == 'WAIVED' %}
-                                        <span class="badge bg-secondary"><i class="fa fa-ban"></i> Waived</span>
+                                        <span class="badge bg-secondary"><i class="fa fa-ban"></i> {% trans "Waived" %}</span>
                                     {% endif %}
                                 </td>
                                 <td>
                                     {% if tax.payment_status != 'PAID' and tax.payment_status != 'WAIVED' %}
                                     <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#payModal{{ tax.id }}">
-                                        <i class="fa fa-credit-card"></i> Pay
+                                        <i class="fa fa-credit-card"></i> {% trans "Pay" %}
                                     </button>
                                     {% else %}
-                                        <span class="text-success"><i class="fa fa-check"></i> Completed</span>
+                                        <span class="text-success"><i class="fa fa-check"></i> {% trans "Completed" %}</span>
                                     {% endif %}
                                 </td>
                             </tr>
                             {% empty %}
                             <tr>
                                 <td colspan="8" class="text-center py-4">
-                                    <p class="text-muted mb-0">No tax payments found.</p>
+                                    <p class="text-muted mb-0">{% trans "No tax payments found." %}</p>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -110,25 +111,25 @@
 <div class="row mt-4">
     <div class="col-12">
         <div class="card">
-            <div class="card-header"><h5 class="card-title">Tax Types & Rates</h5></div>
+            <div class="card-header"><h5 class="card-title">{% trans "Tax Types & Rates" %}</h5></div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
                         <div class="alert alert-info">
-                            <h6><i class="fa fa-percent"></i> Import Duty</h6>
-                            <p class="mb-0">Applied on CIF value. Rates vary by product category (5% - 20%).</p>
+                            <h6><i class="fa fa-percent"></i> {% trans "Import Duty" %}</h6>
+                            <p class="mb-0">{% trans "Applied on CIF value. Rates vary by product category (5% - 20%)." %}</p>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="alert alert-warning">
-                            <h6><i class="fa fa-box"></i> Customs Processing</h6>
-                            <p class="mb-0">Fixed fee for processing import documentation.</p>
+                            <h6><i class="fa fa-box"></i> {% trans "Customs Processing" %}</h6>
+                            <p class="mb-0">{% trans "Fixed fee for processing import documentation." %}</p>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="alert alert-danger">
-                            <h6><i class="fa fa-gavel"></i> Late Penalties</h6>
-                            <p class="mb-0">2% per month on unpaid taxes after due date.</p>
+                            <h6><i class="fa fa-gavel"></i> {% trans "Late Penalties" %}</h6>
+                            <p class="mb-0">{% trans "2% per month on unpaid taxes after due date." %}</p>
                         </div>
                     </div>
                 </div>
@@ -147,23 +148,23 @@
                 {% csrf_token %}
                 <input type="hidden" name="tax_id" value="{{ tax.id }}">
                 <div class="modal-header bg-success text-white">
-                    <h5 class="modal-title text-white">Make Payment</h5>
+                    <h5 class="modal-title text-white">{% trans "Make Payment" %}</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <p><strong>Tax Number:</strong> {{ tax.tax_number }}</p>
-                    <p><strong>Amount Due:</strong> ${{ tax.amount_paid|floatformat:2 }}</p>
-                    <p><strong>Type:</strong> {{ tax.get_tax_type_display }}</p>
+                    <p><strong>{% trans "Tax Number:" %}</strong> {{ tax.tax_number }}</p>
+                    <p><strong>{% trans "Amount Due:" %}</strong> ${{ tax.amount_paid|floatformat:2 }}</p>
+                    <p><strong>{% trans "Type:" %}</strong> {{ tax.get_tax_type_display }}</p>
                     <hr>
                     <div class="mb-3">
-                        <label class="form-label">Payment Reference Number</label>
+                        <label class="form-label">{% trans "Payment Reference Number" %}</label>
                         <input type="text" class="form-control" name="payment_reference" placeholder="Bank transaction reference" required>
-                        <small class="text-muted">Enter your bank transfer or payment receipt number.</small>
+                        <small class="text-muted">{% trans "Enter your bank transfer or payment receipt number." %}</small>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-success">Confirm Payment</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "Cancel" %}</button>
+                    <button type="submit" class="btn btn-success">{% trans "Confirm Payment" %}</button>
                 </div>
             </form>
         </div>

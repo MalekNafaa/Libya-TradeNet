@@ -1,11 +1,12 @@
 {% extends "libya_trade_dashboard/templates/base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 <div class="row mb-4">
     <div class="col-12">
-        <h3 class="mb-0"><i class="fa fa-id-card me-2 text-primary"></i>License & Registration Authority Dashboard</h3>
-        <small class="text-muted">License Applications — Review & Approval Workflow</small>
+        <h3 class="mb-0"><i class="fa fa-id-card me-2 text-primary"></i>{% trans "License & Registration Authority Dashboard" %}</h3>
+        <small class="text-muted">{% trans "License Applications — Review & Approval Workflow" %}</small>
     </div>
 </div>
 
@@ -16,7 +17,7 @@
             <div class="card-body d-flex justify-content-between align-items-center">
                 <div>
                     <h2 class="mb-0">{{ pending_count }}</h2>
-                    <p class="mb-0">Awaiting Review</p>
+                    <p class="mb-0">{% trans "Awaiting Review" %}</p>
                 </div>
                 <i class="fa fa-inbox fa-2x opacity-50"></i>
             </div>
@@ -27,7 +28,7 @@
             <div class="card-body d-flex justify-content-between align-items-center">
                 <div>
                     <h2 class="mb-0">{{ under_review_count }}</h2>
-                    <p class="mb-0">Under Review</p>
+                    <p class="mb-0">{% trans "Under Review" %}</p>
                 </div>
                 <i class="fa fa-search fa-2x opacity-50"></i>
             </div>
@@ -38,7 +39,7 @@
             <div class="card-body d-flex justify-content-between align-items-center">
                 <div>
                     <h2 class="mb-0">{{ approved_count }}</h2>
-                    <p class="mb-0">Approved</p>
+                    <p class="mb-0">{% trans "Approved" %}</p>
                 </div>
                 <i class="fa fa-check-circle fa-2x opacity-50"></i>
             </div>
@@ -49,7 +50,7 @@
             <div class="card-body d-flex justify-content-between align-items-center">
                 <div>
                     <h2 class="mb-0">{{ expiring_soon_count }}</h2>
-                    <p class="mb-0">Expiring in 30 Days</p>
+                    <p class="mb-0">{% trans "Expiring in 30 Days" %}</p>
                 </div>
                 <i class="fa fa-calendar-times fa-2x opacity-50"></i>
             </div>
@@ -62,18 +63,18 @@
     <div class="col-xl-7">
         <div class="card">
             <div class="card-header bg-warning text-dark">
-                <h5 class="mb-0">Submitted Applications — Awaiting Review</h5>
+                <h5 class="mb-0">{% trans "Submitted Applications — Awaiting Review" %}</h5>
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-hover mb-0">
                         <thead class="table-light">
                             <tr>
-                                <th>App #</th>
-                                <th>Company</th>
-                                <th>License Type</th>
-                                <th>Est. Value (USD)</th>
-                                <th>Submitted</th>
+                                <th>{% trans "App #" %}</th>
+                                <th>{% trans "Company" %}</th>
+                                <th>{% trans "License Type" %}</th>
+                                <th>{% trans "Est. Value (USD)" %}</th>
+                                <th>{% trans "Submitted" %}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -86,7 +87,7 @@
                                 <td>{{ app.submitted_at|date:"d M Y" }}</td>
                             </tr>
                             {% empty %}
-                            <tr><td colspan="5" class="text-center text-muted py-4">No pending applications.</td></tr>
+                            <tr><td colspan="5" class="text-center text-muted py-4">{% trans "No pending applications." %}</td></tr>
                             {% endfor %}
                         </tbody>
                     </table>
@@ -99,13 +100,13 @@
     <div class="col-xl-5">
         <div class="card border-danger">
             <div class="card-header bg-danger text-white">
-                <h5 class="mb-0"><i class="fa fa-exclamation-triangle me-1"></i>Licenses Expiring Soon</h5>
+                <h5 class="mb-0"><i class="fa fa-exclamation-triangle me-1"></i>{% trans "Licenses Expiring Soon" %}</h5>
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table mb-0">
                         <thead class="table-light">
-                            <tr><th>License #</th><th>Company</th><th>Expires</th></tr>
+                            <tr><th>{% trans "License #" %}</th><th>{% trans "Company" %}</th><th>{% trans "Expires" %}</th></tr>
                         </thead>
                         <tbody>
                             {% for lic in expiring_licenses %}
@@ -115,7 +116,7 @@
                                 <td class="fw-bold text-danger">{{ lic.expiry_date }}</td>
                             </tr>
                             {% empty %}
-                            <tr><td colspan="3" class="text-center text-muted py-3">No licenses expiring soon.</td></tr>
+                            <tr><td colspan="3" class="text-center text-muted py-3">{% trans "No licenses expiring soon." %}</td></tr>
                             {% endfor %}
                         </tbody>
                     </table>

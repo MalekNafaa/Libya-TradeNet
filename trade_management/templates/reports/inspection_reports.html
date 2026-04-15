@@ -1,11 +1,12 @@
 {% extends 'libya_trade_dashboard/templates/base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 <div class="row page-titles">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
-        <li class="breadcrumb-item active">Inspection Reports</li>
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">{% trans "Dashboard" %}</a></li>
+        <li class="breadcrumb-item active">{% trans "Inspection Reports" %}</li>
     </ol>
 </div>
 
@@ -16,16 +17,16 @@
             <div class="card-body">
                 <form method="get" class="row align-items-end">
                     <div class="col-md-4">
-                        <label class="form-label">Start Date</label>
+                        <label class="form-label">{% trans "Start Date" %}</label>
                         <input type="date" class="form-control" name="start_date" value="{{ start_date }}">
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">End Date</label>
+                        <label class="form-label">{% trans "End Date" %}</label>
                         <input type="date" class="form-control" name="end_date" value="{{ end_date }}">
                     </div>
                     <div class="col-md-4">
                         <button type="submit" class="btn btn-primary w-100">
-                            <i class="fa fa-filter"></i> Generate Report
+                            <i class="fa fa-filter"></i> {% trans "Generate Report" %}
                         </button>
                     </div>
                 </form>
@@ -40,7 +41,7 @@
         <div class="card bg-success text-white">
             <div class="card-body text-center">
                 <h3 class="text-white">{{ passed }}</h3>
-                <span>Passed</span>
+                <span>{% trans "Passed" %}</span>
             </div>
         </div>
     </div>
@@ -48,7 +49,7 @@
         <div class="card bg-danger text-white">
             <div class="card-body text-center">
                 <h3 class="text-white">{{ failed }}</h3>
-                <span>Failed / Stopped</span>
+                <span>{% trans "Failed / Stopped" %}</span>
             </div>
         </div>
     </div>
@@ -56,7 +57,7 @@
         <div class="card bg-info text-white">
             <div class="card-body text-center">
                 <h3 class="text-white">{{ conditional }}</h3>
-                <span>Conditional</span>
+                <span>{% trans "Conditional" %}</span>
             </div>
         </div>
     </div>
@@ -64,7 +65,7 @@
         <div class="card bg-warning text-white">
             <div class="card-body text-center">
                 <h3 class="text-white">{{ pending }}</h3>
-                <span>Pending</span>
+                <span>{% trans "Pending" %}</span>
             </div>
         </div>
     </div>
@@ -76,8 +77,8 @@
         <div class="card bg-primary text-white">
             <div class="card-body d-flex justify-content-between align-items-center">
                 <div>
-                    <h4 class="text-white mb-0">Total Inspections</h4>
-                    <small>For the selected period</small>
+                    <h4 class="text-white mb-0">{% trans "Total Inspections" %}</h4>
+                    <small>{% trans "For the selected period" %}</small>
                 </div>
                 <h2 class="text-white mb-0">{{ total_inspections }}</h2>
             </div>
@@ -89,23 +90,23 @@
 <div class="row">
     <div class="col-md-6">
         <div class="card">
-            <div class="card-header"><h5 class="card-title">Results Distribution</h5></div>
+            <div class="card-header"><h5 class="card-title">{% trans "Results Distribution" %}</h5></div>
             <div class="card-body">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Passed (Cleared)
+                        {% trans "Passed (Cleared)" %}
                         <span class="badge bg-success rounded-pill">{{ passed }}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Failed (Stopped/Returned)
+                        {% trans "Failed (Stopped/Returned)" %}
                         <span class="badge bg-danger rounded-pill">{{ failed }}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Conditional (Fined/Partial)
+                        {% trans "Conditional (Fined/Partial)" %}
                         <span class="badge bg-info rounded-pill">{{ conditional }}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Pending (Scheduled)
+                        {% trans "Pending (Scheduled)" %}
                         <span class="badge bg-warning rounded-pill">{{ pending }}</span>
                     </li>
                 </ul>
@@ -114,7 +115,7 @@
     </div>
     <div class="col-md-6">
         <div class="card">
-            <div class="card-header"><h5 class="card-title">Common Issues</h5></div>
+            <div class="card-header"><h5 class="card-title">{% trans "Common Issues" %}</h5></div>
             <div class="card-body">
                 <ul class="list-group list-group-flush">
                     {% for category, count in category_issues.items %}
@@ -123,7 +124,7 @@
                         <span class="badge bg-danger rounded-pill">{{ count }}</span>
                     </li>
                     {% empty %}
-                    <li class="list-group-item text-muted">No issues recorded</li>
+                    <li class="list-group-item text-muted">{% trans "No issues recorded" %}</li>
                     {% endfor %}
                 </ul>
             </div>
@@ -136,7 +137,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="card-title mb-0">Inspection Records</h5>
+                <h5 class="card-title mb-0">{% trans "Inspection Records" %}</h5>
                 <span class="badge bg-secondary">Last 50</span>
             </div>
             <div class="card-body">
@@ -144,13 +145,13 @@
                     <table class="table table-bordered table-sm">
                         <thead>
                             <tr>
-                                <th>Permit #</th>
-                                <th>Date</th>
-                                <th>Location</th>
-                                <th>Result</th>
-                                <th>Condition</th>
-                                <th>Fine</th>
-                                <th>Details</th>
+                                <th>{% trans "Permit #" %}</th>
+                                <th>{% trans "Date" %}</th>
+                                <th>{% trans "Location" %}</th>
+                                <th>{% trans "Result" %}</th>
+                                <th>{% trans "Condition" %}</th>
+                                <th>{% trans "Fine" %}</th>
+                                <th>{% trans "Details" %}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -161,13 +162,13 @@
                                 <td>{{ inspection.location }}</td>
                                 <td>
                                     {% if inspection.result == 'PASSED' %}
-                                        <span class="badge bg-success">Passed</span>
+                                        <span class="badge bg-success">{% trans "Passed" %}</span>
                                     {% elif inspection.result == 'FAILED' %}
-                                        <span class="badge bg-danger">Failed</span>
+                                        <span class="badge bg-danger">{% trans "Failed" %}</span>
                                     {% elif inspection.result == 'CONDITIONAL' %}
-                                        <span class="badge bg-info">Conditional</span>
+                                        <span class="badge bg-info">{% trans "Conditional" %}</span>
                                     {% elif inspection.result == 'PENDING' %}
-                                        <span class="badge bg-warning">Pending</span>
+                                        <span class="badge bg-warning">{% trans "Pending" %}</span>
                                     {% endif %}
                                 </td>
                                 <td>{{ inspection.condition_notes|truncatechars:30|default:"-" }}</td>
@@ -186,7 +187,7 @@
                             </tr>
                             {% empty %}
                             <tr>
-                                <td colspan="7" class="text-center text-muted">No inspections found for selected period</td>
+                                <td colspan="7" class="text-center text-muted">{% trans "No inspections found for selected period" %}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -201,7 +202,7 @@
 <div class="row mt-4">
     <div class="col-12">
         <div class="card">
-            <div class="card-header"><h5 class="card-title">Export Report</h5></div>
+            <div class="card-header"><h5 class="card-title">{% trans "Export Report" %}</h5></div>
             <div class="card-body">
                 <div class="btn-group">
                     <button type="button" class="btn btn-outline-primary"><i class="fa fa-file-pdf"></i> PDF</button>
@@ -224,26 +225,26 @@
                 {% elif inspection.result == 'CONDITIONAL' %}bg-info text-white
                 {% elif inspection.result == 'PENDING' %}bg-warning text-white
                 {% endif %}">
-                <h5 class="modal-title">Inspection Details</h5>
+                <h5 class="modal-title">{% trans "Inspection Details" %}</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <p><strong>Permit:</strong> {{ inspection.import_permit.permit_number }}</p>
-                <p><strong>Date:</strong> {{ inspection.inspection_date|date:"M d, Y H:i" }}</p>
-                <p><strong>Location:</strong> {{ inspection.location }}</p>
-                <p><strong>Result:</strong> {{ inspection.get_result_display }}</p>
+                <p><strong>{% trans "Permit:" %}</strong> {{ inspection.import_permit.permit_number }}</p>
+                <p><strong>{% trans "Date:" %}</strong> {{ inspection.inspection_date|date:"M d, Y H:i" }}</p>
+                <p><strong>{% trans "Location:" %}</strong> {{ inspection.location }}</p>
+                <p><strong>{% trans "Result:" %}</strong> {{ inspection.get_result_display }}</p>
                 {% if inspection.condition_notes %}
                 <hr>
-                <p><strong>Notes:</strong></p>
+                <p><strong>{% trans "Notes:" %}</strong></p>
                 <p>{{ inspection.condition_notes }}</p>
                 {% endif %}
                 {% if inspection.fine_amount > 0 %}
                 <hr>
-                <p class="text-danger"><strong>Fine Amount:</strong> ${{ inspection.fine_amount }}</p>
+                <p class="text-danger"><strong>{% trans "Fine Amount:" %}</strong> ${{ inspection.fine_amount }}</p>
                 {% endif %}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "Close" %}</button>
             </div>
         </div>
     </div>

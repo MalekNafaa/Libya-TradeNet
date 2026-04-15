@@ -1,11 +1,12 @@
 {% extends "libya_trade_dashboard/templates/base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 <div class="row mb-4">
     <div class="col-12">
-        <h3 class="mb-0"><i class="fa fa-university me-2 text-primary"></i>Ministry of Trade & Economy Dashboard</h3>
-        <small class="text-muted">National Trade Overview</small>
+        <h3 class="mb-0"><i class="fa fa-university me-2 text-primary"></i>{% trans "Ministry of Trade & Economy Dashboard" %}</h3>
+        <small class="text-muted">{% trans "National Trade Overview" %}</small>
     </div>
 </div>
 
@@ -16,7 +17,7 @@
             <div class="card-body d-flex justify-content-between align-items-center">
                 <div>
                     <h2 class="mb-0">{{ total_companies }}</h2>
-                    <p class="mb-0">Registered Companies</p>
+                    <p class="mb-0">{% trans "Registered Companies" %}</p>
                 </div>
                 <i class="fa fa-building fa-2x opacity-50"></i>
             </div>
@@ -27,7 +28,7 @@
             <div class="card-body d-flex justify-content-between align-items-center">
                 <div>
                     <h2 class="mb-0">{{ active_companies }}</h2>
-                    <p class="mb-0">Active Companies</p>
+                    <p class="mb-0">{% trans "Active Companies" %}</p>
                 </div>
                 <i class="fa fa-check-circle fa-2x opacity-50"></i>
             </div>
@@ -38,7 +39,7 @@
             <div class="card-body d-flex justify-content-between align-items-center">
                 <div>
                     <h2 class="mb-0">{{ total_permits }}</h2>
-                    <p class="mb-0">Total Import Permits</p>
+                    <p class="mb-0">{% trans "Total Import Permits" %}</p>
                 </div>
                 <i class="fa fa-file-import fa-2x opacity-50"></i>
             </div>
@@ -49,7 +50,7 @@
             <div class="card-body d-flex justify-content-between align-items-center">
                 <div>
                     <h2 class="mb-0">{{ approved_permits }}</h2>
-                    <p class="mb-0">Approved Permits</p>
+                    <p class="mb-0">{% trans "Approved Permits" %}</p>
                 </div>
                 <i class="fa fa-stamp fa-2x opacity-50"></i>
             </div>
@@ -62,7 +63,7 @@
         <div class="card bg-dark text-white">
             <div class="card-body d-flex justify-content-between align-items-center">
                 <div>
-                    <h5 class="mb-0">Total Tax Collected (LYD)</h5>
+                    <h5 class="mb-0">{% trans "Total Tax Collected (LYD)" %}</h5>
                     <h2 class="mb-0 text-success">{{ total_tax_collected|floatformat:2 }}</h2>
                 </div>
                 <i class="fa fa-money-bill-wave fa-2x opacity-50"></i>
@@ -76,17 +77,17 @@
     <div class="col-xl-6">
         <div class="card">
             <div class="card-header">
-                <h5 class="mb-0">Recently Registered Companies</h5>
+                <h5 class="mb-0">{% trans "Recently Registered Companies" %}</h5>
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-hover mb-0">
                         <thead class="table-light">
                             <tr>
-                                <th>Company</th>
-                                <th>Type</th>
-                                <th>Status</th>
-                                <th>Registered</th>
+                                <th>{% trans "Company" %}</th>
+                                <th>{% trans "Type" %}</th>
+                                <th>{% trans "Status" %}</th>
+                                <th>{% trans "Registered" %}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -96,17 +97,17 @@
                                 <td>{{ company.get_company_type_display }}</td>
                                 <td>
                                     {% if company.status == 'ACTIVE' %}
-                                        <span class="badge bg-success">Active</span>
+                                        <span class="badge bg-success">{% trans "Active" %}</span>
                                     {% elif company.status == 'SUSPENDED' %}
-                                        <span class="badge bg-warning text-dark">Suspended</span>
+                                        <span class="badge bg-warning text-dark">{% trans "Suspended" %}</span>
                                     {% else %}
-                                        <span class="badge bg-danger">Blacklisted</span>
+                                        <span class="badge bg-danger">{% trans "Blacklisted" %}</span>
                                     {% endif %}
                                 </td>
                                 <td>{{ company.created_at|date:"d M Y" }}</td>
                             </tr>
                             {% empty %}
-                            <tr><td colspan="4" class="text-center text-muted py-4">No companies.</td></tr>
+                            <tr><td colspan="4" class="text-center text-muted py-4">{% trans "No companies." %}</td></tr>
                             {% endfor %}
                         </tbody>
                     </table>
@@ -119,17 +120,17 @@
     <div class="col-xl-6">
         <div class="card">
             <div class="card-header">
-                <h5 class="mb-0">Recent Import Permits</h5>
+                <h5 class="mb-0">{% trans "Recent Import Permits" %}</h5>
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-hover mb-0">
                         <thead class="table-light">
                             <tr>
-                                <th>Permit #</th>
-                                <th>Company</th>
-                                <th>Value (USD)</th>
-                                <th>Status</th>
+                                <th>{% trans "Permit #" %}</th>
+                                <th>{% trans "Company" %}</th>
+                                <th>{% trans "Value (USD)" %}</th>
+                                <th>{% trans "Status" %}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -140,18 +141,18 @@
                                 <td>${{ permit.total_value_usd|floatformat:0 }}</td>
                                 <td>
                                     {% if permit.status == 'APPROVED' %}
-                                        <span class="badge bg-success">Approved</span>
+                                        <span class="badge bg-success">{% trans "Approved" %}</span>
                                     {% elif permit.status == 'REJECTED' %}
-                                        <span class="badge bg-danger">Rejected</span>
+                                        <span class="badge bg-danger">{% trans "Rejected" %}</span>
                                     {% elif permit.status == 'SUBMITTED' %}
-                                        <span class="badge bg-warning text-dark">Submitted</span>
+                                        <span class="badge bg-warning text-dark">{% trans "Submitted" %}</span>
                                     {% else %}
                                         <span class="badge bg-secondary">{{ permit.get_status_display }}</span>
                                     {% endif %}
                                 </td>
                             </tr>
                             {% empty %}
-                            <tr><td colspan="4" class="text-center text-muted py-4">No permits.</td></tr>
+                            <tr><td colspan="4" class="text-center text-muted py-4">{% trans "No permits." %}</td></tr>
                             {% endfor %}
                         </tbody>
                     </table>

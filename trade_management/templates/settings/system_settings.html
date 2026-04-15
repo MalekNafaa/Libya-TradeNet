@@ -1,24 +1,25 @@
 {% extends 'libya_trade_dashboard/templates/base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 <div class="row page-titles">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
-        <li class="breadcrumb-item active">System Settings</li>
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">{% trans "Dashboard" %}</a></li>
+        <li class="breadcrumb-item active">{% trans "System Settings" %}</li>
     </ol>
 </div>
 
 <div class="row">
     <div class="col-lg-8">
         <div class="card">
-            <div class="card-header"><h4 class="card-title">Regional Settings</h4></div>
+            <div class="card-header"><h4 class="card-title">{% trans "Regional Settings" %}</h4></div>
             <div class="card-body">
                 <form method="post">
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Language</label>
+                            <label class="form-label">{% trans "Language" %}</label>
                             <select class="form-select" name="language">
                                 {% for code, name in languages %}
                                 <option value="{{ code }}" {% if settings.language == code %}selected{% endif %}>{{ name }}</option>
@@ -26,7 +27,7 @@
                             </select>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Time Zone</label>
+                            <label class="form-label">{% trans "Time Zone" %}</label>
                             <select class="form-select" name="timezone">
                                 {% for tz in timezones %}
                                 <option value="{{ tz }}" {% if settings.timezone == tz %}selected{% endif %}>{{ tz }}</option>
@@ -36,7 +37,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Currency</label>
+                            <label class="form-label">{% trans "Currency" %}</label>
                             <select class="form-select" name="currency">
                                 {% for code, name in currencies %}
                                 <option value="{{ code }}" {% if settings.currency == code %}selected{% endif %}>{{ name }} ({{ code }})</option>
@@ -44,7 +45,7 @@
                             </select>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Date Format</label>
+                            <label class="form-label">{% trans "Date Format" %}</label>
                             <select class="form-select" name="date_format">
                                 <option value="YYYY-MM-DD" {% if settings.date_format == 'YYYY-MM-DD' %}selected{% endif %}>YYYY-MM-DD</option>
                                 <option value="DD/MM/YYYY" {% if settings.date_format == 'DD/MM/YYYY' %}selected{% endif %}>DD/MM/YYYY</option>
@@ -53,29 +54,29 @@
                         </div>
                     </div>
                     <div class="mt-3">
-                        <button type="submit" class="btn btn-primary">Save Settings</button>
+                        <button type="submit" class="btn btn-primary">{% trans "Save Settings" %}</button>
                     </div>
                 </form>
             </div>
         </div>
 
         <div class="card">
-            <div class="card-header"><h5 class="card-title">Data & Privacy</h5></div>
+            <div class="card-header"><h5 class="card-title">{% trans "Data & Privacy" %}</h5></div>
             <div class="card-body">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <div>
-                            <h6 class="mb-0">Download My Data</h6>
-                            <small class="text-muted">Export all your trade data</small>
+                            <h6 class="mb-0">{% trans "Download My Data" %}</h6>
+                            <small class="text-muted">{% trans "Export all your trade data" %}</small>
                         </div>
-                        <button class="btn btn-outline-primary btn-sm">Export</button>
+                        <button class="btn btn-outline-primary btn-sm">{% trans "Export" %}</button>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <div>
-                            <h6 class="mb-0 text-danger">Delete Account</h6>
-                            <small class="text-muted">Permanently remove all data</small>
+                            <h6 class="mb-0 text-danger">{% trans "Delete Account" %}</h6>
+                            <small class="text-muted">{% trans "Permanently remove all data" %}</small>
                         </div>
-                        <button class="btn btn-outline-danger btn-sm">Delete</button>
+                        <button class="btn btn-outline-danger btn-sm">{% trans "Delete" %}</button>
                     </li>
                 </ul>
             </div>
@@ -84,15 +85,15 @@
 
     <div class="col-lg-4">
         <div class="card">
-            <div class="card-header"><h5 class="card-title">System Info</h5></div>
+            <div class="card-header"><h5 class="card-title">{% trans "System Info" %}</h5></div>
             <div class="card-body">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item d-flex justify-content-between">
-                        <span>Version</span>
+                        <span>{% trans "Version" %}</span>
                         <strong>1.0.0</strong>
                     </li>
                     <li class="list-group-item d-flex justify-content-between">
-                        <span>Last Updated</span>
+                        <span>{% trans "Last Updated" %}</span>
                         <strong>Apr 2026</strong>
                     </li>
                 </ul>

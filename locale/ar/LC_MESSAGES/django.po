@@ -1,12 +1,11 @@
 # Arabic translations for Libya TradeNet
 # Copyright (C) 2024
 # This file is distributed under the same license as the Libya TradeNet package.
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Libya TradeNet 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-01 00:00+0000\n"
+"POT-Creation-Date: 2026-04-16 00:41+0200\n"
 "PO-Revision-Date: 2024-01-01 00:00+0000\n"
 "Last-Translator: \n"
 "Language-Team: Arabic\n"
@@ -14,392 +13,2937 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: templates/home.html
-msgid "Welcome to Libya TradeNet"
-msgstr "مرحباً بكم في شبكة التجارة الليبية"
+#: .\trade_management\templates\admin\login.html:46
+msgid "Please correct the error below."
+msgstr "يرجى تصحيح الخطأ أدناه."
 
-msgid "Your Gateway to International Trade"
-msgstr "بوابتك إلى التجارة الدولية"
+#: .\trade_management\templates\admin\login.html:46
+msgid "Please correct the errors below."
+msgstr "يرجى تصحيح الأخطاء أدناه."
 
+#: .\trade_management\templates\admin\login.html:74
+msgid "Forgotten your password or username?"
+msgstr "هل نسيت كلمة المرور أو اسم المستخدم؟"
+
+#: .\trade_management\templates\admin\login.html:78
+msgid "Log in"
+msgstr "تسجيل الدخول"
+
+#: .\trade_management\templates\companies\manage_companies.html:8
+#: .\trade_management\templates\documents\all_documents.html:8
+#: .\trade_management\templates\documents\document_folder_detail.html:8
+#: .\trade_management\templates\documents\document_folders.html:8
+#: .\trade_management\templates\financial\financial_dashboard.html:8
+#: .\trade_management\templates\financial\outstanding_balances.html:8
+#: .\trade_management\templates\financial\payment_history.html:8
+#: .\trade_management\templates\financial\tax_payments.html:8
+#: .\trade_management\templates\imports\apply_import.html:8
+#: .\trade_management\templates\imports\import_documents.html:8
+#: .\trade_management\templates\imports\import_permits.html:8
+#: .\trade_management\templates\imports\import_tracking.html:8
+#: .\trade_management\templates\imports\inspections.html:8
+#: .\trade_management\templates\licensing\application_status.html:8
+#: .\trade_management\templates\licensing\apply_license.html:8
+#: .\trade_management\templates\licensing\license_renewal.html:8
+#: .\trade_management\templates\licensing\my_licenses.html:8
+#: .\trade_management\templates\reports\compliance_reports.html:8
+#: .\trade_management\templates\reports\financial_reports.html:8
+#: .\trade_management\templates\reports\inspection_reports.html:8
+#: .\trade_management\templates\reports\trade_reports.html:8
+#: .\trade_management\templates\settings\manage_users.html:8
+#: .\trade_management\templates\settings\notification_settings.html:8
+#: .\trade_management\templates\settings\system_settings.html:8
+#: .\trade_management\templates\settings\user_profile.html:8
 msgid "Dashboard"
 msgstr "لوحة التحكم"
 
-msgid "Companies"
-msgstr "الشركات"
-
+#: .\trade_management\templates\companies\manage_companies.html:9
 msgid "My Companies"
 msgstr "شركاتي"
 
-msgid "Add New Company"
-msgstr "إضافة شركة جديدة"
-
-msgid "Licensing"
-msgstr "التراخيص"
-
-msgid "My Licenses"
-msgstr "تراخيصي"
-
-msgid "Apply for License"
-msgstr "التقدم بطلب ترخيص"
-
-msgid "Application Status"
-msgstr "حالة الطلب"
-
-msgid "License Renewal"
-msgstr "تجديد الترخيص"
-
-msgid "Imports"
-msgstr "الواردات"
-
-msgid "Import Permits"
-msgstr "تصاريح الاستيراد"
-
-msgid "Apply for Import"
-msgstr "التقدم بطلب استيراد"
-
-msgid "Import Tracking"
-msgstr "تتبع الاستيراد"
-
-msgid "Documents"
-msgstr "المستندات"
-
-msgid "Inspections"
-msgstr "عمليات التفتيش"
-
-msgid "Financial"
-msgstr "المالية"
-
-msgid "Tax Payments"
-msgstr "مدفوعات الضرائب"
-
-msgid "Payment History"
-msgstr "سجل المدفوعات"
-
-msgid "Outstanding Balances"
-msgstr "الأرصدة المستحقة"
-
-msgid "Reports"
-msgstr "التقارير"
-
-msgid "Trade Reports"
-msgstr "تقارير التجارة"
-
-msgid "Compliance Reports"
-msgstr "تقارير الامتثال"
-
-msgid "Financial Reports"
-msgstr "التقارير المالية"
-
-msgid "Inspection Reports"
-msgstr "تقارير التفتيش"
-
-msgid "Settings"
-msgstr "الإعدادات"
-
-msgid "Profile"
-msgstr "الملف الشخصي"
-
-msgid "Manage Users"
-msgstr "إدارة المستخدمين"
-
-msgid "Notifications"
-msgstr "الإشعارات"
-
-msgid "System Settings"
-msgstr "إعدادات النظام"
-
-msgid "Login"
-msgstr "تسجيل الدخول"
-
-msgid "Logout"
-msgstr "تسجيل الخروج"
-
-msgid "Email"
-msgstr "البريد الإلكتروني"
-
-msgid "Password"
-msgstr "كلمة المرور"
-
-msgid "Remember me"
-msgstr "تذكرني"
-
-msgid "Forgot Password?"
-msgstr "هل نسيت كلمة المرور؟"
-
-msgid "Sign in"
-msgstr "تسجيل الدخول"
-
-msgid "Register"
-msgstr "التسجيل"
-
-msgid "Name"
-msgstr "الاسم"
-
-msgid "Company Name"
-msgstr "اسم الشركة"
-
+#: .\trade_management\templates\companies\manage_companies.html:24
 msgid "Company Number"
 msgstr "رقم الشركة"
 
+#: .\trade_management\templates\companies\manage_companies.html:28
+#: .\trade_management\templates\dashboards\anticorruption_dashboard.html:72
+#: .\trade_management\templates\dashboards\anticorruption_dashboard.html:101
+#: .\trade_management\templates\financial\outstanding_balances.html:70
+#: .\trade_management\templates\financial\tax_payments.html:55
 msgid "Tax Number"
 msgstr "الرقم الضريبي"
 
-msgid "Bank IBAN"
-msgstr "رقم الحساب المصرفي الدولي"
-
-msgid "Address"
-msgstr "العنوان"
-
-msgid "City"
-msgstr "المدينة"
-
+#: .\trade_management\templates\companies\manage_companies.html:32
+#: .\trade_management\templates\dashboards\anticorruption_dashboard.html:162
+#: .\trade_management\templates\dashboards\customs_dashboard.html:78
+#: .\trade_management\templates\dashboards\ministry_dashboard.html:89
+#: .\trade_management\templates\dashboards\ministry_dashboard.html:133
+#: .\trade_management\templates\dashboards\tax_dashboard.html:126
+#: .\trade_management\templates\documents\all_documents.html:64
+#: .\trade_management\templates\documents\document_folder_detail.html:70
+#: .\trade_management\templates\financial\outstanding_balances.html:75
+#: .\trade_management\templates\financial\payment_history.html:46
+#: .\trade_management\templates\financial\tax_payments.html:61
+#: .\trade_management\templates\imports\import_permits.html:87
+#: .\trade_management\templates\licensing\application_status.html:99
+#: .\trade_management\templates\licensing\my_licenses.html:112
+#: .\trade_management\templates\reports\compliance_reports.html:180
+#: .\trade_management\templates\reports\trade_reports.html:149
+#: .\trade_management\templates\settings\manage_users.html:31
 msgid "Status"
 msgstr "الحالة"
 
-msgid "Active"
-msgstr "نشط"
+#: .\trade_management\templates\companies\manage_companies.html:36
+#: .\trade_management\templates\companies\manage_companies.html:104
+#: .\trade_management\templates\companies\manage_companies.html:164
+#: .\trade_management\templates\dashboards\admin_dashboard.html:68
+#: .\trade_management\templates\settings\manage_users.html:28
+#: .\trade_management\templates\settings\manage_users.html:122
+msgid "Email"
+msgstr "البريد الإلكتروني"
 
-msgid "Pending"
-msgstr "معلق"
+#: .\trade_management\templates\companies\manage_companies.html:40
+#: .\trade_management\templates\companies\manage_companies.html:108
+#: .\trade_management\templates\companies\manage_companies.html:168
+#: .\trade_management\templates\dashboards\anticorruption_dashboard.html:72
+#: .\trade_management\templates\dashboards\anticorruption_dashboard.html:101
+msgid "City"
+msgstr "المدينة"
 
-msgid "Approved"
-msgstr "معتمد"
+#: .\trade_management\templates\companies\manage_companies.html:44
+#: .\trade_management\templates\companies\manage_companies.html:117
+#: .\trade_management\templates\companies\manage_companies.html:177
+msgid "Bank IBAN"
+msgstr "رقم الحساب المصرفي الدولي"
 
-msgid "Rejected"
-msgstr "مرفوض"
+#: .\trade_management\templates\companies\manage_companies.html:49
+msgid "Select"
+msgstr "اختيار"
 
-msgid "Save"
-msgstr "حفظ"
-
-msgid "Cancel"
-msgstr "إلغاء"
-
+#: .\trade_management\templates\companies\manage_companies.html:50
 msgid "Edit"
 msgstr "تعديل"
 
-msgid "Delete"
-msgstr "حذف"
+#: .\trade_management\templates\companies\manage_companies.html:54
+msgid "Established:"
+msgstr "تأسست:"
 
-msgid "View"
-msgstr "عرض"
+#: .\trade_management\templates\companies\manage_companies.html:61
+msgid "No companies registered yet"
+msgstr "لا توجد شركات."
 
-msgid "Search"
-msgstr "بحث"
+#: .\trade_management\templates\companies\manage_companies.html:62
+msgid "Create your first company to start trading."
+msgstr "أنشئ شركتك الأولى لبدء التداول."
 
-msgid "Filter"
-msgstr "تصفية"
+#: .\trade_management\templates\companies\manage_companies.html:63
+msgid "Add Company"
+msgstr "إضافة شركة جديدة"
 
-msgid "Download"
-msgstr "تحميل"
+#: .\trade_management\templates\companies\manage_companies.html:72
+msgid "Add New Company"
+msgstr "إضافة شركة جديدة"
 
-msgid "Upload"
-msgstr "رفع"
+#: .\trade_management\templates\companies\manage_companies.html:85
+msgid "Register New Company"
+msgstr "الشركات المسجلة"
 
-msgid "Print"
-msgstr "طباعة"
+#: .\trade_management\templates\companies\manage_companies.html:91
+#: .\trade_management\templates\companies\manage_companies.html:151
+msgid "Company Name"
+msgstr "اسم الشركة"
 
-msgid "Submit"
-msgstr "إرسال"
+#: .\trade_management\templates\companies\manage_companies.html:95
+#: .\trade_management\templates\companies\manage_companies.html:155
+msgid "Company Type"
+msgstr "اسم الشركة"
 
-msgid "Back"
-msgstr "رجوع"
+#: .\trade_management\templates\companies\manage_companies.html:97
+#: .\trade_management\templates\companies\manage_companies.html:157
+msgid "Local"
+msgstr ""
 
-msgid "Next"
-msgstr "التالي"
+#: .\trade_management\templates\companies\manage_companies.html:98
+#: .\trade_management\templates\companies\manage_companies.html:158
+msgid "Multinational"
+msgstr "الوجهة"
 
-msgid "Previous"
-msgstr "السابق"
+#: .\trade_management\templates\companies\manage_companies.html:113
+#: .\trade_management\templates\companies\manage_companies.html:173
+msgid "Address"
+msgstr "العنوان"
 
-msgid "Actions"
-msgstr "إجراءات"
+#: .\trade_management\templates\companies\manage_companies.html:119
+#: .\trade_management\templates\companies\manage_companies.html:179
+msgid "Bank IBAN is required for all financial transactions."
+msgstr "رقم IBAN المصرفي مطلوب لجميع المعاملات المالية."
 
-msgid "Date"
-msgstr "التاريخ"
+#: .\trade_management\templates\companies\manage_companies.html:122
+#: .\trade_management\templates\companies\manage_companies.html:182
+msgid "Date Established"
+msgstr "تاريخ التأسيس"
 
-msgid "Amount"
-msgstr "المبلغ"
+#: .\trade_management\templates\companies\manage_companies.html:127
+#: .\trade_management\templates\companies\manage_companies.html:187
+#: .\trade_management\templates\documents\document_folder_detail.html:157
+#: .\trade_management\templates\financial\tax_payments.html:166
+#: .\trade_management\templates\imports\apply_import.html:152
+#: .\trade_management\templates\licensing\apply_license.html:133
+#: .\trade_management\templates\licensing\license_renewal.html:171
+#: .\trade_management\templates\licensing\license_renewal.html:207
+#: .\trade_management\templates\settings\manage_users.html:143
+#: .\trade_management\templates\settings\user_profile.html:68
+msgid "Cancel"
+msgstr "إلغاء"
 
-msgid "Description"
-msgstr "الوصف"
+#: .\trade_management\templates\companies\manage_companies.html:128
+msgid "Register Company"
+msgstr "الشركات المسجلة"
 
-msgid "Type"
-msgstr "النوع"
+#: .\trade_management\templates\companies\manage_companies.html:145
+msgid "Edit Company:"
+msgstr "الشركة"
 
-msgid "Category"
-msgstr "الفئة"
+#: .\trade_management\templates\companies\manage_companies.html:188
+#: .\trade_management\templates\settings\user_profile.html:69
+msgid "Save Changes"
+msgstr "حفظ التغييرات"
 
-msgid "Documents"
-msgstr "المستندات"
+#: .\trade_management\templates\dashboards\admin_dashboard.html:8
+msgid "System Admin Dashboard"
+msgstr "لوحة تحكم مدير النظام"
 
-msgid "Document Type"
-msgstr "نوع المستند"
+#: .\trade_management\templates\dashboards\admin_dashboard.html:9
+msgid "Full system overview — User & Data Management"
+msgstr "نظرة عامة على النظام — إدارة المستخدمين والبيانات"
 
-msgid "File"
-msgstr "ملف"
+#: .\trade_management\templates\dashboards\admin_dashboard.html:19
+msgid "Users"
+msgstr "المستخدمون"
 
-msgid "Uploaded"
-msgstr "تم الرفع"
+#: .\trade_management\templates\dashboards\admin_dashboard.html:27
+msgid "Companies"
+msgstr "الشركات"
 
-msgid "Verified"
-msgstr "تم التحقق"
+#: .\trade_management\templates\dashboards\admin_dashboard.html:35
+#: .\trade_management\templates\imports\import_permits.html:9
+#: .\trade_management\templates\imports\import_permits.html:70
+msgid "Import Permits"
+msgstr "تصاريح الاستيراد"
 
-msgid "Rejected"
-msgstr "مرفوض"
+#: .\trade_management\templates\dashboards\admin_dashboard.html:43
+#: .\trade_management\templates\licensing\application_status.html:9
+#: .\trade_management\templates\licensing\apply_license.html:9
+#: .\trade_management\templates\licensing\license_renewal.html:9
+#: .\trade_management\templates\reports\compliance_reports.html:132
+msgid "Licenses"
+msgstr "التراخيص"
 
-msgid "Pending"
-msgstr "معلق"
+#: .\trade_management\templates\dashboards\admin_dashboard.html:51
+#: .\trade_management\templates\financial\tax_payments.html:10
+#: .\trade_management\templates\financial\tax_payments.html:47
+msgid "Tax Payments"
+msgstr "مدفوعات الضرائب"
 
-msgid "Under Review"
-msgstr "قيد المراجعة"
+#: .\trade_management\templates\dashboards\admin_dashboard.html:60
+msgid "All Users & Roles"
+msgstr "جميع المستخدمين والأدوار"
 
-msgid "Total"
-msgstr "الإجمالي"
+#: .\trade_management\templates\dashboards\admin_dashboard.html:67
+#: .\trade_management\templates\login.html:126
+#: .\trade_management\templates\settings\user_profile.html:31
+msgid "Username"
+msgstr "اسم المستخدم"
 
-msgid "Subtotal"
-msgstr "المجموع الفرعي"
+#: .\trade_management\templates\dashboards\admin_dashboard.html:69
+#: .\trade_management\templates\settings\manage_users.html:30
+#: .\trade_management\templates\settings\manage_users.html:126
+msgid "Role"
+msgstr "الدور"
 
-msgid "Tax"
-msgstr "الضريبة"
+#: .\trade_management\templates\dashboards\admin_dashboard.html:70
+msgid "Authority"
+msgstr "الهيئة"
 
-msgid "Fee"
-msgstr "الرسوم"
+#: .\trade_management\templates\dashboards\admin_dashboard.html:71
+msgid "Department"
+msgstr "القسم"
 
-msgid "Payment"
-msgstr "الدفع"
+#: .\trade_management\templates\dashboards\admin_dashboard.html:72
+msgid "Employee ID"
+msgstr "رقم الموظف"
 
-msgid "Balance"
-msgstr "الرصيد"
+#: .\trade_management\templates\dashboards\admin_dashboard.html:73
+msgid "Joined"
+msgstr "تاريخ الانضمام"
 
-msgid "Currency"
-msgstr "العملة"
+#: .\trade_management\templates\dashboards\admin_dashboard.html:83
+msgid "Admin"
+msgstr "المدير"
 
-msgid "USD"
-msgstr "دولار أمريكي"
+#: .\trade_management\templates\dashboards\admin_dashboard.html:85
+msgid "Company Owner"
+msgstr "مالك الشركة"
 
-msgid "EUR"
-msgstr "يورو"
-
-msgid "LYD"
-msgstr "دينار ليبي"
-
-msgid "Trade"
-msgstr "التجارة"
-
-msgid "Import"
-msgstr "استيراد"
-
-msgid "Export"
-msgstr "تصدير"
-
-msgid "Permit"
-msgstr "تصريح"
-
-msgid "License"
-msgstr "ترخيص"
-
-msgid "Certificate"
-msgstr "شهادة"
-
-msgid "Inspection"
-msgstr "تفتيش"
-
+#: .\trade_management\templates\dashboards\admin_dashboard.html:87
 msgid "Customs"
 msgstr "الجمارك"
 
-msgid "Port"
-msgstr "الميناء"
+#: .\trade_management\templates\dashboards\admin_dashboard.html:89
+msgid "Tax"
+msgstr "الضريبة"
 
-msgid "Country"
-msgstr "الدولة"
+#: .\trade_management\templates\dashboards\admin_dashboard.html:91
+msgid "Anti-Corruption"
+msgstr "مكافحة الفساد"
 
+#: .\trade_management\templates\dashboards\admin_dashboard.html:93
+msgid "License Reg."
+msgstr "تسجيل الترخيص"
+
+#: .\trade_management\templates\dashboards\admin_dashboard.html:95
+msgid "Ministry"
+msgstr "الوزارة"
+
+#: .\trade_management\templates\dashboards\admin_dashboard.html:106
+#: .\trade_management\templates\settings\manage_users.html:53
+msgid "No users found."
+msgstr "لا يوجد مستخدمون."
+
+#: .\trade_management\templates\dashboards\anticorruption_dashboard.html:8
+msgid "Anti-Corruption Authority Dashboard"
+msgstr "لوحة تحكم هيئة مكافحة الفساد"
+
+#: .\trade_management\templates\dashboards\anticorruption_dashboard.html:9
+msgid "Read-only Audit View — All Trade Activity"
+msgstr "عرض تدقيق للقراءة فقط — جميع أنشطة التجارة"
+
+#: .\trade_management\templates\dashboards\anticorruption_dashboard.html:20
+#: .\trade_management\templates\dashboards\anticorruption_dashboard.html:66
+msgid "Blacklisted Companies"
+msgstr "الشركات المحظورة"
+
+#: .\trade_management\templates\dashboards\anticorruption_dashboard.html:31
+#: .\trade_management\templates\dashboards\anticorruption_dashboard.html:95
+msgid "Suspended Companies"
+msgstr "الشركات الموقوفة"
+
+#: .\trade_management\templates\dashboards\anticorruption_dashboard.html:42
+msgid "Total Companies"
+msgstr "إجمالي الشركات"
+
+#: .\trade_management\templates\dashboards\anticorruption_dashboard.html:53
+#: .\trade_management\templates\dashboards\ministry_dashboard.html:42
+msgid "Total Import Permits"
+msgstr "إجمالي تصاريح الاستيراد"
+
+#: .\trade_management\templates\dashboards\anticorruption_dashboard.html:72
+#: .\trade_management\templates\dashboards\anticorruption_dashboard.html:101
+#: .\trade_management\templates\dashboards\anticorruption_dashboard.html:132
+#: .\trade_management\templates\dashboards\anticorruption_dashboard.html:162
+#: .\trade_management\templates\dashboards\customs_dashboard.html:74
+#: .\trade_management\templates\dashboards\license_dashboard.html:74
+#: .\trade_management\templates\dashboards\license_dashboard.html:109
+#: .\trade_management\templates\dashboards\ministry_dashboard.html:87
+#: .\trade_management\templates\dashboards\ministry_dashboard.html:131
+#: .\trade_management\templates\dashboards\tax_dashboard.html:87
+#: .\trade_management\templates\dashboards\tax_dashboard.html:124
+#: .\trade_management\templates\documents\all_documents.html:63
+#: .\trade_management\templates\financial\tax_payments.html:56
+#: .\trade_management\templates\imports\apply_import.html:29
+#: .\trade_management\templates\imports\import_permits.html:81
+#: .\trade_management\templates\imports\inspections.html:81
+#: .\trade_management\templates\licensing\application_status.html:96
+#: .\trade_management\templates\licensing\apply_license.html:32
+#: .\trade_management\templates\licensing\license_renewal.html:31
+#: .\trade_management\templates\licensing\license_renewal.html:74
+#: .\trade_management\templates\licensing\my_licenses.html:108
+#: .\trade_management\templates\reports\compliance_reports.html:176
+#: .\trade_management\templates\reports\trade_reports.html:144
+#: .\trade_management\templates\settings\manage_users.html:29
+#: .\trade_management\templates\settings\manage_users.html:134
+msgid "Company"
+msgstr "الشركة"
+
+#: .\trade_management\templates\dashboards\anticorruption_dashboard.html:82
+msgid "None flagged."
+msgstr "لا يوجد محظور."
+
+#: .\trade_management\templates\dashboards\anticorruption_dashboard.html:111
+msgid "None suspended."
+msgstr "لا يوجد موقوف."
+
+#: .\trade_management\templates\dashboards\anticorruption_dashboard.html:126
+msgid "Rejected License Applications"
+msgstr "طلبات الترخيص المرفوضة"
+
+#: .\trade_management\templates\dashboards\anticorruption_dashboard.html:132
+#: .\trade_management\templates\dashboards\license_dashboard.html:73
+msgid "App #"
+msgstr "رقم الطلب"
+
+#: .\trade_management\templates\dashboards\anticorruption_dashboard.html:132
+#: .\trade_management\templates\dashboards\ministry_dashboard.html:88
+#: .\trade_management\templates\documents\all_documents.html:61
+#: .\trade_management\templates\documents\document_folder_detail.html:68
+#: .\trade_management\templates\financial\outstanding_balances.html:72
+#: .\trade_management\templates\financial\payment_history.html:42
+#: .\trade_management\templates\licensing\license_renewal.html:32
+#: .\trade_management\templates\licensing\license_renewal.html:74
+#: .\trade_management\templates\licensing\license_renewal.html:109
+#: .\trade_management\templates\licensing\my_licenses.html:109
+msgid "Type"
+msgstr "النوع"
+
+#: .\trade_management\templates\dashboards\anticorruption_dashboard.html:132
+msgid "Reviewed"
+msgstr "تمت المراجعة"
+
+#: .\trade_management\templates\dashboards\anticorruption_dashboard.html:143
+msgid "No rejections."
+msgstr "لا توجد رفوضات."
+
+#: .\trade_management\templates\dashboards\anticorruption_dashboard.html:156
+msgid "Recent Import Permits (Audit)"
+msgstr "تصاريح الاستيراد الأخيرة (تدقيق)"
+
+#: .\trade_management\templates\dashboards\anticorruption_dashboard.html:162
+#: .\trade_management\templates\dashboards\customs_dashboard.html:73
+#: .\trade_management\templates\dashboards\ministry_dashboard.html:130
+#: .\trade_management\templates\imports\import_documents.html:85
+#: .\trade_management\templates\imports\import_permits.html:80
+#: .\trade_management\templates\imports\inspections.html:80
+#: .\trade_management\templates\reports\inspection_reports.html:148
+#: .\trade_management\templates\reports\trade_reports.html:143
+msgid "Permit #"
+msgstr "رقم التصريح"
+
+#: .\trade_management\templates\dashboards\anticorruption_dashboard.html:162
+#: .\trade_management\templates\dashboards\customs_dashboard.html:77
+#: .\trade_management\templates\dashboards\ministry_dashboard.html:132
+#: .\trade_management\templates\imports\import_permits.html:86
+#: .\trade_management\templates\reports\trade_reports.html:86
+msgid "Value (USD)"
+msgstr "القيمة (دولار أمريكي)"
+
+#: .\trade_management\templates\dashboards\anticorruption_dashboard.html:173
+#: .\trade_management\templates\dashboards\ministry_dashboard.html:155
+msgid "No permits."
+msgstr "لا توجد تصاريح."
+
+#: .\trade_management\templates\dashboards\customs_dashboard.html:8
+msgid "Customs Authority Dashboard"
+msgstr "لوحة تحكم هيئة الجمارك"
+
+#: .\trade_management\templates\dashboards\customs_dashboard.html:9
+msgid "Libyan Customs Authority — Import Permits & Inspections"
+msgstr "هيئة الجمارك الليبية — تصاريح الاستيراد والتفتيش"
+
+#: .\trade_management\templates\dashboards\customs_dashboard.html:20
+msgid "Pending Permits"
+msgstr "التصاريح المعلقة"
+
+#: .\trade_management\templates\dashboards\customs_dashboard.html:31
+#: .\trade_management\templates\dashboards\license_dashboard.html:31
+#: .\trade_management\templates\imports\import_permits.html:35
+#: .\trade_management\templates\imports\import_permits.html:107
+#: .\trade_management\templates\imports\import_tracking.html:21
+#: .\trade_management\templates\imports\import_tracking.html:48
+#: .\trade_management\templates\licensing\application_status.html:36
+#: .\trade_management\templates\licensing\application_status.html:73
+#: .\trade_management\templates\licensing\application_status.html:124
+#: .\trade_management\templates\reports\trade_reports.html:121
+msgid "Under Review"
+msgstr "قيد المراجعة"
+
+#: .\trade_management\templates\dashboards\customs_dashboard.html:42
+msgid "Approved Today"
+msgstr "تمت الموافقة اليوم"
+
+#: .\trade_management\templates\dashboards\customs_dashboard.html:53
+msgid "Pending Inspections"
+msgstr "التفتيشات المعلقة"
+
+#: .\trade_management\templates\dashboards\customs_dashboard.html:66
+msgid "Submitted Import Permits"
+msgstr "تصاريح الاستيراد المقدمة"
+
+#: .\trade_management\templates\dashboards\customs_dashboard.html:75
+#: .\trade_management\templates\imports\apply_import.html:53
+#: .\trade_management\templates\imports\import_tracking.html:91
+msgid "Shipment Type"
+msgstr "نوع الشحنة"
+
+#: .\trade_management\templates\dashboards\customs_dashboard.html:76
+#: .\trade_management\templates\imports\apply_import.html:82
+msgid "Country of Origin"
+msgstr "بلد المنشأ"
+
+#: .\trade_management\templates\dashboards\customs_dashboard.html:92
+msgid "No pending permits."
+msgstr "لا توجد تصاريح معلقة."
+
+#: .\trade_management\templates\dashboards\customs_dashboard.html:105
+msgid "Recent Inspections"
+msgstr "عمليات التفتيش الأخيرة"
+
+#: .\trade_management\templates\dashboards\customs_dashboard.html:116
+#: .\trade_management\templates\imports\inspections.html:28
+#: .\trade_management\templates\imports\inspections.html:99
+#: .\trade_management\templates\imports\inspections.html:167
+#: .\trade_management\templates\reports\inspection_reports.html:44
+#: .\trade_management\templates\reports\inspection_reports.html:165
+msgid "Passed"
+msgstr "اجتاز"
+
+#: .\trade_management\templates\dashboards\customs_dashboard.html:118
+#: .\trade_management\templates\imports\inspections.html:101
+#: .\trade_management\templates\imports\inspections.html:185
+#: .\trade_management\templates\reports\compliance_reports.html:47
+#: .\trade_management\templates\reports\inspection_reports.html:167
+msgid "Failed"
+msgstr "فشل"
+
+#: .\trade_management\templates\dashboards\customs_dashboard.html:120
+#: .\trade_management\templates\imports\inspections.html:105
+#: .\trade_management\templates\imports\inspections.html:176
+#: .\trade_management\templates\reports\compliance_reports.html:43
+#: .\trade_management\templates\reports\inspection_reports.html:60
+#: .\trade_management\templates\reports\inspection_reports.html:169
+msgid "Conditional"
+msgstr "مشروط"
+
+#: .\trade_management\templates\dashboards\customs_dashboard.html:122
+#: .\trade_management\templates\financial\outstanding_balances.html:89
+#: .\trade_management\templates\financial\tax_payments.html:28
+#: .\trade_management\templates\financial\tax_payments.html:78
+#: .\trade_management\templates\imports\import_documents.html:106
+#: .\trade_management\templates\imports\inspections.html:103
+#: .\trade_management\templates\imports\inspections.html:158
+#: .\trade_management\templates\licensing\application_status.html:153
+#: .\trade_management\templates\reports\inspection_reports.html:68
+#: .\trade_management\templates\reports\inspection_reports.html:171
+msgid "Pending"
+msgstr "معلق"
+
+#: .\trade_management\templates\dashboards\customs_dashboard.html:126
+msgid "No inspections yet."
+msgstr "لا توجد عمليات تفتيش بعد."
+
+#: .\trade_management\templates\dashboards\license_dashboard.html:8
+msgid "License & Registration Authority Dashboard"
+msgstr "لوحة تحكم هيئة الترخيص والتسجيل"
+
+#: .\trade_management\templates\dashboards\license_dashboard.html:9
+msgid "License Applications — Review & Approval Workflow"
+msgstr "طلبات الترخيص — سير عمل المراجعة والموافقة"
+
+#: .\trade_management\templates\dashboards\license_dashboard.html:20
+msgid "Awaiting Review"
+msgstr "في انتظار المراجعة"
+
+#: .\trade_management\templates\dashboards\license_dashboard.html:42
+#: .\trade_management\templates\dashboards\ministry_dashboard.html:144
+#: .\trade_management\templates\imports\import_permits.html:43
+#: .\trade_management\templates\imports\import_permits.html:109
+#: .\trade_management\templates\imports\import_tracking.html:22
+#: .\trade_management\templates\imports\import_tracking.html:50
+#: .\trade_management\templates\licensing\application_status.html:44
+#: .\trade_management\templates\licensing\application_status.html:74
+#: .\trade_management\templates\licensing\application_status.html:126
+#: .\trade_management\templates\reports\compliance_reports.html:97
+#: .\trade_management\templates\reports\trade_reports.html:52
+#: .\trade_management\templates\reports\trade_reports.html:113
+#: .\trade_management\templates\reports\trade_reports.html:163
+msgid "Approved"
+msgstr "معتمد"
+
+#: .\trade_management\templates\dashboards\license_dashboard.html:53
+msgid "Expiring in 30 Days"
+msgstr "تنتهي خلال 30 يوماً"
+
+#: .\trade_management\templates\dashboards\license_dashboard.html:66
+msgid "Submitted Applications — Awaiting Review"
+msgstr "الطلبات المقدمة — في انتظار المراجعة"
+
+#: .\trade_management\templates\dashboards\license_dashboard.html:75
+#: .\trade_management\templates\licensing\application_status.html:97
+#: .\trade_management\templates\licensing\apply_license.html:49
+msgid "License Type"
+msgstr "نوع الترخيص"
+
+#: .\trade_management\templates\dashboards\license_dashboard.html:76
+msgid "Est. Value (USD)"
+msgstr "القيمة التقديرية (دولار أمريكي)"
+
+#: .\trade_management\templates\dashboards\license_dashboard.html:77
+#: .\trade_management\templates\dashboards\ministry_dashboard.html:148
+#: .\trade_management\templates\imports\import_permits.html:27
+#: .\trade_management\templates\imports\import_permits.html:105
+#: .\trade_management\templates\imports\import_tracking.html:20
+#: .\trade_management\templates\imports\import_tracking.html:46
+#: .\trade_management\templates\licensing\application_status.html:28
+#: .\trade_management\templates\licensing\application_status.html:72
+#: .\trade_management\templates\licensing\application_status.html:98
+#: .\trade_management\templates\licensing\application_status.html:122
+msgid "Submitted"
+msgstr "مقدم"
+
+#: .\trade_management\templates\dashboards\license_dashboard.html:90
+msgid "No pending applications."
+msgstr "لا توجد طلبات معلقة."
+
+#: .\trade_management\templates\dashboards\license_dashboard.html:103
+#: .\trade_management\templates\licensing\my_licenses.html:74
+msgid "Licenses Expiring Soon"
+msgstr "التراخيص التي تنتهي قريباً"
+
+#: .\trade_management\templates\dashboards\license_dashboard.html:109
+msgid "License #"
+msgstr "رقم الترخيص"
+
+#: .\trade_management\templates\dashboards\license_dashboard.html:109
+msgid "Expires"
+msgstr "تاريخ الانتهاء"
+
+#: .\trade_management\templates\dashboards\license_dashboard.html:119
+msgid "No licenses expiring soon."
+msgstr "لا توجد تراخيص تنتهي قريباً."
+
+#: .\trade_management\templates\dashboards\ministry_dashboard.html:8
+msgid "Ministry of Trade & Economy Dashboard"
+msgstr "لوحة تحكم وزارة التجارة والاقتصاد"
+
+#: .\trade_management\templates\dashboards\ministry_dashboard.html:9
+msgid "National Trade Overview"
+msgstr "نظرة عامة على التجارة الوطنية"
+
+#: .\trade_management\templates\dashboards\ministry_dashboard.html:20
+msgid "Registered Companies"
+msgstr "الشركات المسجلة"
+
+#: .\trade_management\templates\dashboards\ministry_dashboard.html:31
+msgid "Active Companies"
+msgstr "الشركات النشطة"
+
+#: .\trade_management\templates\dashboards\ministry_dashboard.html:53
+msgid "Approved Permits"
+msgstr "التصاريح المعتمدة"
+
+#: .\trade_management\templates\dashboards\ministry_dashboard.html:66
+msgid "Total Tax Collected (LYD)"
+msgstr "إجمالي الضرائب المحصلة (دينار ليبي)"
+
+#: .\trade_management\templates\dashboards\ministry_dashboard.html:80
+msgid "Recently Registered Companies"
+msgstr "الشركات المسجلة مؤخراً"
+
+#: .\trade_management\templates\dashboards\ministry_dashboard.html:90
+msgid "Registered"
+msgstr "مسجل"
+
+#: .\trade_management\templates\dashboards\ministry_dashboard.html:100
+#: .\trade_management\templates\reports\compliance_reports.html:190
+#: .\trade_management\templates\settings\manage_users.html:44
+msgid "Active"
+msgstr "نشط"
+
+#: .\trade_management\templates\dashboards\ministry_dashboard.html:102
+msgid "Suspended"
+msgstr "موقوف"
+
+#: .\trade_management\templates\dashboards\ministry_dashboard.html:104
+msgid "Blacklisted"
+msgstr "محظور"
+
+#: .\trade_management\templates\dashboards\ministry_dashboard.html:110
+msgid "No companies."
+msgstr "لا توجد شركات."
+
+#: .\trade_management\templates\dashboards\ministry_dashboard.html:123
+#: .\trade_management\templates\reports\trade_reports.html:135
+msgid "Recent Import Permits"
+msgstr "تصاريح الاستيراد الأخيرة"
+
+#: .\trade_management\templates\dashboards\ministry_dashboard.html:146
+#: .\trade_management\templates\documents\all_documents.html:34
+#: .\trade_management\templates\imports\import_permits.html:51
+#: .\trade_management\templates\imports\import_permits.html:111
+#: .\trade_management\templates\imports\import_tracking.html:23
+#: .\trade_management\templates\imports\import_tracking.html:52
+#: .\trade_management\templates\licensing\application_status.html:52
+#: .\trade_management\templates\licensing\application_status.html:75
+#: .\trade_management\templates\licensing\application_status.html:128
+#: .\trade_management\templates\reports\compliance_reports.html:101
+#: .\trade_management\templates\reports\trade_reports.html:60
+#: .\trade_management\templates\reports\trade_reports.html:117
+#: .\trade_management\templates\reports\trade_reports.html:165
+msgid "Rejected"
+msgstr "مرفوض"
+
+#: .\trade_management\templates\dashboards\tax_dashboard.html:8
+msgid "Tax Authority Dashboard"
+msgstr "لوحة تحكم هيئة الضرائب"
+
+#: .\trade_management\templates\dashboards\tax_dashboard.html:9
+msgid "Libyan Tax Authority — Duties, Taxes & Payments"
+msgstr "هيئة الضرائب الليبية — الرسوم والضرائب والمدفوعات"
+
+#: .\trade_management\templates\dashboards\tax_dashboard.html:20
+#: .\trade_management\templates\dashboards\tax_dashboard.html:79
+msgid "Overdue Payments"
+msgstr "المدفوعات المتأخرة"
+
+#: .\trade_management\templates\dashboards\tax_dashboard.html:31
+msgid "Pending Payments"
+msgstr "المدفوعات المعلقة"
+
+#: .\trade_management\templates\dashboards\tax_dashboard.html:42
+msgid "Paid This Month"
+msgstr "المدفوع هذا الشهر"
+
+#: .\trade_management\templates\dashboards\tax_dashboard.html:53
+msgid "Collected (LYD)"
+msgstr "المحصل (دينار ليبي)"
+
+#: .\trade_management\templates\dashboards\tax_dashboard.html:65
+msgid "Outstanding Balance (LYD)"
+msgstr "الرصيد المستحق (دينار ليبي)"
+
+#: .\trade_management\templates\dashboards\tax_dashboard.html:86
+#: .\trade_management\templates\dashboards\tax_dashboard.html:123
+msgid "Receipt #"
+msgstr "رقم الإيصال"
+
+#: .\trade_management\templates\dashboards\tax_dashboard.html:88
+#: .\trade_management\templates\financial\tax_payments.html:58
+msgid "Tax Type"
+msgstr "نوع الضريبة"
+
+#: .\trade_management\templates\dashboards\tax_dashboard.html:89
+msgid "Balance Due"
+msgstr "المبلغ المستحق"
+
+#: .\trade_management\templates\dashboards\tax_dashboard.html:90
+#: .\trade_management\templates\financial\outstanding_balances.html:74
+#: .\trade_management\templates\financial\tax_payments.html:60
+msgid "Due Date"
+msgstr "تاريخ الاستحقاق"
+
+#: .\trade_management\templates\dashboards\tax_dashboard.html:103
+msgid "No overdue payments."
+msgstr "لا توجد مدفوعات متأخرة."
+
+#: .\trade_management\templates\dashboards\tax_dashboard.html:116
+msgid "Recent Payments"
+msgstr "المدفوعات الأخيرة"
+
+#: .\trade_management\templates\dashboards\tax_dashboard.html:125
+msgid "Amount Paid"
+msgstr "المبلغ المدفوع"
+
+#: .\trade_management\templates\dashboards\tax_dashboard.html:137
+#: .\trade_management\templates\financial\tax_payments.html:20
+#: .\trade_management\templates\financial\tax_payments.html:76
+msgid "Paid"
+msgstr "مدفوع"
+
+#: .\trade_management\templates\dashboards\tax_dashboard.html:139
+#: .\trade_management\templates\financial\outstanding_balances.html:91
+#: .\trade_management\templates\financial\tax_payments.html:36
+#: .\trade_management\templates\financial\tax_payments.html:80
+msgid "Overdue"
+msgstr "متأخر"
+
+#: .\trade_management\templates\dashboards\tax_dashboard.html:141
+msgid "Partial"
+msgstr "جزئي"
+
+#: .\trade_management\templates\dashboards\tax_dashboard.html:148
+msgid "No payments yet."
+msgstr "لا توجد مدفوعات بعد."
+
+#: .\trade_management\templates\documents\all_documents.html:9
+#: .\trade_management\templates\documents\all_documents.html:51
+msgid "All Documents"
+msgstr "المستندات"
+
+#: .\trade_management\templates\documents\all_documents.html:20
+msgid "Filter by Type"
+msgstr "تصفية"
+
+#: .\trade_management\templates\documents\all_documents.html:22
+msgid "All Types"
+msgstr "النوع"
+
+#: .\trade_management\templates\documents\all_documents.html:29
+msgid "Filter by Status"
+msgstr "تصفية حسب الحالة"
+
+#: .\trade_management\templates\documents\all_documents.html:31
+msgid "All Statuses"
+msgstr "الحالة"
+
+#: .\trade_management\templates\documents\all_documents.html:32
+#: .\trade_management\templates\documents\all_documents.html:65
+#: .\trade_management\templates\documents\document_folder_detail.html:71
+msgid "Uploaded"
+msgstr "تم الرفع"
+
+#: .\trade_management\templates\documents\all_documents.html:33
+#: .\trade_management\templates\imports\import_documents.html:90
+msgid "Verified"
+msgstr "تم التحقق"
+
+#: .\trade_management\templates\documents\all_documents.html:38
+msgid "Clear Filters"
+msgstr "تصفية"
+
+#: .\trade_management\templates\documents\all_documents.html:60
+#: .\trade_management\templates\documents\document_folder_detail.html:67
+msgid "Document"
+msgstr "المستندات"
+
+#: .\trade_management\templates\documents\all_documents.html:62
+msgid "Linked Trade"
+msgstr "التجارة المرتبطة"
+
+#: .\trade_management\templates\documents\all_documents.html:66
+#: .\trade_management\templates\documents\document_folder_detail.html:72
+#: .\trade_management\templates\financial\tax_payments.html:62
+#: .\trade_management\templates\imports\import_documents.html:91
+#: .\trade_management\templates\imports\import_permits.html:88
+#: .\trade_management\templates\licensing\application_status.html:102
+#: .\trade_management\templates\licensing\my_licenses.html:114
+#: .\trade_management\templates\settings\manage_users.html:32
+msgid "Actions"
+msgstr "إجراءات"
+
+#: .\trade_management\templates\documents\all_documents.html:108
+msgid "No Documents Found"
+msgstr "المستندات"
+
+#: .\trade_management\templates\documents\all_documents.html:109
+msgid "Upload documents from a trade folder."
+msgstr "ارفع المستندات من مجلد تجاري."
+
+#: .\trade_management\templates\documents\all_documents.html:111
+msgid "View Folders"
+msgstr "عرض المجلدات"
+
+#: .\trade_management\templates\documents\document_folder_detail.html:9
+#: .\trade_management\templates\documents\document_folders.html:9
+msgid "Document Folders"
+msgstr "المستندات"
+
+#: .\trade_management\templates\documents\document_folder_detail.html:45
+msgid "Back to Folders"
+msgstr "العودة إلى المجلدات"
+
+#: .\trade_management\templates\documents\document_folder_detail.html:48
+#: .\trade_management\templates\documents\document_folder_detail.html:135
+#: .\trade_management\templates\imports\import_documents.html:18
+msgid "Upload Document"
+msgstr "المستندات"
+
+#: .\trade_management\templates\documents\document_folder_detail.html:59
+msgid "Documents in this Trade"
+msgstr "نوع المستند"
+
+#: .\trade_management\templates\documents\document_folder_detail.html:69
+msgid "Size"
+msgstr "الحجم"
+
+#: .\trade_management\templates\documents\document_folder_detail.html:115
+msgid "No Documents Yet"
+msgstr "المستندات"
+
+#: .\trade_management\templates\documents\document_folder_detail.html:116
+msgid "Upload documents related to this trade."
+msgstr "ارفع المستندات المتعلقة بهذه التجارة."
+
+#: .\trade_management\templates\documents\document_folder_detail.html:118
+msgid "Upload First Document"
+msgstr "ارفع المستند الأول"
+
+#: .\trade_management\templates\documents\document_folder_detail.html:140
+#: .\trade_management\templates\imports\import_documents.html:35
+#: .\trade_management\templates\imports\import_documents.html:86
+msgid "Document Type"
+msgstr "نوع المستند"
+
+#: .\trade_management\templates\documents\document_folder_detail.html:148
+#: .\trade_management\templates\imports\import_documents.html:43
+msgid "Select File"
+msgstr "اختر ملفاً"
+
+#: .\trade_management\templates\documents\document_folder_detail.html:150
+msgid "Accepted: PDF, JPG, PNG (max 10MB)"
+msgstr "المقبول: PDF، JPG، PNG (بحد أقصى 10 ميغابايت)"
+
+#: .\trade_management\templates\documents\document_folder_detail.html:159
+#: .\trade_management\templates\imports\import_documents.html:48
+msgid "Upload"
+msgstr "رفع"
+
+#: .\trade_management\templates\documents\document_folders.html:19
+msgid "Import Permits (Folders)"
+msgstr "تصاريح الاستيراد"
+
+#: .\trade_management\templates\documents\document_folders.html:27
+#: .\trade_management\templates\documents\document_folders.html:103
+msgid "Unassigned Documents"
+msgstr "المستندات"
+
+#: .\trade_management\templates\documents\document_folders.html:35
+msgid "Document Repository"
+msgstr "المستندات"
+
+#: .\trade_management\templates\documents\document_folders.html:46
+msgid "Trade Document Folders"
+msgstr "مجلدات مستندات التجارة"
+
+#: .\trade_management\templates\documents\document_folders.html:47
+msgid "Organized by Import Permit Number"
+msgstr "مرتبة حسب رقم تصريح الاستيراد"
+
+#: .\trade_management\templates\documents\document_folders.html:85
+msgid "No Import Permits Yet"
+msgstr "تصاريح الاستيراد"
+
+#: .\trade_management\templates\documents\document_folders.html:86
+msgid "Create an import permit to start organizing documents."
+msgstr "أنشئ تصريح استيراد لبدء تنظيم المستندات."
+
+#: .\trade_management\templates\documents\document_folders.html:88
+#: .\trade_management\templates\imports\apply_import.html:10
+#: .\trade_management\templates\imports\import_permits.html:72
+#: .\trade_management\templates\imports\import_tracking.html:180
+msgid "Apply for Import Permit"
+msgstr "التقدم بطلب استيراد"
+
+#: .\trade_management\templates\documents\document_folders.html:107
+msgid "View All Documents"
+msgstr "المستندات"
+
+#: .\trade_management\templates\financial\financial_dashboard.html:9
+msgid "Financial Dashboard"
+msgstr "التقارير المالية"
+
+#: .\trade_management\templates\financial\financial_dashboard.html:20
+msgid "Total Tax Paid"
+msgstr "إجمالي الضريبة المدفوعة"
+
+#: .\trade_management\templates\financial\financial_dashboard.html:33
+#: .\trade_management\templates\financial\outstanding_balances.html:20
+msgid "Pending Taxes"
+msgstr "المدفوعات المعلقة"
+
+#: .\trade_management\templates\financial\financial_dashboard.html:46
+#: .\trade_management\templates\financial\outstanding_balances.html:28
+msgid "Overdue Taxes"
+msgstr "المدفوعات المتأخرة"
+
+#: .\trade_management\templates\financial\financial_dashboard.html:59
+#: .\trade_management\templates\reports\financial_reports.html:52
+#: .\trade_management\templates\reports\financial_reports.html:165
+msgid "License Fees"
+msgstr "التراخيص"
+
+#: .\trade_management\templates\financial\financial_dashboard.html:74
+#: .\trade_management\templates\reports\financial_reports.html:60
+msgid "Fines & Penalties"
+msgstr "الغرامات والعقوبات"
+
+#: .\trade_management\templates\financial\financial_dashboard.html:78
+msgid "Total fines from inspections and violations"
+msgstr "إجمالي الغرامات من عمليات التفتيش والمخالفات"
+
+#: .\trade_management\templates\financial\financial_dashboard.html:79
+#: .\trade_management\templates\financial\financial_dashboard.html:91
+msgid "View Details"
+msgstr "عرض التفاصيل"
+
+#: .\trade_management\templates\financial\financial_dashboard.html:86
+#: .\trade_management\templates\reports\financial_reports.html:68
+#: .\trade_management\templates\reports\financial_reports.html:109
+#: .\trade_management\templates\reports\financial_reports.html:183
+msgid "Import Duties"
+msgstr "الواردات"
+
+#: .\trade_management\templates\financial\financial_dashboard.html:90
+msgid "Customs duties paid on imports"
+msgstr "رسوم الجمارك المدفوعة على الواردات"
+
+#: .\trade_management\templates\financial\financial_dashboard.html:103
+msgid "Total Financial Obligations"
+msgstr "إجمالي الالتزامات المالية"
+
+#: .\trade_management\templates\financial\financial_dashboard.html:104
+msgid "All taxes, fees, fines, and duties"
+msgstr "جميع الضرائب والرسوم والغرامات والجمارك"
+
+#: .\trade_management\templates\financial\financial_dashboard.html:116
+msgid "Quick Actions"
+msgstr "إجراءات"
+
+#: .\trade_management\templates\financial\financial_dashboard.html:121
+msgid "Pay Taxes"
+msgstr "دفع الضرائب"
+
+#: .\trade_management\templates\financial\financial_dashboard.html:126
+#: .\trade_management\templates\financial\payment_history.html:10
+msgid "Payment History"
+msgstr "سجل المدفوعات"
+
+#: .\trade_management\templates\financial\financial_dashboard.html:131
+#: .\trade_management\templates\financial\outstanding_balances.html:10
+msgid "Outstanding Balances"
+msgstr "الأرصدة المستحقة"
+
+#: .\trade_management\templates\financial\financial_dashboard.html:136
+#: .\trade_management\templates\reports\financial_reports.html:9
+msgid "Financial Reports"
+msgstr "التقارير المالية"
+
+#: .\trade_management\templates\financial\financial_dashboard.html:149
+msgid "Tax Information"
+msgstr "معلومات الضريبة"
+
+#: .\trade_management\templates\financial\financial_dashboard.html:153
+msgid "Import Duty Rate"
+msgstr "معدل رسوم الاستيراد"
+
+#: .\trade_management\templates\financial\financial_dashboard.html:157
+msgid "VAT on Imports"
+msgstr "الواردات"
+
+#: .\trade_management\templates\financial\financial_dashboard.html:161
+msgid "Processing Fee"
+msgstr "رسوم المعالجة"
+
+#: .\trade_management\templates\financial\financial_dashboard.html:165
+msgid "Late Payment Penalty"
+msgstr "غرامة التأخر في السداد"
+
+#: .\trade_management\templates\financial\financial_dashboard.html:174
+msgid "Payment Methods"
+msgstr "سجل المدفوعات"
+
+#: .\trade_management\templates\financial\financial_dashboard.html:177
+#: .\trade_management\templates\reports\financial_reports.html:122
+msgid "Bank Transfer"
+msgstr "تحويل مصرفي"
+
+#: .\trade_management\templates\financial\financial_dashboard.html:178
+msgid "Central Bank of Libya"
+msgstr "مصرف ليبيا المركزي"
+
+#: .\trade_management\templates\financial\financial_dashboard.html:179
+msgid "Customs Payment Certificate"
+msgstr "شهادة دفع الجمارك"
+
+#: .\trade_management\templates\financial\financial_dashboard.html:180
+msgid "Electronic Payment (Coming Soon)"
+msgstr "الدفع الإلكتروني (قريباً)"
+
+#: .\trade_management\templates\financial\outstanding_balances.html:9
+#: .\trade_management\templates\financial\payment_history.html:9
+#: .\trade_management\templates\financial\tax_payments.html:9
+msgid "Financial"
+msgstr "المالية"
+
+#: .\trade_management\templates\financial\outstanding_balances.html:36
+msgid "Unpaid Fines"
+msgstr "الغرامات غير المدفوعة"
+
+#: .\trade_management\templates\financial\outstanding_balances.html:48
+msgid "Total Outstanding"
+msgstr "الإجمالي المستحق"
+
+#: .\trade_management\templates\financial\outstanding_balances.html:49
+msgid "Immediate payment required to avoid penalties"
+msgstr "الدفع الفوري مطلوب لتجنب الغرامات"
+
+#: .\trade_management\templates\financial\outstanding_balances.html:62
+msgid "Pending & Overdue Taxes"
+msgstr "الضرائب المعلقة والمتأخرة"
+
+#: .\trade_management\templates\financial\outstanding_balances.html:63
+#: .\trade_management\templates\financial\tax_payments.html:48
+msgid "Pay Now"
+msgstr "ادفع الآن"
+
+#: .\trade_management\templates\financial\outstanding_balances.html:71
+#: .\trade_management\templates\financial\tax_payments.html:57
+#: .\trade_management\templates\imports\import_documents.html:24
+msgid "Import Permit"
+msgstr "تصاريح الاستيراد"
+
+#: .\trade_management\templates\financial\outstanding_balances.html:73
+#: .\trade_management\templates\financial\payment_history.html:45
+#: .\trade_management\templates\financial\tax_payments.html:59
+#: .\trade_management\templates\reports\financial_reports.html:150
+msgid "Amount"
+msgstr "المبلغ"
+
+#: .\trade_management\templates\financial\outstanding_balances.html:76
+#: .\trade_management\templates\licensing\license_renewal.html:36
+#: .\trade_management\templates\licensing\license_renewal.html:74
+msgid "Action"
+msgstr "إجراءات"
+
+#: .\trade_management\templates\financial\outstanding_balances.html:95
+#: .\trade_management\templates\financial\tax_payments.html:88
+msgid "Pay"
+msgstr "الدفع"
+
+#: .\trade_management\templates\financial\outstanding_balances.html:101
+msgid "No outstanding tax payments!"
+msgstr "الأرصدة المستحقة"
+
+#: .\trade_management\templates\financial\outstanding_balances.html:118
+msgid "Unpaid Inspection Fines"
+msgstr "التفتيشات المعلقة"
+
+#: .\trade_management\templates\financial\outstanding_balances.html:125
+msgid "Permit"
+msgstr "تصريح"
+
+#: .\trade_management\templates\financial\outstanding_balances.html:126
+#: .\trade_management\templates\imports\inspections.html:82
+msgid "Inspection Date"
+msgstr "تفتيش"
+
+#: .\trade_management\templates\financial\outstanding_balances.html:127
+#: .\trade_management\templates\imports\inspections.html:84
+#: .\trade_management\templates\reports\inspection_reports.html:151
+msgid "Result"
+msgstr "النتيجة"
+
+#: .\trade_management\templates\financial\outstanding_balances.html:128
+msgid "Fine Amount"
+msgstr "المبلغ"
+
+#: .\trade_management\templates\financial\outstanding_balances.html:129
+msgid "Reason"
+msgstr "السبب"
+
+#: .\trade_management\templates\financial\outstanding_balances.html:144
+msgid "No unpaid fines!"
+msgstr "لا توجد غرامات غير مدفوعة!"
+
+#: .\trade_management\templates\financial\outstanding_balances.html:160
+msgid "Late Payment Warning"
+msgstr "تحذير التأخر في السداد"
+
+#: .\trade_management\templates\financial\outstanding_balances.html:161
+msgid "Overdue taxes and unpaid fines accumulate penalties at"
+msgstr "الضرائب المتأخرة والغرامات غير المدفوعة تتراكم بمعدل"
+
+#: .\trade_management\templates\financial\outstanding_balances.html:161
+msgid "per month"
+msgstr "في الشهر"
+
+#: .\trade_management\templates\financial\outstanding_balances.html:161
+msgid ""
+"Please settle your outstanding balances promptly to avoid additional charges "
+"and potential restrictions on your import activities."
+msgstr "يرجى تسوية أرصدتك المستحقة على الفور لتجنب الرسوم الإضافية والقيود المحتملة على أنشطة الاستيراد."
+
+#: .\trade_management\templates\financial\outstanding_balances.html:163
+msgid "Make Payment Now"
+msgstr "مدفوعات الضرائب"
+
+#: .\trade_management\templates\financial\payment_history.html:20
+msgid "Total Payments Made"
+msgstr "مدفوعات الضرائب"
+
+#: .\trade_management\templates\financial\payment_history.html:21
+msgid "All completed transactions"
+msgstr "جميع المعاملات المكتملة"
+
+#: .\trade_management\templates\financial\payment_history.html:34
+msgid "Transaction History"
+msgstr "سجل المدفوعات"
+
+#: .\trade_management\templates\financial\payment_history.html:41
+#: .\trade_management\templates\reports\inspection_reports.html:149
+#: .\trade_management\templates\reports\trade_reports.html:148
+msgid "Date"
+msgstr "التاريخ"
+
+#: .\trade_management\templates\financial\payment_history.html:43
+msgid "Reference"
+msgstr "المرجع"
+
+#: .\trade_management\templates\financial\payment_history.html:44
+#: .\trade_management\templates\imports\import_documents.html:88
+msgid "Description"
+msgstr "الوصف"
+
+#: .\trade_management\templates\financial\payment_history.html:70
+msgid "No payment history found."
+msgstr "سجل المدفوعات"
+
+#: .\trade_management\templates\financial\payment_history.html:86
+msgid "Payment Receipts"
+msgstr "سجل المدفوعات"
+
+#: .\trade_management\templates\financial\payment_history.html:88
+msgid ""
+"Official receipts for your payments can be downloaded from here. Receipts "
+"include:"
+msgstr "يمكن تنزيل الإيصالات الرسمية لمدفوعاتك من هنا. تتضمن الإيصالات:"
+
+#: .\trade_management\templates\financial\payment_history.html:90
+msgid "Transaction reference number"
+msgstr "رقم مرجع المعاملة"
+
+#: .\trade_management\templates\financial\payment_history.html:91
+msgid "Date and time of payment"
+msgstr "تاريخ ووقت الدفع"
+
+#: .\trade_management\templates\financial\payment_history.html:92
+msgid "Payment method used"
+msgstr "طريقة الدفع المستخدمة"
+
+#: .\trade_management\templates\financial\payment_history.html:93
+msgid "Amount paid with breakdown"
+msgstr "المبلغ المدفوع مع التفاصيل"
+
+#: .\trade_management\templates\financial\payment_history.html:94
+msgid "Official stamp and signature"
+msgstr "الختم والتوقيع الرسميان"
+
+#: .\trade_management\templates\financial\payment_history.html:97
+msgid "Keep your receipts for accounting and audit purposes."
+msgstr "احتفظ بإيصالاتك لأغراض المحاسبة والتدقيق."
+
+#: .\trade_management\templates\financial\tax_payments.html:82
+msgid "Waived"
+msgstr "معفى"
+
+#: .\trade_management\templates\financial\tax_payments.html:91
+msgid "Completed"
+msgstr "مكتمل"
+
+#: .\trade_management\templates\financial\tax_payments.html:98
+msgid "No tax payments found."
+msgstr "لا توجد مدفوعات بعد."
+
+#: .\trade_management\templates\financial\tax_payments.html:114
+msgid "Tax Types & Rates"
+msgstr "نوع الضريبة"
+
+#: .\trade_management\templates\financial\tax_payments.html:119
+msgid "Import Duty"
+msgstr "استيراد"
+
+#: .\trade_management\templates\financial\tax_payments.html:120
+#, python-format
+msgid "Applied on CIF value. Rates vary by product category (5%% - 20%%)."
+msgstr "مطبق على قيمة CIF. تتفاوت المعدلات حسب فئة المنتج (5%% - 20%%)."
+
+#: .\trade_management\templates\financial\tax_payments.html:125
+msgid "Customs Processing"
+msgstr "معالجة الجمارك"
+
+#: .\trade_management\templates\financial\tax_payments.html:126
+msgid "Fixed fee for processing import documentation."
+msgstr "رسوم ثابتة لمعالجة وثائق الاستيراد."
+
+#: .\trade_management\templates\financial\tax_payments.html:131
+msgid "Late Penalties"
+msgstr "غرامات التأخير"
+
+#: .\trade_management\templates\financial\tax_payments.html:132
+#, python-format
+msgid "2%% per month on unpaid taxes after due date."
+msgstr "2%% شهرياً على الضرائب غير المدفوعة بعد تاريخ الاستحقاق."
+
+#: .\trade_management\templates\financial\tax_payments.html:151
+msgid "Make Payment"
+msgstr "مدفوعات الضرائب"
+
+#: .\trade_management\templates\financial\tax_payments.html:155
+msgid "Tax Number:"
+msgstr "الرقم الضريبي"
+
+#: .\trade_management\templates\financial\tax_payments.html:156
+msgid "Amount Due:"
+msgstr "المبلغ"
+
+#: .\trade_management\templates\financial\tax_payments.html:157
+#: .\trade_management\templates\licensing\license_renewal.html:154
+#: .\trade_management\templates\licensing\license_renewal.html:194
+msgid "Type:"
+msgstr "النوع"
+
+#: .\trade_management\templates\financial\tax_payments.html:160
+msgid "Payment Reference Number"
+msgstr "رقم مرجع الدفع"
+
+#: .\trade_management\templates\financial\tax_payments.html:162
+msgid "Enter your bank transfer or payment receipt number."
+msgstr "أدخل رقم تحويلك المصرفي أو إيصال الدفع."
+
+#: .\trade_management\templates\financial\tax_payments.html:167
+msgid "Confirm Payment"
+msgstr "المدفوعات المعلقة"
+
+#: .\trade_management\templates\imports\apply_import.html:9
+#: .\trade_management\templates\imports\import_documents.html:9
+#: .\trade_management\templates\imports\import_tracking.html:9
+#: .\trade_management\templates\imports\inspections.html:9
+#: .\trade_management\templates\reports\compliance_reports.html:142
+msgid "Imports"
+msgstr "الواردات"
+
+#: .\trade_management\templates\imports\apply_import.html:18
+msgid "Import Permit Application"
+msgstr "تصاريح الاستيراد"
+
+#: .\trade_management\templates\imports\apply_import.html:19
+msgid "Submit details for your import shipment"
+msgstr "أدخل تفاصيل شحنة الاستيراد"
+
+#: .\trade_management\templates\imports\apply_import.html:27
+msgid "Company Information"
+msgstr "مالك الشركة"
+
+#: .\trade_management\templates\imports\apply_import.html:31
+#: .\trade_management\templates\licensing\apply_license.html:34
+msgid "Select Company"
+msgstr "الشركة"
+
+#: .\trade_management\templates\imports\apply_import.html:38
+msgid "Related Import License"
+msgstr "التقدم بطلب ترخيص"
+
+#: .\trade_management\templates\imports\apply_import.html:40
+msgid "Select License (Optional)"
+msgstr "طلبات الترخيص المرفوضة"
+
+#: .\trade_management\templates\imports\apply_import.html:50
+msgid "Shipment Details"
+msgstr "نوع الشحنة"
+
+#: .\trade_management\templates\imports\apply_import.html:61
+msgid "Bill of Lading / AWB Number"
+msgstr "رقم بوليصة الشحن / أمر النقل الجوي"
+
+#: .\trade_management\templates\imports\apply_import.html:67
+msgid "Vessel / Flight Name"
+msgstr "اسم السفينة / الرحلة"
+
+#: .\trade_management\templates\imports\apply_import.html:71
+msgid "Container Number"
+msgstr "رقم الشركة"
+
+#: .\trade_management\templates\imports\apply_import.html:79
+msgid "Route Information"
+msgstr "معلومات المسار"
+
+#: .\trade_management\templates\imports\apply_import.html:86
+msgid "Port of Loading"
+msgstr "ميناء الشحن"
+
+#: .\trade_management\templates\imports\apply_import.html:92
+msgid "Port of Entry"
+msgstr "ميناء الدخول"
+
+#: .\trade_management\templates\imports\apply_import.html:96
+msgid "Expected Arrival Date"
+msgstr "تاريخ الوصول المتوقع"
+
+#: .\trade_management\templates\imports\apply_import.html:104
+#: .\trade_management\templates\imports\import_tracking.html:158
+msgid "Goods Description"
+msgstr "الوصف"
+
+#: .\trade_management\templates\imports\apply_import.html:106
+msgid "Description of Goods"
+msgstr "الوصف"
+
+#: .\trade_management\templates\imports\apply_import.html:111
+msgid "HS Code"
+msgstr "رمز النظام المنسق"
+
+#: .\trade_management\templates\imports\apply_import.html:115
+msgid "Quantity"
+msgstr "الكمية"
+
+#: .\trade_management\templates\imports\apply_import.html:119
+msgid "Unit of Measure"
+msgstr "وحدة القياس"
+
+#: .\trade_management\templates\imports\apply_import.html:125
+msgid "Total Value (USD)"
+msgstr "القيمة التقديرية (دولار أمريكي)"
+
+#: .\trade_management\templates\imports\apply_import.html:129
+#: .\trade_management\templates\settings\system_settings.html:40
+msgid "Currency"
+msgstr "العملة"
+
+#: .\trade_management\templates\imports\apply_import.html:143
+msgid "Exchange Control (Libya Central Bank)"
+msgstr "مراقبة الصرف (مصرف ليبيا المركزي)"
+
+#: .\trade_management\templates\imports\apply_import.html:145
+msgid "Exchange Approval Reference"
+msgstr "مرجع موافقة الصرف"
+
+#: .\trade_management\templates\imports\apply_import.html:147
+msgid ""
+"If you have obtained foreign exchange approval, enter the reference number "
+"here."
+msgstr "إذا حصلت على موافقة صرف العملات الأجنبية، أدخل الرقم المرجعي هنا."
+
+#: .\trade_management\templates\imports\apply_import.html:154
+#: .\trade_management\templates\licensing\apply_license.html:135
+msgid "Submit Application"
+msgstr "حالة الطلب"
+
+#: .\trade_management\templates\imports\apply_import.html:165
+msgid "Required Documents"
+msgstr "المستندات"
+
+#: .\trade_management\templates\imports\apply_import.html:168
+#: .\trade_management\templates\imports\import_documents.html:141
+msgid "Commercial Invoice"
+msgstr "الفاتورة التجارية"
+
+#: .\trade_management\templates\imports\apply_import.html:169
+#: .\trade_management\templates\imports\import_documents.html:145
+msgid "Packing List"
+msgstr "التتبع"
+
+#: .\trade_management\templates\imports\apply_import.html:170
+#: .\trade_management\templates\imports\import_documents.html:158
+msgid "Bill of Lading / AWB"
+msgstr "بوليصة الشحن / أمر النقل الجوي"
+
+#: .\trade_management\templates\imports\apply_import.html:171
+#: .\trade_management\templates\imports\import_documents.html:162
+msgid "Certificate of Origin"
+msgstr "شهادة"
+
+#: .\trade_management\templates\imports\apply_import.html:172
+msgid "Import License (if applicable)"
+msgstr "ترخيص الاستيراد (إن وجد)"
+
+#: .\trade_management\templates\imports\apply_import.html:174
+msgid "Upload these documents after submitting your application."
+msgstr "ارفع هذه المستندات بعد تقديم طلبك."
+
+#: .\trade_management\templates\imports\apply_import.html:179
+msgid "Processing Timeline"
+msgstr "الجدول الزمني للمعالجة"
+
+#: .\trade_management\templates\imports\apply_import.html:182
+msgid "Submit application"
+msgstr "لا توجد طلبات معلقة."
+
+#: .\trade_management\templates\imports\apply_import.html:183
+msgid "Document verification (2-3 days)"
+msgstr "التحقق من المستندات (2-3 أيام)"
+
+#: .\trade_management\templates\imports\apply_import.html:184
+msgid "Customs review (3-5 days)"
+msgstr "مراجعة الجمارك (3-5 أيام)"
+
+#: .\trade_management\templates\imports\apply_import.html:185
+msgid "Inspection scheduling"
+msgstr "عمليات التفتيش"
+
+#: .\trade_management\templates\imports\apply_import.html:186
+msgid "Permit issuance"
+msgstr "رقم التصريح"
+
+#: .\trade_management\templates\imports\import_documents.html:10
+msgid "Import Documents"
+msgstr "المستندات"
+
+#: .\trade_management\templates\imports\import_documents.html:26
+msgid "Select Permit"
+msgstr "تصريح"
+
+#: .\trade_management\templates\imports\import_documents.html:54
+msgid "Description (Optional)"
+msgstr "الوصف"
+
+#: .\trade_management\templates\imports\import_documents.html:71
+msgid "Documents for"
+msgstr "المستندات"
+
+#: .\trade_management\templates\imports\import_documents.html:73
+msgid "All Import Documents"
+msgstr "المستندات"
+
+#: .\trade_management\templates\imports\import_documents.html:77
+msgid "Show All"
+msgstr "عرض الكل"
+
+#: .\trade_management\templates\imports\import_documents.html:87
+msgid "File Name"
+msgstr "الاسم"
+
+#: .\trade_management\templates\imports\import_documents.html:89
+msgid "Upload Date"
+msgstr "تم الرفع"
+
+#: .\trade_management\templates\imports\import_documents.html:104
+msgid "Yes"
+msgstr "نعم"
+
+#: .\trade_management\templates\imports\import_documents.html:111
+#: .\trade_management\templates\imports\inspections.html:128
+msgid "View"
+msgstr "عرض"
+
+#: .\trade_management\templates\imports\import_documents.html:118
+msgid "No documents uploaded yet."
+msgstr "لا توجد مدفوعات بعد."
+
+#: .\trade_management\templates\imports\import_documents.html:134
+msgid "Required Documents Guide"
+msgstr "دليل المستندات المطلوبة"
+
+#: .\trade_management\templates\imports\import_documents.html:138
+msgid "Commercial Documents"
+msgstr "المستندات"
+
+#: .\trade_management\templates\imports\import_documents.html:142
+#: .\trade_management\templates\imports\import_documents.html:146
+#: .\trade_management\templates\imports\import_documents.html:159
+#: .\trade_management\templates\imports\import_documents.html:163
+msgid "Required"
+msgstr "مطلوب"
+
+#: .\trade_management\templates\imports\import_documents.html:149
+msgid "Proforma Invoice"
+msgstr "فاتورة مبدئية"
+
+#: .\trade_management\templates\imports\import_documents.html:150
+msgid "Optional"
+msgstr "اختياري"
+
+#: .\trade_management\templates\imports\import_documents.html:155
+msgid "Shipping & Origin"
+msgstr "الشحن"
+
+#: .\trade_management\templates\imports\import_documents.html:166
+msgid "Inspection Certificate"
+msgstr "تقارير التفتيش"
+
+#: .\trade_management\templates\imports\import_documents.html:167
+msgid "If Required"
+msgstr "إذا كان مطلوباً"
+
+#: .\trade_management\templates\imports\import_permits.html:19
+#: .\trade_management\templates\imports\import_permits.html:103
+#: .\trade_management\templates\imports\import_tracking.html:19
+#: .\trade_management\templates\imports\import_tracking.html:44
+#: .\trade_management\templates\licensing\application_status.html:20
+#: .\trade_management\templates\licensing\application_status.html:71
+#: .\trade_management\templates\licensing\application_status.html:120
+msgid "Draft"
+msgstr "مسودة"
+
+#: .\trade_management\templates\imports\import_permits.html:59
+#: .\trade_management\templates\imports\import_permits.html:113
+#: .\trade_management\templates\imports\import_tracking.html:54
+#: .\trade_management\templates\licensing\my_licenses.html:34
+#: .\trade_management\templates\licensing\my_licenses.html:129
+#: .\trade_management\templates\licensing\my_licenses.html:142
+#: .\trade_management\templates\reports\compliance_reports.html:69
+#: .\trade_management\templates\reports\compliance_reports.html:105
+msgid "Expired"
+msgstr "تاريخ الانتهاء"
+
+#: .\trade_management\templates\imports\import_permits.html:82
+msgid "License"
+msgstr "ترخيص"
+
+#: .\trade_management\templates\imports\import_permits.html:83
+msgid "Shipment"
+msgstr "نوع الشحنة"
+
+#: .\trade_management\templates\imports\import_permits.html:84
+#: .\trade_management\templates\imports\import_tracking.html:103
+#: .\trade_management\templates\reports\trade_reports.html:145
 msgid "Origin"
 msgstr "بلد المنشأ"
 
+#: .\trade_management\templates\imports\import_permits.html:85
+msgid "Arrival Date"
+msgstr "تاريخ الوصول"
+
+#: .\trade_management\templates\imports\import_permits.html:128
+msgid "No import permits found."
+msgstr "لا يوجد مستخدمون."
+
+#: .\trade_management\templates\imports\import_permits.html:129
+msgid "Apply for Your First Import Permit"
+msgstr "التقدم بطلب استيراد"
+
+#: .\trade_management\templates\imports\import_tracking.html:10
+msgid "Track Imports"
+msgstr "الواردات"
+
+#: .\trade_management\templates\imports\import_tracking.html:18
+#: .\trade_management\templates\licensing\application_status.html:70
+msgid "All"
+msgstr "الكل"
+
+#: .\trade_management\templates\imports\import_tracking.html:26
+msgid "New Import"
+msgstr "استيراد"
+
+#: .\trade_management\templates\imports\import_tracking.html:62
+msgid "Application Progress"
+msgstr "حالة الطلب"
+
+#: .\trade_management\templates\imports\import_tracking.html:95
+msgid "B/L or AWB #"
+msgstr "رقم بوليصة الشحن / أمر النقل الجوي"
+
+#: .\trade_management\templates\imports\import_tracking.html:107
 msgid "Destination"
 msgstr "الوجهة"
 
-msgid "Shipping"
-msgstr "الشحن"
+#: .\trade_management\templates\imports\import_tracking.html:115
+msgid "Expected Arrival"
+msgstr "الوصول المتوقع"
 
-msgid "Tracking"
-msgstr "التتبع"
+#: .\trade_management\templates\imports\import_tracking.html:119
+#: .\trade_management\templates\reports\trade_reports.html:147
+msgid "Value"
+msgstr "القيمة (دولار أمريكي)"
 
-msgid "History"
+#: .\trade_management\templates\imports\import_tracking.html:141
+msgid "Inspection:"
+msgstr "تفتيش"
+
+#: .\trade_management\templates\imports\import_tracking.html:152
+msgid "Awaiting inspection scheduling"
+msgstr "في انتظار جدولة التفتيش"
+
+#: .\trade_management\templates\imports\import_tracking.html:164
+msgid "Documents"
+msgstr "المستندات"
+
+#: .\trade_management\templates\imports\import_tracking.html:167
+#: .\trade_management\templates\imports\inspections.html:20
+msgid "Pending Inspection"
+msgstr "التفتيشات المعلقة"
+
+#: .\trade_management\templates\imports\import_tracking.html:178
+msgid "No Imports to Track"
+msgstr "تتبع الاستيراد"
+
+#: .\trade_management\templates\imports\import_tracking.html:179
+msgid "You haven't submitted any import permit applications yet."
+msgstr "لم تقدم أي طلبات تصاريح استيراد بعد."
+
+#: .\trade_management\templates\imports\inspections.html:10
+#: .\trade_management\templates\reports\compliance_reports.html:152
+msgid "Inspections"
+msgstr "عمليات التفتيش"
+
+#: .\trade_management\templates\imports\inspections.html:36
+#: .\trade_management\templates\reports\inspection_reports.html:52
+msgid "Failed / Stopped"
+msgstr "فشل / متوقف"
+
+#: .\trade_management\templates\imports\inspections.html:44
+msgid "Conditional Pass"
+msgstr "مشروط"
+
+#: .\trade_management\templates\imports\inspections.html:55
+msgid "Imports Awaiting Inspection"
+msgstr "التفتيشات المعلقة"
+
+#: .\trade_management\templates\imports\inspections.html:56
+msgid "The following approved imports need to be scheduled for inspection:"
+msgstr "الواردات المعتمدة التالية تحتاج إلى جدولة للتفتيش:"
+
+#: .\trade_management\templates\imports\inspections.html:72
+#: .\trade_management\templates\reports\inspection_reports.html:140
+msgid "Inspection Records"
+msgstr "تقارير التفتيش"
+
+#: .\trade_management\templates\imports\inspections.html:83
+#: .\trade_management\templates\reports\inspection_reports.html:150
+msgid "Location"
+msgstr "الإشعارات"
+
+#: .\trade_management\templates\imports\inspections.html:85
+msgid "Condition Notes"
+msgstr "مشروط"
+
+#: .\trade_management\templates\imports\inspections.html:86
+msgid "Actions Taken"
+msgstr "إجراءات"
+
+#: .\trade_management\templates\imports\inspections.html:87
+#: .\trade_management\templates\licensing\application_status.html:158
+#: .\trade_management\templates\reports\inspection_reports.html:154
+msgid "Details"
+msgstr "التفاصيل"
+
+#: .\trade_management\templates\imports\inspections.html:113
+msgid "Import Stopped"
+msgstr "استيراد"
+
+#: .\trade_management\templates\imports\inspections.html:115
+msgid "Fine Applied"
+msgstr "تطبيق الغرامة"
+
+#: .\trade_management\templates\imports\inspections.html:119
+msgid "Partial Release"
+msgstr "جزئي"
+
+#: .\trade_management\templates\imports\inspections.html:121
+msgid "Cleared"
+msgstr "مُخلَّص"
+
+#: .\trade_management\templates\imports\inspections.html:135
+msgid "No inspection records found."
+msgstr "لا توجد عمليات تفتيش بعد."
+
+#: .\trade_management\templates\imports\inspections.html:151
+msgid "Inspection Status Guide"
+msgstr "عمليات التفتيش"
+
+#: .\trade_management\templates\imports\inspections.html:159
+msgid "Awaiting physical inspection"
+msgstr "في انتظار الفحص المادي"
+
+#: .\trade_management\templates\imports\inspections.html:168
+msgid "Import cleared for release"
+msgstr "تم تخليص الاستيراد للإفراج"
+
+#: .\trade_management\templates\imports\inspections.html:177
+msgid "Release with conditions/fines"
+msgstr "الإفراج بشروط/غرامات"
+
+#: .\trade_management\templates\imports\inspections.html:186
+msgid "Import stopped/returned"
+msgstr "الاستيراد متوقف/مُعاد"
+
+#: .\trade_management\templates\imports\inspections.html:207
+#: .\trade_management\templates\reports\inspection_reports.html:228
+msgid "Inspection Details"
+msgstr "تقارير التفتيش"
+
+#: .\trade_management\templates\imports\inspections.html:213
+#: .\trade_management\templates\licensing\application_status.html:190
+#: .\trade_management\templates\licensing\license_renewal.html:155
+#: .\trade_management\templates\licensing\license_renewal.html:195
+msgid "Company:"
+msgstr "الشركة"
+
+#: .\trade_management\templates\imports\inspections.html:214
+msgid "Goods:"
+msgstr "البضائع:"
+
+#: .\trade_management\templates\imports\inspections.html:217
+msgid "Inspection Date:"
+msgstr "تفتيش"
+
+#: .\trade_management\templates\imports\inspections.html:218
+#: .\trade_management\templates\reports\inspection_reports.html:234
+msgid "Location:"
+msgstr "الإشعارات"
+
+#: .\trade_management\templates\imports\inspections.html:272
+#: .\trade_management\templates\licensing\application_status.html:233
+#: .\trade_management\templates\reports\inspection_reports.html:247
+msgid "Close"
+msgstr "إغلاق"
+
+#: .\trade_management\templates\licensing\application_status.html:10
+msgid "Application Status"
+msgstr "حالة الطلب"
+
+#: .\trade_management\templates\licensing\application_status.html:60
+msgid "Total"
+msgstr "الإجمالي"
+
+#: .\trade_management\templates\licensing\application_status.html:78
+msgid "New Application"
+msgstr "حالة الطلب"
+
+#: .\trade_management\templates\licensing\application_status.html:88
+msgid "License Applications"
+msgstr "طلبات الترخيص المرفوضة"
+
+#: .\trade_management\templates\licensing\application_status.html:95
+msgid "Application #"
+msgstr "حالة الطلب"
+
+#: .\trade_management\templates\licensing\application_status.html:100
+msgid "Progress"
+msgstr "التقدم"
+
+#: .\trade_management\templates\licensing\application_status.html:101
+msgid "Reviewed By"
+msgstr "تمت المراجعة"
+
+#: .\trade_management\templates\licensing\application_status.html:115
+#: .\trade_management\templates\licensing\application_status.html:195
+msgid "Not submitted"
+msgstr "مقدم"
+
+#: .\trade_management\templates\licensing\application_status.html:165
+msgid "No applications found."
+msgstr "لا توجد طلبات معلقة."
+
+#: .\trade_management\templates\licensing\application_status.html:166
+msgid "Submit Your First Application"
+msgstr "قدم طلبك الأول"
+
+#: .\trade_management\templates\licensing\application_status.html:184
+msgid "Application Details"
+msgstr "حالة الطلب"
+
+#: .\trade_management\templates\licensing\application_status.html:191
+msgid "License Type:"
+msgstr "نوع الترخيص"
+
+#: .\trade_management\templates\licensing\application_status.html:192
+msgid "Status:"
+msgstr "الحالة"
+
+#: .\trade_management\templates\licensing\application_status.html:195
+msgid "Submitted:"
+msgstr "مقدم"
+
+#: .\trade_management\templates\licensing\application_status.html:196
+msgid "Created:"
+msgstr "أُنشئ:"
+
+#: .\trade_management\templates\licensing\application_status.html:197
+msgid "Last Updated:"
+msgstr "آخر تحديث:"
+
+#: .\trade_management\templates\licensing\application_status.html:203
+msgid "Proposed Import Items:"
+msgstr "عناصر الاستيراد المقترحة:"
+
+#: .\trade_management\templates\licensing\application_status.html:207
+msgid "Estimated Annual Value:"
+msgstr "القيمة السنوية التقديرية:"
+
+#: .\trade_management\templates\licensing\application_status.html:211
+msgid "Country of Origin:"
+msgstr "بلد المنشأ:"
+
+#: .\trade_management\templates\licensing\application_status.html:216
+msgid "Review Notes:"
+msgstr "تمت المراجعة"
+
+#: .\trade_management\templates\licensing\application_status.html:224
+msgid "This application was rejected."
+msgstr "تم رفض هذا الطلب."
+
+#: .\trade_management\templates\licensing\application_status.html:224
+msgid ""
+"You may submit a new application after addressing the issues noted above."
+msgstr "يمكنك تقديم طلب جديد بعد معالجة المشكلات المذكورة أعلاه."
+
+#: .\trade_management\templates\licensing\application_status.html:228
+msgid "Congratulations!"
+msgstr "تهانينا!"
+
+#: .\trade_management\templates\licensing\application_status.html:228
+msgid ""
+"Your license application has been approved. Please complete the payment to "
+"receive your license."
+msgstr "تمت الموافقة على طلب الترخيص. يرجى إتمام الدفع لاستلام ترخيصك."
+
+#: .\trade_management\templates\licensing\application_status.html:235
+msgid "Continue Editing"
+msgstr "متابعة التحرير"
+
+#: .\trade_management\templates\licensing\apply_license.html:10
+msgid "Apply for License"
+msgstr "التقدم بطلب ترخيص"
+
+#: .\trade_management\templates\licensing\apply_license.html:18
+msgid "License Application Form"
+msgstr "طلبات الترخيص المرفوضة"
+
+#: .\trade_management\templates\licensing\apply_license.html:19
+msgid "Complete the form below to apply for a new import license"
+msgstr "أكمل النموذج أدناه للتقدم بطلب ترخيص استيراد جديد"
+
+#: .\trade_management\templates\licensing\apply_license.html:28
+msgid "General Information"
+msgstr "معلومات عامة"
+
+#: .\trade_management\templates\licensing\apply_license.html:45
+msgid "License Details"
+msgstr "تجديد الترخيص"
+
+#: .\trade_management\templates\licensing\apply_license.html:51
+msgid "Select License Type"
+msgstr "نوع الترخيص"
+
+#: .\trade_management\templates\licensing\apply_license.html:56
+msgid "Select the category of goods you intend to import"
+msgstr "اختر فئة البضائع التي تنوي استيرادها"
+
+#: .\trade_management\templates\licensing\apply_license.html:60
+msgid "Proposed Import Items"
+msgstr "عناصر الاستيراد المقترحة"
+
+#: .\trade_management\templates\licensing\apply_license.html:67
+msgid "Estimated Annual Value (USD)"
+msgstr "القيمة التقديرية (دولار أمريكي)"
+
+#: .\trade_management\templates\licensing\apply_license.html:72
+msgid "Primary Country of Origin"
+msgstr "بلد المنشأ الأساسي"
+
+#: .\trade_management\templates\licensing\apply_license.html:82
+msgid "Supporting Documents"
+msgstr "المستندات"
+
+#: .\trade_management\templates\licensing\apply_license.html:84
+msgid "Upload the following required documents (PDF, JPG, or PNG)"
+msgstr "ارفع المستندات المطلوبة التالية (PDF أو JPG أو PNG)"
+
+#: .\trade_management\templates\licensing\apply_license.html:87
+msgid "Business Registration Certificate"
+msgstr "شهادة تسجيل الأعمال"
+
+#: .\trade_management\templates\licensing\apply_license.html:93
+msgid "Tax Clearance Certificate"
+msgstr "شهادة"
+
+#: .\trade_management\templates\licensing\apply_license.html:99
+msgid "Bank Reference Letter"
+msgstr "خطاب مرجع مصرفي"
+
+#: .\trade_management\templates\licensing\apply_license.html:108
+msgid "Application Fee"
+msgstr "حالة الطلب"
+
+#: .\trade_management\templates\licensing\apply_license.html:114
+msgid "Application Fee:"
+msgstr "حالة الطلب"
+
+#: .\trade_management\templates\licensing\apply_license.html:118
+msgid "Fee varies by license type"
+msgstr "الرسوم تختلف حسب نوع الترخيص"
+
+#: .\trade_management\templates\licensing\apply_license.html:119
+msgid "Payment due after approval"
+msgstr "الدفع مستحق بعد الموافقة"
+
+#: .\trade_management\templates\licensing\apply_license.html:127
+msgid ""
+"I confirm that all information provided is accurate and complete. I "
+"understand that providing false information may result in rejection of this "
+"application and potential legal consequences."
+msgstr "أؤكد أن جميع المعلومات المقدمة دقيقة وكاملة. أفهم أن تقديم معلومات كاذبة قد يؤدي إلى رفض هذا الطلب وعواقب قانونية محتملة."
+
+#: .\trade_management\templates\licensing\apply_license.html:147
+msgid "Fee Schedule"
+msgstr "جدول الرسوم"
+
+#: .\trade_management\templates\licensing\apply_license.html:152
+#: .\trade_management\templates\licensing\license_renewal.html:111
+msgid "Medical"
+msgstr "طبي"
+
+#: .\trade_management\templates\licensing\apply_license.html:153
+#: .\trade_management\templates\licensing\license_renewal.html:112
+msgid "Chemical"
+msgstr "كيميائي"
+
+#: .\trade_management\templates\licensing\apply_license.html:154
+#: .\trade_management\templates\licensing\license_renewal.html:113
+msgid "Automotive"
+msgstr "نشط"
+
+#: .\trade_management\templates\licensing\apply_license.html:155
+#: .\trade_management\templates\licensing\license_renewal.html:114
+msgid "Construction"
+msgstr "تفتيش"
+
+#: .\trade_management\templates\licensing\apply_license.html:156
+#: .\trade_management\templates\licensing\license_renewal.html:115
+msgid "Food"
+msgstr "غذائي"
+
+#: .\trade_management\templates\licensing\apply_license.html:157
+#: .\trade_management\templates\licensing\license_renewal.html:116
+msgid "Electronics"
+msgstr "إلكترونيات"
+
+#: .\trade_management\templates\licensing\apply_license.html:158
+#: .\trade_management\templates\licensing\license_renewal.html:117
+msgid "Textile"
+msgstr "نسيج"
+
+#: .\trade_management\templates\licensing\apply_license.html:159
+#: .\trade_management\templates\licensing\license_renewal.html:118
+msgid "Other"
+msgstr "أخرى"
+
+#: .\trade_management\templates\licensing\apply_license.html:167
+msgid "Application Process"
+msgstr "حالة الطلب"
+
+#: .\trade_management\templates\licensing\apply_license.html:171
+msgid "Submit application with required documents"
+msgstr "تقديم الطلب مع المستندات المطلوبة"
+
+#: .\trade_management\templates\licensing\apply_license.html:172
+msgid "Application review (3-5 business days)"
+msgstr "مراجعة الطلب (3-5 أيام عمل)"
+
+#: .\trade_management\templates\licensing\apply_license.html:173
+msgid "Background check verification"
+msgstr "التحقق من السجل الشخصي"
+
+#: .\trade_management\templates\licensing\apply_license.html:174
+msgid "Pay application fee upon approval"
+msgstr "دفع رسوم الطلب عند الموافقة"
+
+#: .\trade_management\templates\licensing\apply_license.html:175
+msgid "License issued and delivered"
+msgstr "صدر الترخيص وتم تسليمه"
+
+#: .\trade_management\templates\licensing\license_renewal.html:10
+msgid "License Renewal"
+msgstr "تجديد الترخيص"
+
+#: .\trade_management\templates\licensing\license_renewal.html:21
+msgid "Expired Licenses (Requires Immediate Renewal)"
+msgstr "التراخيص المنتهية (تتطلب تجديداً فورياً)"
+
+#: .\trade_management\templates\licensing\license_renewal.html:30
+#: .\trade_management\templates\licensing\license_renewal.html:74
+#: .\trade_management\templates\licensing\my_licenses.html:107
+msgid "License Number"
+msgstr "رقم الترخيص"
+
+#: .\trade_management\templates\licensing\license_renewal.html:33
+msgid "Expired On"
+msgstr "تاريخ الانتهاء"
+
+#: .\trade_management\templates\licensing\license_renewal.html:34
+msgid "Days Overdue"
+msgstr "متأخر"
+
+#: .\trade_management\templates\licensing\license_renewal.html:35
+#: .\trade_management\templates\licensing\license_renewal.html:74
+msgid "Renewal Fee"
+msgstr "رسوم التجديد"
+
+#: .\trade_management\templates\licensing\license_renewal.html:48
+#: .\trade_management\templates\licensing\license_renewal.html:86
+msgid "Renew"
+msgstr "تجديد"
+
+#: .\trade_management\templates\licensing\license_renewal.html:66
+msgid "Expiring Soon (Within 30 Days)"
+msgstr "تنتهي خلال 30 يوماً"
+
+#: .\trade_management\templates\licensing\license_renewal.html:74
+#: .\trade_management\templates\licensing\my_licenses.html:111
+msgid "Expiry Date"
+msgstr "تاريخ الانتهاء"
+
+#: .\trade_management\templates\licensing\license_renewal.html:74
+msgid "Days Left"
+msgstr "الأيام المتبقية"
+
+#: .\trade_management\templates\licensing\license_renewal.html:99
+msgid "All Licenses Are Valid"
+msgstr "جميع التراخيص سارية"
+
+#: .\trade_management\templates\licensing\license_renewal.html:99
+msgid "No expired or expiring licenses."
+msgstr "لا توجد تراخيص منتهية أو تنتهي قريباً."
+
+#: .\trade_management\templates\licensing\license_renewal.html:99
+msgid "View All Licenses"
+msgstr "تراخيصي"
+
+#: .\trade_management\templates\licensing\license_renewal.html:106
+msgid "Renewal Fee Schedule"
+msgstr "جدول رسوم التجديد"
+
+#: .\trade_management\templates\licensing\license_renewal.html:109
+#: .\trade_management\templates\licensing\license_renewal.html:160
+#: .\trade_management\templates\licensing\license_renewal.html:200
+msgid "1 Year"
+msgstr "سنة واحدة"
+
+#: .\trade_management\templates\licensing\license_renewal.html:109
+msgid "2 Years"
+msgstr "سنتان"
+
+#: .\trade_management\templates\licensing\license_renewal.html:109
+msgid "3 Years"
+msgstr "ثلاث سنوات"
+
+#: .\trade_management\templates\licensing\license_renewal.html:126
+msgid "Renewal Info"
+msgstr "معلومات التجديد"
+
+#: .\trade_management\templates\licensing\license_renewal.html:129
+msgid "Processed in 3 business days"
+msgstr "معالجة في 3 أيام عمل"
+
+#: .\trade_management\templates\licensing\license_renewal.html:130
+msgid "No extra documents needed"
+msgstr "لا حاجة إلى مستندات إضافية"
+
+#: .\trade_management\templates\licensing\license_renewal.html:131
+msgid "Valid during processing"
+msgstr "ساري خلال المعالجة"
+
+#: .\trade_management\templates\licensing\license_renewal.html:132
+#, python-format
+msgid "Late renewals: +25%% penalty"
+msgstr "التجديدات المتأخرة: +25%% غرامة"
+
+#: .\trade_management\templates\licensing\license_renewal.html:148
+msgid "Renew Expired License"
+msgstr "تجديد الترخيص المنتهي"
+
+#: .\trade_management\templates\licensing\license_renewal.html:152
+msgid "Warning:"
+msgstr "تحذير:"
+
+#: .\trade_management\templates\licensing\license_renewal.html:152
+msgid "Expired on"
+msgstr "تاريخ الانتهاء"
+
+#: .\trade_management\templates\licensing\license_renewal.html:152
+#, python-format
+msgid "25%% penalty applies."
+msgstr "تُطبق غرامة 25%%."
+
+#: .\trade_management\templates\licensing\license_renewal.html:153
+#: .\trade_management\templates\licensing\license_renewal.html:193
+msgid "License:"
+msgstr "ترخيص"
+
+#: .\trade_management\templates\licensing\license_renewal.html:158
+#: .\trade_management\templates\licensing\license_renewal.html:198
+msgid "Renewal Period"
+msgstr "فترة التجديد"
+
+#: .\trade_management\templates\licensing\license_renewal.html:167
+msgid "I accept the renewal fee including the late penalty."
+msgstr "أوافق على رسوم التجديد بما في ذلك غرامة التأخير."
+
+#: .\trade_management\templates\licensing\license_renewal.html:172
+#: .\trade_management\templates\licensing\license_renewal.html:208
+msgid "Proceed to Payment"
+msgstr "المدفوعات الأخيرة"
+
+#: .\trade_management\templates\licensing\license_renewal.html:188
+#: .\trade_management\templates\licensing\my_licenses.html:98
+msgid "Renew License"
+msgstr "ترخيص"
+
+#: .\trade_management\templates\licensing\license_renewal.html:192
+msgid "Expires in"
+msgstr "تاريخ الانتهاء"
+
+#: .\trade_management\templates\licensing\license_renewal.html:192
+msgid "Renew now to avoid interruption."
+msgstr "جدد الآن لتجنب الانقطاع."
+
+#: .\trade_management\templates\licensing\my_licenses.html:9
+#: .\trade_management\templates\licensing\my_licenses.html:92
+msgid "My Licenses"
+msgstr "تراخيصي"
+
+#: .\trade_management\templates\licensing\my_licenses.html:21
+#: .\trade_management\templates\reports\compliance_reports.html:177
+msgid "Valid Licenses"
+msgstr "التراخيص"
+
+#: .\trade_management\templates\licensing\my_licenses.html:47
+msgid "Expiring Soon (30 days)"
+msgstr "تنتهي خلال 30 يوماً"
+
+#: .\trade_management\templates\licensing\my_licenses.html:60
+msgid "Total Licenses"
+msgstr "التراخيص"
+
+#: .\trade_management\templates\licensing\my_licenses.html:75
+msgid "The following licenses need renewal soon:"
+msgstr "التراخيص التالية تحتاج إلى تجديد قريباً:"
+
+#: .\trade_management\templates\licensing\my_licenses.html:81
+#: .\trade_management\templates\reports\compliance_reports.html:80
+msgid "Renew Now"
+msgstr "جدد الآن"
+
+#: .\trade_management\templates\licensing\my_licenses.html:95
+msgid "Apply for New License"
+msgstr "التقدم بطلب ترخيص"
+
+#: .\trade_management\templates\licensing\my_licenses.html:110
+msgid "Issued Date"
+msgstr "تاريخ الاستحقاق"
+
+#: .\trade_management\templates\licensing\my_licenses.html:113
+msgid "Days Remaining"
+msgstr "الأيام المتبقية"
+
+#: .\trade_management\templates\licensing\my_licenses.html:127
+#: .\trade_management\templates\reports\compliance_reports.html:65
+msgid "Valid"
+msgstr "ساري"
+
+#: .\trade_management\templates\licensing\my_licenses.html:159
+msgid "No licenses found."
+msgstr "لا يوجد مستخدمون."
+
+#: .\trade_management\templates\licensing\my_licenses.html:160
+msgid "Apply for Your First License"
+msgstr "التقدم بطلب ترخيص"
+
+#: .\trade_management\templates\login.html:103
+msgid "Libyan TradeNet"
+msgstr "مرحباً بكم في شبكة التجارة الليبية"
+
+#: .\trade_management\templates\login.html:106
+#: .\trade_management\templates\login.html:139
+msgid "Login"
+msgstr "تسجيل الدخول"
+
+#: .\trade_management\templates\login.html:110
+msgid "Please check your username and password."
+msgstr "يرجى التحقق من البريد الإلكتروني وكلمة المرور"
+
+#: .\trade_management\templates\login.html:128
+msgid "Enter username"
+msgstr "اسم المستخدم"
+
+#: .\trade_management\templates\login.html:132
+msgid "Password"
+msgstr "كلمة المرور"
+
+#: .\trade_management\templates\login.html:134
+msgid "Enter password"
+msgstr "كلمة المرور"
+
+#: .\trade_management\templates\reports\compliance_reports.html:9
+msgid "Compliance Reports"
+msgstr "تقارير الامتثال"
+
+#: .\trade_management\templates\reports\compliance_reports.html:19
+msgid "Overall Compliance Rate"
+msgstr "تقارير الامتثال"
+
+#: .\trade_management\templates\reports\compliance_reports.html:22
+msgid "Based on inspection results"
+msgstr "لا توجد عمليات تفتيش بعد."
+
+#: .\trade_management\templates\reports\compliance_reports.html:24
+msgid "Excellent"
+msgstr "ممتاز"
+
+#: .\trade_management\templates\reports\compliance_reports.html:26
+msgid "Good"
+msgstr "جيد"
+
+#: .\trade_management\templates\reports\compliance_reports.html:28
+msgid "Needs Improvement"
+msgstr "يحتاج إلى تحسين"
+
+#: .\trade_management\templates\reports\compliance_reports.html:35
+msgid "Compliance Status"
+msgstr "تقارير الامتثال"
+
+#: .\trade_management\templates\reports\compliance_reports.html:39
+msgid "Passed Inspections"
+msgstr "التفتيشات المعلقة"
+
+#: .\trade_management\templates\reports\compliance_reports.html:60
+msgid "License Status"
+msgstr "التراخيص"
+
+#: .\trade_management\templates\reports\compliance_reports.html:73
+msgid "Revoked"
+msgstr "مُلغى"
+
+#: .\trade_management\templates\reports\compliance_reports.html:79
+msgid "You have"
+msgstr "لديك"
+
+#: .\trade_management\templates\reports\compliance_reports.html:79
+msgid "expired license(s) requiring renewal."
+msgstr "ترخيص (تراخيص) منتهية تتطلب التجديد."
+
+#: .\trade_management\templates\reports\compliance_reports.html:84
+msgid "All licenses are valid and up-to-date."
+msgstr "جميع التراخيص سارية ومحدَّثة."
+
+#: .\trade_management\templates\reports\compliance_reports.html:92
+msgid "Import Permit Compliance"
+msgstr "تصاريح الاستيراد"
+
+#: .\trade_management\templates\reports\compliance_reports.html:111
+msgid "permit(s) were rejected. Review and reapply if needed."
+msgstr "تم رفض تصريح (تصاريح). راجع وأعد التقديم إذا لزم الأمر."
+
+#: .\trade_management\templates\reports\compliance_reports.html:115
+msgid "No rejected permits on record."
+msgstr "لا توجد تصاريح مرفوضة مسجلة."
+
+#: .\trade_management\templates\reports\compliance_reports.html:127
+msgid "Compliance Guidelines"
+msgstr "تقارير الامتثال"
+
+#: .\trade_management\templates\reports\compliance_reports.html:134
+msgid "Keep licenses current"
+msgstr "حافظ على سريان التراخيص"
+
+#: .\trade_management\templates\reports\compliance_reports.html:135
+msgid "Renew 30 days before expiry"
+msgstr "جدد قبل 30 يوماً من انتهاء الصلاحية"
+
+#: .\trade_management\templates\reports\compliance_reports.html:136
+msgid "Display license at business premises"
+msgstr "اعرض الترخيص في مقر الأعمال"
+
+#: .\trade_management\templates\reports\compliance_reports.html:144
+msgid "Submit accurate declarations"
+msgstr "قدم إقرارات دقيقة"
+
+#: .\trade_management\templates\reports\compliance_reports.html:145
+msgid "Pay duties on time"
+msgstr "ادفع الرسوم في الوقت المحدد"
+
+#: .\trade_management\templates\reports\compliance_reports.html:146
+msgid "Cooperate with inspections"
+msgstr "عمليات التفتيش الأخيرة"
+
+#: .\trade_management\templates\reports\compliance_reports.html:154
+msgid "Maintain proper documentation"
+msgstr "حافظ على التوثيق السليم"
+
+#: .\trade_management\templates\reports\compliance_reports.html:155
+msgid "Ensure goods match declaration"
+msgstr "تأكد من مطابقة البضائع للإقرار"
+
+#: .\trade_management\templates\reports\compliance_reports.html:156
+msgid "Address violations promptly"
+msgstr "عالج المخالفات على الفور"
+
+#: .\trade_management\templates\reports\compliance_reports.html:170
+msgid "Companies Overview"
+msgstr "الشركات"
+
+#: .\trade_management\templates\reports\compliance_reports.html:178
+msgid "Approved Imports"
+msgstr "التصاريح المعتمدة"
+
+#: .\trade_management\templates\reports\compliance_reports.html:179
+msgid "Inspection Pass Rate"
+msgstr "عمليات التفتيش"
+
+#: .\trade_management\templates\reports\compliance_reports.html:194
+msgid "No companies found"
+msgstr "لا توجد شركات."
+
+#: .\trade_management\templates\reports\financial_reports.html:20
+#: .\trade_management\templates\reports\inspection_reports.html:20
+#: .\trade_management\templates\reports\trade_reports.html:20
+msgid "Start Date"
+msgstr "تاريخ البدء"
+
+#: .\trade_management\templates\reports\financial_reports.html:24
+#: .\trade_management\templates\reports\inspection_reports.html:24
+#: .\trade_management\templates\reports\trade_reports.html:24
+msgid "End Date"
 msgstr "التاريخ"
 
-msgid "Welcome"
-msgstr "مرحباً"
+#: .\trade_management\templates\reports\financial_reports.html:29
+#: .\trade_management\templates\reports\inspection_reports.html:29
+#: .\trade_management\templates\reports\trade_reports.html:29
+msgid "Generate Report"
+msgstr "تقارير التجارة"
 
-msgid "Welcome back"
-msgstr "مرحباً بعودتك"
+#: .\trade_management\templates\reports\financial_reports.html:44
+#: .\trade_management\templates\reports\financial_reports.html:156
+msgid "Tax Revenue"
+msgstr "الإيرادات الضريبية"
 
-msgid "Hello"
-msgstr "أهلاً"
+#: .\trade_management\templates\reports\financial_reports.html:80
+msgid "Total Revenue"
+msgstr "إجمالي الإيرادات"
 
-msgid "Good morning"
-msgstr "صباح الخير"
+#: .\trade_management\templates\reports\financial_reports.html:81
+#: .\trade_management\templates\reports\inspection_reports.html:81
+msgid "For the selected period"
+msgstr "للفترة المحددة"
 
-msgid "Good afternoon"
-msgstr "مساء الخير"
+#: .\trade_management\templates\reports\financial_reports.html:93
+msgid "Revenue by Category"
+msgstr "الإيرادات حسب الفئة"
 
-msgid "Good evening"
-msgstr "مساء الخير"
+#: .\trade_management\templates\reports\financial_reports.html:97
+msgid "Import Taxes (Customs)"
+msgstr "ضرائب الاستيراد (الجمارك)"
 
+#: .\trade_management\templates\reports\financial_reports.html:101
+msgid "License & Permit Fees"
+msgstr "رسوم التراخيص والتصاريح"
+
+#: .\trade_management\templates\reports\financial_reports.html:105
+msgid "Fines & Violations"
+msgstr "الغرامات والمخالفات"
+
+#: .\trade_management\templates\reports\financial_reports.html:118
+msgid "Payment Methods Used"
+msgstr "طرق الدفع المستخدمة"
+
+#: .\trade_management\templates\reports\financial_reports.html:126
+msgid "Central Bank"
+msgstr "البنك المركزي"
+
+#: .\trade_management\templates\reports\financial_reports.html:130
+msgid "Customs Certificate"
+msgstr "شهادة"
+
+#: .\trade_management\templates\reports\financial_reports.html:143
+msgid "Financial Summary"
+msgstr "الملخص المالي"
+
+#: .\trade_management\templates\reports\financial_reports.html:149
+msgid "Category"
+msgstr "الفئة"
+
+#: .\trade_management\templates\reports\financial_reports.html:151
+#, fuzzy, python-format
+#| msgid "Total"
+msgid "%% of Total"
+msgstr "الإجمالي"
+
+#: .\trade_management\templates\reports\financial_reports.html:174
+msgid "Fines"
+msgstr "الغرامات"
+
+#: .\trade_management\templates\reports\financial_reports.html:208
+#: .\trade_management\templates\reports\inspection_reports.html:205
+#: .\trade_management\templates\reports\trade_reports.html:188
+msgid "Export Report"
+msgstr "تصدير"
+
+#: .\trade_management\templates\reports\financial_reports.html:210
+msgid "Download financial report for accounting purposes:"
+msgstr "تنزيل التقرير المالي لأغراض المحاسبة:"
+
+#: .\trade_management\templates\reports\inspection_reports.html:9
+msgid "Inspection Reports"
+msgstr "تقارير التفتيش"
+
+#: .\trade_management\templates\reports\inspection_reports.html:80
+msgid "Total Inspections"
+msgstr "عمليات التفتيش"
+
+#: .\trade_management\templates\reports\inspection_reports.html:93
+msgid "Results Distribution"
+msgstr "توزيع النتائج"
+
+#: .\trade_management\templates\reports\inspection_reports.html:97
+msgid "Passed (Cleared)"
+msgstr "اجتاز (مُخلَّص)"
+
+#: .\trade_management\templates\reports\inspection_reports.html:101
+msgid "Failed (Stopped/Returned)"
+msgstr "فشل (متوقف/مُعاد)"
+
+#: .\trade_management\templates\reports\inspection_reports.html:105
+msgid "Conditional (Fined/Partial)"
+msgstr "مشروط (بغرامة/جزئي)"
+
+#: .\trade_management\templates\reports\inspection_reports.html:109
+msgid "Pending (Scheduled)"
+msgstr "معلق (مجدول)"
+
+#: .\trade_management\templates\reports\inspection_reports.html:118
+msgid "Common Issues"
+msgstr "المشكلات الشائعة"
+
+#: .\trade_management\templates\reports\inspection_reports.html:127
+msgid "No issues recorded"
+msgstr "لا توجد مشكلات مسجلة"
+
+#: .\trade_management\templates\reports\inspection_reports.html:152
+msgid "Condition"
+msgstr "مشروط"
+
+#: .\trade_management\templates\reports\inspection_reports.html:153
+msgid "Fine"
+msgstr "الغرامة"
+
+#: .\trade_management\templates\reports\inspection_reports.html:190
+msgid "No inspections found for selected period"
+msgstr "لا توجد عمليات تفتيش للفترة المحددة"
+
+#: .\trade_management\templates\reports\inspection_reports.html:232
+msgid "Permit:"
+msgstr "تصريح"
+
+#: .\trade_management\templates\reports\inspection_reports.html:233
+msgid "Date:"
+msgstr "التاريخ"
+
+#: .\trade_management\templates\reports\inspection_reports.html:235
+msgid "Result:"
+msgstr "النتيجة:"
+
+#: .\trade_management\templates\reports\inspection_reports.html:238
+msgid "Notes:"
+msgstr "ملاحظات:"
+
+#: .\trade_management\templates\reports\inspection_reports.html:243
+msgid "Fine Amount:"
+msgstr "المبلغ"
+
+#: .\trade_management\templates\reports\trade_reports.html:9
+msgid "Trade Reports"
+msgstr "تقارير التجارة"
+
+#: .\trade_management\templates\reports\trade_reports.html:44
+msgid "Total Imports"
+msgstr "إجمالي تصاريح الاستيراد"
+
+#: .\trade_management\templates\reports\trade_reports.html:68
+msgid "Total Value"
+msgstr "الإجمالي"
+
+#: .\trade_management\templates\reports\trade_reports.html:78
+msgid "Imports by Country"
+msgstr "الاستيرادات حسب الدولة"
+
+#: .\trade_management\templates\reports\trade_reports.html:84
+msgid "Country"
+msgstr "الدولة"
+
+#: .\trade_management\templates\reports\trade_reports.html:85
+msgid "Count"
+msgstr "الدولة"
+
+#: .\trade_management\templates\reports\trade_reports.html:98
+msgid "No data available"
+msgstr "لا توجد بيانات متاحة"
+
+#: .\trade_management\templates\reports\trade_reports.html:109
+msgid "Import Status Distribution"
+msgstr "توزيع حالات الاستيراد"
+
+#: .\trade_management\templates\reports\trade_reports.html:146
+msgid "Goods"
+msgstr "البضائع"
+
+#: .\trade_management\templates\reports\trade_reports.html:173
+msgid "No imports found for selected period"
+msgstr "لا توجد واردات للفترة المحددة"
+
+#: .\trade_management\templates\reports\trade_reports.html:190
+msgid "Download this report in different formats:"
+msgstr "تنزيل هذا التقرير بتنسيقات مختلفة:"
+
+#: .\trade_management\templates\settings\manage_users.html:9
+msgid "Manage Users"
+msgstr "إدارة المستخدمين"
+
+#: .\trade_management\templates\settings\manage_users.html:17
+msgid "Company Users"
+msgstr "مالك الشركة"
+
+#: .\trade_management\templates\settings\manage_users.html:19
+#: .\trade_management\templates\settings\manage_users.html:144
+msgid "Add User"
+msgstr "المستخدمون"
+
+#: .\trade_management\templates\settings\manage_users.html:27
+msgid "User"
+msgstr "المستخدمون"
+
+#: .\trade_management\templates\settings\manage_users.html:43
+msgid "Owner"
+msgstr "المالك"
+
+#: .\trade_management\templates\settings\manage_users.html:68
+msgid "Role Permissions"
+msgstr "صلاحيات الدور"
+
+#: .\trade_management\templates\settings\manage_users.html:73
+msgid "Full access"
+msgstr "وصول كامل"
+
+#: .\trade_management\templates\settings\manage_users.html:77
+msgid "Can manage imports & licenses"
+msgstr "يمكنه إدارة الواردات والتراخيص"
+
+#: .\trade_management\templates\settings\manage_users.html:81
+msgid "Financial access only"
+msgstr "التقارير المالية"
+
+#: .\trade_management\templates\settings\manage_users.html:85
+msgid "Read-only access"
+msgstr "وصول للقراءة فقط"
+
+#: .\trade_management\templates\settings\manage_users.html:93
+msgid "User Guidelines"
+msgstr "إرشادات المستخدم"
+
+#: .\trade_management\templates\settings\manage_users.html:96
+msgid "Each user must have unique email"
+msgstr "يجب أن يكون لكل مستخدم بريد إلكتروني فريد"
+
+#: .\trade_management\templates\settings\manage_users.html:97
+msgid "Assign appropriate role"
+msgstr "عيّن دوراً مناسباً"
+
+#: .\trade_management\templates\settings\manage_users.html:98
+msgid "Deactivate, don't delete ex-users"
+msgstr "عطّل المستخدمين السابقين، لا تحذفهم"
+
+#: .\trade_management\templates\settings\manage_users.html:99
+msgid "Regular password updates"
+msgstr "تحديثات منتظمة لكلمة المرور"
+
+#: .\trade_management\templates\settings\manage_users.html:113
+msgid "Add New User"
+msgstr "إضافة مستخدم جديد"
+
+#: .\trade_management\templates\settings\manage_users.html:118
+msgid "Full Name"
+msgstr "الاسم"
+
+#: .\trade_management\templates\settings\notification_settings.html:9
+msgid "Notification Settings"
+msgstr "الإشعارات"
+
+#: .\trade_management\templates\settings\notification_settings.html:16
+msgid "Email Notifications"
+msgstr "الإشعارات"
+
+#: .\trade_management\templates\settings\notification_settings.html:23
+msgid "License Expiry Reminders"
+msgstr "التراخيص التي تنتهي قريباً"
+
+#: .\trade_management\templates\settings\notification_settings.html:24
+msgid "Get notified 30, 15, and 7 days before license expires"
+msgstr "احصل على إشعار قبل 30 و15 و7 أيام من انتهاء الترخيص"
+
+#: .\trade_management\templates\settings\notification_settings.html:32
+msgid "Permit Approvals"
+msgstr "موافقات التصاريح"
+
+#: .\trade_management\templates\settings\notification_settings.html:33
+msgid "Notify when import permits are approved or rejected"
+msgstr "إشعار عند الموافقة على تصاريح الاستيراد أو رفضها"
+
+#: .\trade_management\templates\settings\notification_settings.html:41
+msgid "Inspection Scheduling"
+msgstr "تفتيش"
+
+#: .\trade_management\templates\settings\notification_settings.html:42
+msgid "Get notified when inspections are scheduled"
+msgstr "احصل على إشعار عند جدولة عمليات التفتيش"
+
+#: .\trade_management\templates\settings\notification_settings.html:50
+msgid "Payment Reminders"
+msgstr "سجل المدفوعات"
+
+#: .\trade_management\templates\settings\notification_settings.html:51
+msgid "Reminders for upcoming and overdue payments"
+msgstr "تذكيرات للمدفوعات القادمة والمتأخرة"
+
+#: .\trade_management\templates\settings\notification_settings.html:59
+#: .\trade_management\templates\settings\system_settings.html:57
+msgid "Save Settings"
+msgstr "إعدادات النظام"
+
+#: .\trade_management\templates\settings\notification_settings.html:68
+msgid "Notification Info"
+msgstr "الإشعارات"
+
+#: .\trade_management\templates\settings\notification_settings.html:70
+msgid "Control how you receive updates about your trade activities."
+msgstr "تحكم في طريقة تلقي التحديثات حول أنشطتك التجارية."
+
+#: .\trade_management\templates\settings\notification_settings.html:72
+msgid "Critical notifications (security alerts) cannot be disabled."
+msgstr "لا يمكن تعطيل الإشعارات الهامة (تنبيهات الأمان)."
+
+#: .\trade_management\templates\settings\system_settings.html:9
+msgid "System Settings"
+msgstr "إعدادات النظام"
+
+#: .\trade_management\templates\settings\system_settings.html:16
+msgid "Regional Settings"
+msgstr "الإعدادات"
+
+#: .\trade_management\templates\settings\system_settings.html:22
 msgid "Language"
 msgstr "اللغة"
 
-msgid "English"
-msgstr "الإنجليزية"
+#: .\trade_management\templates\settings\system_settings.html:30
+msgid "Time Zone"
+msgstr "المنطقة الزمنية"
 
-msgid "Arabic"
-msgstr "العربية"
+#: .\trade_management\templates\settings\system_settings.html:48
+msgid "Date Format"
+msgstr "تنسيق التاريخ"
 
-msgid "Logout successful"
-msgstr "تم تسجيل الخروج بنجاح"
+#: .\trade_management\templates\settings\system_settings.html:64
+msgid "Data & Privacy"
+msgstr "البيانات والخصوصية"
 
-msgid "Login successful"
-msgstr "تم تسجيل الدخول بنجاح"
+#: .\trade_management\templates\settings\system_settings.html:69
+msgid "Download My Data"
+msgstr "تحميل"
 
-msgid "Invalid credentials"
-msgstr "بيانات اعتماد غير صالحة"
+#: .\trade_management\templates\settings\system_settings.html:70
+msgid "Export all your trade data"
+msgstr "تصدير جميع بيانات التجارة الخاصة بك"
 
-msgid "Please check your email and password"
-msgstr "يرجى التحقق من البريد الإلكتروني وكلمة المرور"
+#: .\trade_management\templates\settings\system_settings.html:72
+msgid "Export"
+msgstr "تصدير"
 
-msgid "Access denied"
-msgstr "تم رفض الوصول"
+#: .\trade_management\templates\settings\system_settings.html:76
+msgid "Delete Account"
+msgstr "حذف"
 
-msgid "You do not have permission to access this page"
-msgstr "ليس لديك إذن للوصول إلى هذه الصفحة"
+#: .\trade_management\templates\settings\system_settings.html:77
+msgid "Permanently remove all data"
+msgstr "حذف جميع البيانات بشكل دائم"
 
-msgid "Session expired"
-msgstr "انتهت الجلسة"
+#: .\trade_management\templates\settings\system_settings.html:79
+msgid "Delete"
+msgstr "حذف"
 
-msgid "Please login again"
-msgstr "يرجى تسجيل الدخول مرة أخرى"
+#: .\trade_management\templates\settings\system_settings.html:88
+msgid "System Info"
+msgstr "إعدادات النظام"
 
-msgid "Changes saved successfully"
-msgstr "تم حفظ التغييرات بنجاح"
+#: .\trade_management\templates\settings\system_settings.html:92
+msgid "Version"
+msgstr "الإصدار"
 
-msgid "Error occurred"
-msgstr "حدث خطأ"
+#: .\trade_management\templates\settings\system_settings.html:96
+msgid "Last Updated"
+msgstr "آخر تحديث"
 
-msgid "Please try again"
-msgstr "يرجى المحاولة مرة أخرى"
+#: .\trade_management\templates\settings\user_profile.html:9
+msgid "My Profile"
+msgstr "الملف الشخصي"
 
-msgid "Confirm"
-msgstr "تأكيد"
+#: .\trade_management\templates\settings\user_profile.html:22
+msgid "Administrator"
+msgstr "مدير"
 
-msgid "Are you sure?"
-msgstr "هل أنت متأكد؟"
+#: .\trade_management\templates\settings\user_profile.html:27
+msgid "Account Info"
+msgstr "معلومات الحساب"
 
-msgid "This action cannot be undone"
-msgstr "لا يمكن التراجع عن هذا الإجراء"
+#: .\trade_management\templates\settings\user_profile.html:35
+msgid "Date Joined"
+msgstr "تاريخ الانضمام"
 
-msgid "Yes, proceed"
-msgstr "نعم، متابعة"
+#: .\trade_management\templates\settings\user_profile.html:39
+msgid "Last Login"
+msgstr "تسجيل الدخول"
 
-msgid "No, cancel"
-msgstr "لا، إلغاء"
+#: .\trade_management\templates\settings\user_profile.html:49
+msgid "Edit Profile"
+msgstr "الملف الشخصي"
+
+#: .\trade_management\templates\settings\user_profile.html:55
+msgid "First Name"
+msgstr "الاسم الأول"
+
+#: .\trade_management\templates\settings\user_profile.html:59
+msgid "Last Name"
+msgstr "الاسم"
+
+#: .\trade_management\templates\settings\user_profile.html:64
+msgid "Email Address"
+msgstr "العنوان"
+
+#: .\trade_management\templates\settings\user_profile.html:76
+msgid "Change Password"
+msgstr "كلمة المرور"
+
+#: .\trade_management\templates\settings\user_profile.html:81
+msgid "Current Password"
+msgstr "هل نسيت كلمة المرور؟"
+
+#: .\trade_management\templates\settings\user_profile.html:85
+msgid "New Password"
+msgstr "كلمة المرور"
+
+#: .\trade_management\templates\settings\user_profile.html:89
+msgid "Confirm New Password"
+msgstr "هل نسيت كلمة المرور؟"
+
+#: .\trade_management\templates\settings\user_profile.html:92
+msgid "Update Password"
+msgstr "كلمة المرور"
+
+#~ msgid "Your Gateway to International Trade"
+#~ msgstr "بوابتك إلى التجارة الدولية"
+
+#~ msgid "Licensing"
+#~ msgstr "التراخيص"
+
+#~ msgid "Reports"
+#~ msgstr "التقارير"
+
+#~ msgid "Logout"
+#~ msgstr "تسجيل الخروج"
+
+#~ msgid "Remember me"
+#~ msgstr "تذكرني"
+
+#~ msgid "Sign in"
+#~ msgstr "تسجيل الدخول"
+
+#~ msgid "Register"
+#~ msgstr "التسجيل"
+
+#~ msgid "Save"
+#~ msgstr "حفظ"
+
+#~ msgid "Search"
+#~ msgstr "بحث"
+
+#~ msgid "Print"
+#~ msgstr "طباعة"
+
+#~ msgid "Submit"
+#~ msgstr "إرسال"
+
+#~ msgid "Back"
+#~ msgstr "رجوع"
+
+#~ msgid "Next"
+#~ msgstr "التالي"
+
+#~ msgid "Previous"
+#~ msgstr "السابق"
+
+#~ msgid "File"
+#~ msgstr "ملف"
+
+#~ msgid "Subtotal"
+#~ msgstr "المجموع الفرعي"
+
+#~ msgid "Fee"
+#~ msgstr "الرسوم"
+
+#~ msgid "Balance"
+#~ msgstr "الرصيد"
+
+#~ msgid "USD"
+#~ msgstr "دولار أمريكي"
+
+#~ msgid "EUR"
+#~ msgstr "يورو"
+
+#~ msgid "LYD"
+#~ msgstr "دينار ليبي"
+
+#~ msgid "Trade"
+#~ msgstr "التجارة"
+
+#~ msgid "Port"
+#~ msgstr "الميناء"
+
+#~ msgid "History"
+#~ msgstr "التاريخ"
+
+#~ msgid "Welcome"
+#~ msgstr "مرحباً"
+
+#~ msgid "Welcome back"
+#~ msgstr "مرحباً بعودتك"
+
+#~ msgid "Hello"
+#~ msgstr "أهلاً"
+
+#~ msgid "Good morning"
+#~ msgstr "صباح الخير"
+
+#~ msgid "Good afternoon"
+#~ msgstr "مساء الخير"
+
+#~ msgid "Good evening"
+#~ msgstr "مساء الخير"
+
+#~ msgid "English"
+#~ msgstr "الإنجليزية"
+
+#~ msgid "Arabic"
+#~ msgstr "العربية"
+
+#~ msgid "Logout successful"
+#~ msgstr "تم تسجيل الخروج بنجاح"
+
+#~ msgid "Login successful"
+#~ msgstr "تم تسجيل الدخول بنجاح"
+
+#~ msgid "Invalid credentials"
+#~ msgstr "بيانات اعتماد غير صالحة"
+
+#~ msgid "Access denied"
+#~ msgstr "تم رفض الوصول"
+
+#~ msgid "You do not have permission to access this page"
+#~ msgstr "ليس لديك إذن للوصول إلى هذه الصفحة"
+
+#~ msgid "Session expired"
+#~ msgstr "انتهت الجلسة"
+
+#~ msgid "Please login again"
+#~ msgstr "يرجى تسجيل الدخول مرة أخرى"
+
+#~ msgid "Changes saved successfully"
+#~ msgstr "تم حفظ التغييرات بنجاح"
+
+#~ msgid "Error occurred"
+#~ msgstr "حدث خطأ"
+
+#~ msgid "Please try again"
+#~ msgstr "يرجى المحاولة مرة أخرى"
+
+#~ msgid "Confirm"
+#~ msgstr "تأكيد"
+
+#~ msgid "Are you sure?"
+#~ msgstr "هل أنت متأكد؟"
+
+#~ msgid "This action cannot be undone"
+#~ msgstr "لا يمكن التراجع عن هذا الإجراء"
+
+#~ msgid "Yes, proceed"
+#~ msgstr "نعم، متابعة"
+
+#~ msgid "No, cancel"
+#~ msgstr "لا، إلغاء"

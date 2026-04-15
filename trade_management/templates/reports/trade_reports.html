@@ -1,11 +1,12 @@
 {% extends 'libya_trade_dashboard/templates/base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 <div class="row page-titles">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
-        <li class="breadcrumb-item active">Trade Reports</li>
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">{% trans "Dashboard" %}</a></li>
+        <li class="breadcrumb-item active">{% trans "Trade Reports" %}</li>
     </ol>
 </div>
 
@@ -16,16 +17,16 @@
             <div class="card-body">
                 <form method="get" class="row align-items-end">
                     <div class="col-md-4">
-                        <label class="form-label">Start Date</label>
+                        <label class="form-label">{% trans "Start Date" %}</label>
                         <input type="date" class="form-control" name="start_date" value="{{ start_date }}">
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">End Date</label>
+                        <label class="form-label">{% trans "End Date" %}</label>
                         <input type="date" class="form-control" name="end_date" value="{{ end_date }}">
                     </div>
                     <div class="col-md-4">
                         <button type="submit" class="btn btn-primary w-100">
-                            <i class="fa fa-filter"></i> Generate Report
+                            <i class="fa fa-filter"></i> {% trans "Generate Report" %}
                         </button>
                     </div>
                 </form>
@@ -40,7 +41,7 @@
         <div class="card bg-primary text-white">
             <div class="card-body text-center">
                 <h3 class="text-white">{{ total_imports }}</h3>
-                <span>Total Imports</span>
+                <span>{% trans "Total Imports" %}</span>
             </div>
         </div>
     </div>
@@ -48,7 +49,7 @@
         <div class="card bg-success text-white">
             <div class="card-body text-center">
                 <h3 class="text-white">{{ approved_imports }}</h3>
-                <span>Approved</span>
+                <span>{% trans "Approved" %}</span>
             </div>
         </div>
     </div>
@@ -56,7 +57,7 @@
         <div class="card bg-danger text-white">
             <div class="card-body text-center">
                 <h3 class="text-white">{{ rejected_imports }}</h3>
-                <span>Rejected</span>
+                <span>{% trans "Rejected" %}</span>
             </div>
         </div>
     </div>
@@ -64,7 +65,7 @@
         <div class="card bg-info text-white">
             <div class="card-body text-center">
                 <h3 class="text-white">${{ total_value|floatformat:0 }}</h3>
-                <span>Total Value</span>
+                <span>{% trans "Total Value" %}</span>
             </div>
         </div>
     </div>
@@ -74,15 +75,15 @@
 <div class="row">
     <div class="col-md-6">
         <div class="card">
-            <div class="card-header"><h5 class="card-title">Imports by Country</h5></div>
+            <div class="card-header"><h5 class="card-title">{% trans "Imports by Country" %}</h5></div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-sm">
                         <thead>
                             <tr>
-                                <th>Country</th>
-                                <th>Count</th>
-                                <th>Value (USD)</th>
+                                <th>{% trans "Country" %}</th>
+                                <th>{% trans "Count" %}</th>
+                                <th>{% trans "Value (USD)" %}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -94,7 +95,7 @@
                             </tr>
                             {% empty %}
                             <tr>
-                                <td colspan="3" class="text-center text-muted">No data available</td>
+                                <td colspan="3" class="text-center text-muted">{% trans "No data available" %}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -105,19 +106,19 @@
     </div>
     <div class="col-md-6">
         <div class="card">
-            <div class="card-header"><h5 class="card-title">Import Status Distribution</h5></div>
+            <div class="card-header"><h5 class="card-title">{% trans "Import Status Distribution" %}</h5></div>
             <div class="card-body">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Approved
+                        {% trans "Approved" %}
                         <span class="badge bg-success rounded-pill">{{ approved_imports }}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Rejected
+                        {% trans "Rejected" %}
                         <span class="badge bg-danger rounded-pill">{{ rejected_imports }}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Under Review
+                        {% trans "Under Review" %}
                         <span class="badge bg-warning rounded-pill">{{ under_review_imports }}</span>
                     </li>
                 </ul>
@@ -131,7 +132,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="card-title mb-0">Recent Import Permits</h5>
+                <h5 class="card-title mb-0">{% trans "Recent Import Permits" %}</h5>
                 <span class="badge bg-secondary">Last 50</span>
             </div>
             <div class="card-body">
@@ -139,13 +140,13 @@
                     <table class="table table-bordered table-sm">
                         <thead>
                             <tr>
-                                <th>Permit #</th>
-                                <th>Company</th>
-                                <th>Origin</th>
-                                <th>Goods</th>
-                                <th>Value</th>
-                                <th>Date</th>
-                                <th>Status</th>
+                                <th>{% trans "Permit #" %}</th>
+                                <th>{% trans "Company" %}</th>
+                                <th>{% trans "Origin" %}</th>
+                                <th>{% trans "Goods" %}</th>
+                                <th>{% trans "Value" %}</th>
+                                <th>{% trans "Date" %}</th>
+                                <th>{% trans "Status" %}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -159,9 +160,9 @@
                                 <td>{{ permit.created_at|date:"M d, Y" }}</td>
                                 <td>
                                     {% if permit.status == 'APPROVED' %}
-                                        <span class="badge bg-success">Approved</span>
+                                        <span class="badge bg-success">{% trans "Approved" %}</span>
                                     {% elif permit.status == 'REJECTED' %}
-                                        <span class="badge bg-danger">Rejected</span>
+                                        <span class="badge bg-danger">{% trans "Rejected" %}</span>
                                     {% else %}
                                         <span class="badge bg-secondary">{{ permit.status }}</span>
                                     {% endif %}
@@ -169,7 +170,7 @@
                             </tr>
                             {% empty %}
                             <tr>
-                                <td colspan="7" class="text-center text-muted">No imports found for selected period</td>
+                                <td colspan="7" class="text-center text-muted">{% trans "No imports found for selected period" %}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -184,9 +185,9 @@
 <div class="row mt-4">
     <div class="col-12">
         <div class="card">
-            <div class="card-header"><h5 class="card-title">Export Report</h5></div>
+            <div class="card-header"><h5 class="card-title">{% trans "Export Report" %}</h5></div>
             <div class="card-body">
-                <p class="text-muted">Download this report in different formats:</p>
+                <p class="text-muted">{% trans "Download this report in different formats:" %}</p>
                 <div class="btn-group">
                     <button type="button" class="btn btn-outline-primary"><i class="fa fa-file-pdf"></i> PDF</button>
                     <button type="button" class="btn btn-outline-success"><i class="fa fa-file-excel"></i> Excel</button>

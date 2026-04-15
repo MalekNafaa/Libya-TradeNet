@@ -1,11 +1,12 @@
 {% extends 'libya_trade_dashboard/templates/base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 <div class="row page-titles">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
-        <li class="breadcrumb-item active">Import Permits</li>
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">{% trans "Dashboard" %}</a></li>
+        <li class="breadcrumb-item active">{% trans "Import Permits" %}</li>
     </ol>
 </div>
 
@@ -15,7 +16,7 @@
         <div class="card bg-info text-white">
             <div class="card-body text-center">
                 <h3 class="text-white">{{ draft_count }}</h3>
-                <span>Draft</span>
+                <span>{% trans "Draft" %}</span>
             </div>
         </div>
     </div>
@@ -23,7 +24,7 @@
         <div class="card bg-primary text-white">
             <div class="card-body text-center">
                 <h3 class="text-white">{{ submitted_count }}</h3>
-                <span>Submitted</span>
+                <span>{% trans "Submitted" %}</span>
             </div>
         </div>
     </div>
@@ -31,7 +32,7 @@
         <div class="card bg-warning text-white">
             <div class="card-body text-center">
                 <h3 class="text-white">{{ under_review_count }}</h3>
-                <span>Under Review</span>
+                <span>{% trans "Under Review" %}</span>
             </div>
         </div>
     </div>
@@ -39,7 +40,7 @@
         <div class="card bg-success text-white">
             <div class="card-body text-center">
                 <h3 class="text-white">{{ approved_count }}</h3>
-                <span>Approved</span>
+                <span>{% trans "Approved" %}</span>
             </div>
         </div>
     </div>
@@ -47,7 +48,7 @@
         <div class="card bg-danger text-white">
             <div class="card-body text-center">
                 <h3 class="text-white">{{ rejected_count }}</h3>
-                <span>Rejected</span>
+                <span>{% trans "Rejected" %}</span>
             </div>
         </div>
     </div>
@@ -55,7 +56,7 @@
         <div class="card bg-dark text-white">
             <div class="card-body text-center">
                 <h3 class="text-white">{{ expired_count }}</h3>
-                <span>Expired</span>
+                <span>{% trans "Expired" %}</span>
             </div>
         </div>
     </div>
@@ -66,9 +67,9 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h4 class="card-title mb-0">Import Permits</h4>
+                <h4 class="card-title mb-0">{% trans "Import Permits" %}</h4>
                 <a href="{% url 'apply_import' %}" class="btn btn-primary btn-sm">
-                    <i class="fa fa-plus"></i> Apply for Import Permit
+                    <i class="fa fa-plus"></i> {% trans "Apply for Import Permit" %}
                 </a>
             </div>
             <div class="card-body">
@@ -76,15 +77,15 @@
                     <table class="table table-bordered table-striped">
                         <thead class="thead-dark">
                             <tr>
-                                <th>Permit #</th>
-                                <th>Company</th>
-                                <th>License</th>
-                                <th>Shipment</th>
-                                <th>Origin</th>
-                                <th>Arrival Date</th>
-                                <th>Value (USD)</th>
-                                <th>Status</th>
-                                <th>Actions</th>
+                                <th>{% trans "Permit #" %}</th>
+                                <th>{% trans "Company" %}</th>
+                                <th>{% trans "License" %}</th>
+                                <th>{% trans "Shipment" %}</th>
+                                <th>{% trans "Origin" %}</th>
+                                <th>{% trans "Arrival Date" %}</th>
+                                <th>{% trans "Value (USD)" %}</th>
+                                <th>{% trans "Status" %}</th>
+                                <th>{% trans "Actions" %}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -99,17 +100,17 @@
                                 <td>${{ permit.total_value_usd }}</td>
                                 <td>
                                     {% if permit.status == 'DRAFT' %}
-                                        <span class="badge bg-info">Draft</span>
+                                        <span class="badge bg-info">{% trans "Draft" %}</span>
                                     {% elif permit.status == 'SUBMITTED' %}
-                                        <span class="badge bg-primary">Submitted</span>
+                                        <span class="badge bg-primary">{% trans "Submitted" %}</span>
                                     {% elif permit.status == 'UNDER_REVIEW' %}
-                                        <span class="badge bg-warning">Under Review</span>
+                                        <span class="badge bg-warning">{% trans "Under Review" %}</span>
                                     {% elif permit.status == 'APPROVED' %}
-                                        <span class="badge bg-success">Approved</span>
+                                        <span class="badge bg-success">{% trans "Approved" %}</span>
                                     {% elif permit.status == 'REJECTED' %}
-                                        <span class="badge bg-danger">Rejected</span>
+                                        <span class="badge bg-danger">{% trans "Rejected" %}</span>
                                     {% elif permit.status == 'EXPIRED' %}
-                                        <span class="badge bg-dark">Expired</span>
+                                        <span class="badge bg-dark">{% trans "Expired" %}</span>
                                     {% endif %}
                                 </td>
                                 <td>
@@ -124,8 +125,8 @@
                             {% empty %}
                             <tr>
                                 <td colspan="9" class="text-center py-4">
-                                    <p class="text-muted mb-3">No import permits found.</p>
-                                    <a href="{% url 'apply_import' %}" class="btn btn-primary">Apply for Your First Import Permit</a>
+                                    <p class="text-muted mb-3">{% trans "No import permits found." %}</p>
+                                    <a href="{% url 'apply_import' %}" class="btn btn-primary">{% trans "Apply for Your First Import Permit" %}</a>
                                 </td>
                             </tr>
                             {% endfor %}

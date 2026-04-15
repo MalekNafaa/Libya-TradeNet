@@ -1,12 +1,13 @@
 {% extends 'libya_trade_dashboard/templates/base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 <div class="row page-titles">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="{% url 'import_permits' %}">Imports</a></li>
-        <li class="breadcrumb-item active">Track Imports</li>
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">{% trans "Dashboard" %}</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'import_permits' %}">{% trans "Imports" %}</a></li>
+        <li class="breadcrumb-item active">{% trans "Track Imports" %}</li>
     </ol>
 </div>
 
@@ -14,15 +15,15 @@
 <div class="row mb-3">
     <div class="col-12">
         <div class="btn-group" role="group">
-            <a href="{% url 'import_tracking' %}" class="btn btn-outline-secondary {% if not current_filter %}active{% endif %}">All</a>
-            <a href="?status=DRAFT" class="btn btn-outline-secondary {% if current_filter == 'DRAFT' %}active{% endif %}">Draft</a>
-            <a href="?status=SUBMITTED" class="btn btn-outline-secondary {% if current_filter == 'SUBMITTED' %}active{% endif %}">Submitted</a>
-            <a href="?status=UNDER_REVIEW" class="btn btn-outline-secondary {% if current_filter == 'UNDER_REVIEW' %}active{% endif %}">Under Review</a>
-            <a href="?status=APPROVED" class="btn btn-outline-secondary {% if current_filter == 'APPROVED' %}active{% endif %}">Approved</a>
-            <a href="?status=REJECTED" class="btn btn-outline-secondary {% if current_filter == 'REJECTED' %}active{% endif %}">Rejected</a>
+            <a href="{% url 'import_tracking' %}" class="btn btn-outline-secondary {% if not current_filter %}active{% endif %}">{% trans "All" %}</a>
+            <a href="?status=DRAFT" class="btn btn-outline-secondary {% if current_filter == 'DRAFT' %}active{% endif %}">{% trans "Draft" %}</a>
+            <a href="?status=SUBMITTED" class="btn btn-outline-secondary {% if current_filter == 'SUBMITTED' %}active{% endif %}">{% trans "Submitted" %}</a>
+            <a href="?status=UNDER_REVIEW" class="btn btn-outline-secondary {% if current_filter == 'UNDER_REVIEW' %}active{% endif %}">{% trans "Under Review" %}</a>
+            <a href="?status=APPROVED" class="btn btn-outline-secondary {% if current_filter == 'APPROVED' %}active{% endif %}">{% trans "Approved" %}</a>
+            <a href="?status=REJECTED" class="btn btn-outline-secondary {% if current_filter == 'REJECTED' %}active{% endif %}">{% trans "Rejected" %}</a>
         </div>
         <a href="{% url 'apply_import' %}" class="btn btn-primary float-end">
-            <i class="fa fa-plus"></i> New Import
+            <i class="fa fa-plus"></i> {% trans "New Import" %}
         </a>
     </div>
 </div>
@@ -40,17 +41,17 @@
                 </div>
                 <div class="text-end">
                     {% if permit.status == 'DRAFT' %}
-                        <span class="badge bg-info">Draft</span>
+                        <span class="badge bg-info">{% trans "Draft" %}</span>
                     {% elif permit.status == 'SUBMITTED' %}
-                        <span class="badge bg-primary">Submitted</span>
+                        <span class="badge bg-primary">{% trans "Submitted" %}</span>
                     {% elif permit.status == 'UNDER_REVIEW' %}
-                        <span class="badge bg-warning">Under Review</span>
+                        <span class="badge bg-warning">{% trans "Under Review" %}</span>
                     {% elif permit.status == 'APPROVED' %}
-                        <span class="badge bg-success">Approved</span>
+                        <span class="badge bg-success">{% trans "Approved" %}</span>
                     {% elif permit.status == 'REJECTED' %}
-                        <span class="badge bg-danger">Rejected</span>
+                        <span class="badge bg-danger">{% trans "Rejected" %}</span>
                     {% elif permit.status == 'EXPIRED' %}
-                        <span class="badge bg-dark">Expired</span>
+                        <span class="badge bg-dark">{% trans "Expired" %}</span>
                     {% endif %}
                 </div>
             </div>
@@ -58,7 +59,7 @@
                 <!-- Progress Tracker -->
                 <div class="mb-4">
                     <div class="d-flex justify-content-between mb-2">
-                        <small>Application Progress</small>
+                        <small>{% trans "Application Progress" %}</small>
                         <small>
                             {% if permit.status == 'DRAFT' %}20%
                             {% elif permit.status == 'SUBMITTED' %}40%
@@ -87,11 +88,11 @@
                 <!-- Shipment Info -->
                 <div class="row mb-3">
                     <div class="col-6">
-                        <small class="text-muted d-block">Shipment Type</small>
+                        <small class="text-muted d-block">{% trans "Shipment Type" %}</small>
                         <strong>{{ permit.get_shipment_type_display }}</strong>
                     </div>
                     <div class="col-6">
-                        <small class="text-muted d-block">B/L or AWB #</small>
+                        <small class="text-muted d-block">{% trans "B/L or AWB #" %}</small>
                         <strong>{{ permit.bl_awb_number|default:"N/A" }}</strong>
                     </div>
                 </div>
@@ -99,11 +100,11 @@
                 <!-- Route -->
                 <div class="row mb-3">
                     <div class="col-6">
-                        <small class="text-muted d-block">Origin</small>
+                        <small class="text-muted d-block">{% trans "Origin" %}</small>
                         <strong>{{ permit.country_of_origin }}</strong>
                     </div>
                     <div class="col-6">
-                        <small class="text-muted d-block">Destination</small>
+                        <small class="text-muted d-block">{% trans "Destination" %}</small>
                         <strong>{{ permit.port_of_entry }}</strong>
                     </div>
                 </div>
@@ -111,11 +112,11 @@
                 <!-- Arrival & Value -->
                 <div class="row mb-3">
                     <div class="col-6">
-                        <small class="text-muted d-block">Expected Arrival</small>
+                        <small class="text-muted d-block">{% trans "Expected Arrival" %}</small>
                         <strong>{{ permit.expected_arrival_date|date:"M d, Y" }}</strong>
                     </div>
                     <div class="col-6">
-                        <small class="text-muted d-block">Value</small>
+                        <small class="text-muted d-block">{% trans "Value" %}</small>
                         <strong>${{ permit.total_value_usd }} {{ permit.currency }}</strong>
                     </div>
                 </div>
@@ -137,7 +138,7 @@
                             {% endif %}
                         fa-lg me-2"></i>
                         <div>
-                            <strong>Inspection: {{ inspection.get_result_display }}</strong>
+                            <strong>{% trans "Inspection:" %} {{ inspection.get_result_display }}</strong>
                             <small class="d-block">{{ inspection.inspection_date|date:"M d, Y" }} at {{ inspection.location }}</small>
                         </div>
                     </div>
@@ -148,22 +149,22 @@
                 </div>
                 {% elif permit.status == 'APPROVED' %}
                 <div class="alert alert-info">
-                    <i class="fa fa-info-circle"></i> Awaiting inspection scheduling
+                    <i class="fa fa-info-circle"></i> {% trans "Awaiting inspection scheduling" %}
                 </div>
                 {% endif %}
 
                 <!-- Goods Summary -->
                 <div class="border-top pt-3 mt-3">
-                    <small class="text-muted d-block mb-1">Goods Description</small>
+                    <small class="text-muted d-block mb-1">{% trans "Goods Description" %}</small>
                     <p class="mb-0 small">{{ permit.goods_description|truncatechars:100 }}</p>
                 </div>
             </div>
             <div class="card-footer d-flex justify-content-between">
                 <a href="{% url 'import_documents' %}?permit={{ permit.id }}" class="btn btn-sm btn-outline-primary">
-                    <i class="fa fa-folder-open"></i> Documents
+                    <i class="fa fa-folder-open"></i> {% trans "Documents" %}
                 </a>
                 {% if permit.status == 'APPROVED' and not data.has_inspection %}
-                <span class="badge bg-warning">Pending Inspection</span>
+                <span class="badge bg-warning">{% trans "Pending Inspection" %}</span>
                 {% endif %}
             </div>
         </div>
@@ -174,9 +175,9 @@
         <div class="card">
             <div class="card-body text-center py-5">
                 <i class="fa fa-box-open fa-4x text-muted mb-3"></i>
-                <h4>No Imports to Track</h4>
-                <p class="text-muted">You haven't submitted any import permit applications yet.</p>
-                <a href="{% url 'apply_import' %}" class="btn btn-primary">Apply for Import Permit</a>
+                <h4>{% trans "No Imports to Track" %}</h4>
+                <p class="text-muted">{% trans "You haven't submitted any import permit applications yet." %}</p>
+                <a href="{% url 'apply_import' %}" class="btn btn-primary">{% trans "Apply for Import Permit" %}</a>
             </div>
         </div>
     </div>

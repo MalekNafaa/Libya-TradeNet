@@ -1,11 +1,12 @@
 {% extends 'libya_trade_dashboard/templates/base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 <div class="row page-titles">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
-        <li class="breadcrumb-item active">All Documents</li>
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">{% trans "Dashboard" %}</a></li>
+        <li class="breadcrumb-item active">{% trans "All Documents" %}</li>
     </ol>
 </div>
 
@@ -16,25 +17,25 @@
             <div class="card-body">
                 <form method="get" class="row g-3">
                     <div class="col-md-4">
-                        <label class="form-label">Filter by Type</label>
+                        <label class="form-label">{% trans "Filter by Type" %}</label>
                         <select class="form-select" name="type" onchange="this.form.submit()">
-                            <option value="">All Types</option>
+                            <option value="">{% trans "All Types" %}</option>
                             {% for code, name in doc_types %}
                             <option value="{{ code }}" {% if type_filter == code %}selected{% endif %}>{{ name }}</option>
                             {% endfor %}
                         </select>
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">Filter by Status</label>
+                        <label class="form-label">{% trans "Filter by Status" %}</label>
                         <select class="form-select" name="status" onchange="this.form.submit()">
-                            <option value="">All Statuses</option>
-                            <option value="UPLOADED" {% if status_filter == 'UPLOADED' %}selected{% endif %}>Uploaded</option>
-                            <option value="VERIFIED" {% if status_filter == 'VERIFIED' %}selected{% endif %}>Verified</option>
-                            <option value="REJECTED" {% if status_filter == 'REJECTED' %}selected{% endif %}>Rejected</option>
+                            <option value="">{% trans "All Statuses" %}</option>
+                            <option value="UPLOADED" {% if status_filter == 'UPLOADED' %}selected{% endif %}>{% trans "Uploaded" %}</option>
+                            <option value="VERIFIED" {% if status_filter == 'VERIFIED' %}selected{% endif %}>{% trans "Verified" %}</option>
+                            <option value="REJECTED" {% if status_filter == 'REJECTED' %}selected{% endif %}>{% trans "Rejected" %}</option>
                         </select>
                     </div>
                     <div class="col-md-4 d-flex align-items-end">
-                        <a href="{% url 'all_documents' %}" class="btn btn-outline-secondary">Clear Filters</a>
+                        <a href="{% url 'all_documents' %}" class="btn btn-outline-secondary">{% trans "Clear Filters" %}</a>
                     </div>
                 </form>
             </div>
@@ -47,7 +48,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h4 class="card-title mb-0"><i class="fa fa-files-o text-primary"></i> All Documents</h4>
+                <h4 class="card-title mb-0"><i class="fa fa-files-o text-primary"></i> {% trans "All Documents" %}</h4>
                 <span class="badge bg-primary">{{ documents|length }} total</span>
             </div>
             <div class="card-body">
@@ -56,13 +57,13 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>Document</th>
-                                <th>Type</th>
-                                <th>Linked Trade</th>
-                                <th>Company</th>
-                                <th>Status</th>
-                                <th>Uploaded</th>
-                                <th>Actions</th>
+                                <th>{% trans "Document" %}</th>
+                                <th>{% trans "Type" %}</th>
+                                <th>{% trans "Linked Trade" %}</th>
+                                <th>{% trans "Company" %}</th>
+                                <th>{% trans "Status" %}</th>
+                                <th>{% trans "Uploaded" %}</th>
+                                <th>{% trans "Actions" %}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -104,10 +105,10 @@
                 {% else %}
                 <div class="text-center py-5">
                     <i class="fa fa-folder-open-o fa-4x text-muted mb-3"></i>
-                    <h5 class="text-muted">No Documents Found</h5>
-                    <p class="text-muted">Upload documents from a trade folder.</p>
+                    <h5 class="text-muted">{% trans "No Documents Found" %}</h5>
+                    <p class="text-muted">{% trans "Upload documents from a trade folder." %}</p>
                     <a href="{% url 'document_folders' %}" class="btn btn-primary mt-2">
-                        <i class="fa fa-folder-open"></i> View Folders
+                        <i class="fa fa-folder-open"></i> {% trans "View Folders" %}
                     </a>
                 </div>
                 {% endif %}
