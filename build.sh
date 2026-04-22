@@ -5,8 +5,8 @@ set -o errexit
 # Install dependencies
 pip install -r requirements.txt
 
-# Compile translations
-python manage.py compilemessages
+# Compile translations (optional — skipped if gettext not available)
+python manage.py compilemessages || echo "compilemessages skipped (gettext not available)"
 
 # Collect static files
 python manage.py collectstatic --noinput
