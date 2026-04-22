@@ -1,4 +1,5 @@
 # Virtual Environment
+.venv/
 venv/
 env/
 ENV/
@@ -41,3 +42,5 @@ wheels/
 # OS
 .DS_Store
 Thumbs.db
+/02. Senior Design Project Malek Altarhuni.md
+/IMPLEMENTATION.md

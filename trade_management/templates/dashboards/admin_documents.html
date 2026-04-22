@@ -1,0 +1,108 @@
+{% extends "libya_trade_dashboard/templates/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="mb-0"><i class="fa fa-folder-open me-2 text-secondary"></i>{% trans "Uploaded Documents" %}</h3>
+        <small class="text-muted">{% trans "All files uploaded by companies across all import permits" %} &mdash; {{ total_docs }} {% trans "total" %}</small>
+    </div>
+    <a href="{% url 'admin_dashboard' %}" class="btn btn-outline-secondary btn-sm">
+        <i class="fa fa-arrow-left me-1"></i> {% trans "Back to Dashboard" %}
+    </a>
+</div>
+
+<!-- Filters -->
+<div class="card mb-3">
+    <div class="card-body py-2">
+        <form method="get" class="row g-2 align-items-end">
+            <div class="col-sm-4">
+                <label class="form-label mb-1 fw-semibold small">{% trans "Company name" %}</label>
+                <input type="text" name="company" value="{{ company_filter }}" class="form-control form-control-sm" placeholder="{% trans 'Search by company...' %}">
+            </div>
+            <div class="col-sm-4">
+                <label class="form-label mb-1 fw-semibold small">{% trans "Document type" %}</label>
+                <select name="doc_type" class="form-select form-select-sm">
+                    <option value="">{% trans "All types" %}</option>
+                    {% for val, label in doc_types %}
+                    <option value="{{ val }}" {% if type_filter == val %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-primary btn-sm w-100">
+                    <i class="fa fa-search me-1"></i> {% trans "Filter" %}
+                </button>
+            </div>
+            {% if company_filter or type_filter %}
+            <div class="col-sm-2">
+                <a href="{% url 'admin_documents' %}" class="btn btn-outline-secondary btn-sm w-100">
+                    <i class="fa fa-times me-1"></i> {% trans "Clear" %}
+                </a>
+            </div>
+            {% endif %}
+        </form>
+    </div>
+</div>
+
+<!-- Documents Table -->
+<div class="card">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>{% trans "Document Type" %}</th>
+                        <th>{% trans "Permit #" %}</th>
+                        <th>{% trans "Company" %}</th>
+                        <th>{% trans "Uploaded By" %}</th>
+                        <th>{% trans "Description" %}</th>
+                        <th>{% trans "Uploaded" %}</th>
+                        <th>{% trans "Verified" %}</th>
+                        <th>{% trans "File" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for doc in documents %}
+                    <tr>
+                        <td>
+                            <i class="fa fa-file-pdf-o text-danger me-1"></i>
+                            {{ doc.get_document_type_display }}
+                        </td>
+                        <td>
+                            <a href="{% url 'admin_review_permit' doc.import_permit.id %}" class="text-decoration-none">
+                                <code>{{ doc.import_permit.permit_number }}</code>
+                            </a>
+                        </td>
+                        <td>{{ doc.import_permit.company.name }}</td>
+                        <td>{{ doc.uploaded_by.username }}</td>
+                        <td>{{ doc.description|default:"—"|truncatechars:40 }}</td>
+                        <td>{{ doc.uploaded_at|date:"d M Y" }}</td>
+                        <td>
+                            {% if doc.is_verified %}
+                                <span class="badge bg-success"><i class="fa fa-check me-1"></i>{% trans "Yes" %}</span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark">{% trans "No" %}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ doc.file.url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                <i class="fa fa-eye me-1"></i>{% trans "View" %}
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center text-muted py-5">
+                            <i class="fa fa-folder-open fa-2x mb-2 d-block"></i>
+                            {% trans "No documents found." %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

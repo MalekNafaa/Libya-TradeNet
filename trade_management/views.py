@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import Sum
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
@@ -6,13 +7,24 @@ from django.contrib import messages
 from django.urls import reverse
 from django.utils import timezone
 from datetime import timedelta, date
+import random
 from decimal import Decimal
 from .models import Company, License, LicenseApplication, ImportPermit, ImportDocument, ImportInspection, TaxPayment, UserProfile
 from .decorators import role_required, government_required
+from . import email_utils
 
 
 def home(request):
-    return render(request, 'home.html')
+    stats = {
+        'total_companies': Company.objects.filter(status=Company.CompanyStatus.ACTIVE).count(),
+        'active_licenses': License.objects.filter(status=License.LicenseStatus.VALID).count(),
+        'permits_processed': ImportPermit.objects.filter(status=ImportPermit.PermitStatus.APPROVED).count(),
+        'tax_collected': int(
+            TaxPayment.objects.filter(status=TaxPayment.PaymentStatus.PAID)
+            .aggregate(total=Sum('amount_paid'))['total'] or 0
+        ),
+    }
+    return render(request, 'home.html', {'stats': stats})
 
 
 @login_required
@@ -87,6 +99,16 @@ def dashboard(request):
     return render(request, 'libya_trade_dashboard/templates/dashboard.html', context)
 
 
+GOVERNMENT_ROLES = {
+    UserProfile.Role.ADMIN,
+    UserProfile.Role.CUSTOMS_OFFICER,
+    UserProfile.Role.TAX_OFFICER,
+    UserProfile.Role.ANTI_CORRUPTION,
+    UserProfile.Role.LICENSE_REGULATOR,
+    UserProfile.Role.TRADE_MINISTRY,
+}
+
+
 def login_view(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
@@ -95,20 +117,69 @@ def login_view(request):
             password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
             if user is not None:
-                login(request, user)
-                messages.success(request, 'تم تسجيل الدخول بنجاح!')
                 try:
-                    return redirect(user.profile.dashboard_url())
+                    profile = user.profile
                 except UserProfile.DoesNotExist:
+                    login(request, user)
                     return redirect('dashboard')
+
+                if profile.role in GOVERNMENT_ROLES:
+                    if not user.email:
+                        messages.error(request, 'Your account has no email address set. Contact the administrator.')
+                        return render(request, 'login.html', {'form': form})
+                    otp = str(random.randint(100000, 999999))
+                    request.session['otp_code'] = otp
+                    request.session['otp_user_id'] = user.pk
+                    request.session['otp_expires'] = (timezone.now() + timedelta(minutes=10)).isoformat()
+                    email_utils.send_otp(user, otp)
+                    messages.info(request, f'A verification code has been sent to {user.email[:3]}***@{user.email.split("@")[1]}')
+                    return redirect('verify_otp')
+                else:
+                    login(request, user)
+                    messages.success(request, 'تم تسجيل الدخول بنجاح!')
+                    return redirect(profile.dashboard_url())
             else:
                 messages.error(request, 'اسم المستخدم أو كلمة المرور غير صحيحة.')
         else:
             messages.error(request, 'تأكد من صحة البيانات المدخلة.')
     else:
         form = AuthenticationForm()
-    
+
     return render(request, 'login.html', {'form': form})
+
+
+def verify_otp(request):
+    if 'otp_user_id' not in request.session:
+        return redirect('login')
+
+    if request.method == 'POST':
+        entered = request.POST.get('otp', '').strip()
+        stored = request.session.get('otp_code')
+        expires_str = request.session.get('otp_expires')
+        user_id = request.session.get('otp_user_id')
+
+        expires = timezone.datetime.fromisoformat(expires_str)
+        if timezone.now() > expires:
+            request.session.pop('otp_code', None)
+            request.session.pop('otp_user_id', None)
+            request.session.pop('otp_expires', None)
+            messages.error(request, 'Verification code expired. Please log in again.')
+            return redirect('login')
+
+        if entered == stored:
+            from django.contrib.auth.models import User as AuthUser
+            user = AuthUser.objects.get(pk=user_id)
+            request.session.pop('otp_code', None)
+            request.session.pop('otp_user_id', None)
+            request.session.pop('otp_expires', None)
+            login(request, user)
+            messages.success(request, 'تم تسجيل الدخول بنجاح!')
+            return redirect(user.profile.dashboard_url())
+        else:
+            messages.error(request, 'Invalid verification code. Please try again.')
+
+    return render(request, 'verify_otp.html')
+
 
 def logout_view(request):
     logout(request)
@@ -1286,16 +1357,199 @@ def ministry_dashboard(request):
 def admin_dashboard(request):
     """System Admin dashboard"""
     users = UserProfile.objects.select_related('user').all()
+    pending_apps = LicenseApplication.objects.filter(
+        status__in=[LicenseApplication.ApplicationStatus.SUBMITTED, LicenseApplication.ApplicationStatus.UNDER_REVIEW]
+    ).count()
+    pending_permits = ImportPermit.objects.filter(
+        status__in=[ImportPermit.PermitStatus.SUBMITTED, ImportPermit.PermitStatus.UNDER_REVIEW]
+    ).count()
     context = {
         'total_users': users.count(),
         'total_companies': Company.objects.count(),
         'total_permits': ImportPermit.objects.count(),
         'total_licenses': License.objects.count(),
         'total_tax_payments': TaxPayment.objects.count(),
+        'pending_apps': pending_apps,
+        'pending_permits': pending_permits,
+        'total_documents': ImportDocument.objects.count(),
         'users': users.order_by('-created_at')[:20],
         'role_label': 'System Admin',
     }
     return render(request, 'dashboards/admin_dashboard.html', context)
+
+
+@login_required
+@role_required('ADMIN')
+def admin_applications(request):
+    """Admin: browse and filter all license applications"""
+    applications = LicenseApplication.objects.select_related('company', 'submitted_by', 'reviewed_by').order_by('-created_at')
+    status_filter = request.GET.get('status', '')
+    if status_filter:
+        applications = applications.filter(status=status_filter)
+    context = {
+        'applications': applications,
+        'status_choices': LicenseApplication.ApplicationStatus.choices,
+        'current_filter': status_filter,
+        'pending_count': LicenseApplication.objects.filter(status=LicenseApplication.ApplicationStatus.SUBMITTED).count(),
+        'under_review_count': LicenseApplication.objects.filter(status=LicenseApplication.ApplicationStatus.UNDER_REVIEW).count(),
+        'approved_count': LicenseApplication.objects.filter(status=LicenseApplication.ApplicationStatus.APPROVED).count(),
+        'rejected_count': LicenseApplication.objects.filter(status=LicenseApplication.ApplicationStatus.REJECTED).count(),
+        'role_label': 'System Admin',
+    }
+    return render(request, 'dashboards/admin_applications.html', context)
+
+
+@login_required
+@role_required('ADMIN')
+def admin_review_application(request, app_id):
+    """Admin: review a single license application — approve, reject, or mark under review"""
+    app = get_object_or_404(LicenseApplication, id=app_id)
+
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        notes = request.POST.get('review_notes', '').strip()
+        print(f'[VIEW DEBUG] POST received — action={action!r}')
+
+        if action == 'under_review':
+            app.status = LicenseApplication.ApplicationStatus.UNDER_REVIEW
+            app.reviewed_by = request.user
+            app.save()
+            email_utils.send_application_under_review(app)
+            messages.info(request, f'Application {app.application_number} marked as Under Review.')
+
+        elif action == 'approve':
+            app.status = LicenseApplication.ApplicationStatus.APPROVED
+            app.reviewed_by = request.user
+            app.review_notes = notes
+            app.reviewed_at = timezone.now()
+            app.save()
+            import uuid as _uuid
+            year = timezone.now().year
+            rand = str(_uuid.uuid4().int)[:6]
+            License.objects.create(
+                company=app.company,
+                license_type=app.license_type,
+                license_number=f'LIC-{year}-{rand}',
+                issued_date=timezone.now().date(),
+                expiry_date=timezone.now().date() + timedelta(days=365),
+                status=License.LicenseStatus.VALID,
+            )
+            print(f'[VIEW] Calling send_application_approved for {app.application_number} → {app.submitted_by.email}')
+            email_utils.send_application_approved(app)
+            messages.success(request, f'Application {app.application_number} approved and license issued.')
+
+        elif action == 'reject':
+            app.status = LicenseApplication.ApplicationStatus.REJECTED
+            app.reviewed_by = request.user
+            app.review_notes = notes
+            app.reviewed_at = timezone.now()
+            app.save()
+            email_utils.send_application_rejected(app)
+            messages.warning(request, f'Application {app.application_number} rejected.')
+
+        return redirect('admin_applications')
+
+    docs = [
+        ('Business Registration', app.business_registration_doc),
+        ('Tax Clearance', app.tax_clearance_doc),
+        ('Bank Reference', app.bank_reference_doc),
+        ('Other Supporting Docs', app.other_supporting_docs),
+    ]
+    uploaded_docs = [(label, f) for label, f in docs if f]
+    context = {
+        'app': app,
+        'uploaded_docs': uploaded_docs,
+        'role_label': 'System Admin',
+    }
+    return render(request, 'dashboards/admin_review_application.html', context)
+
+
+@login_required
+@role_required('ADMIN')
+def admin_permits_list(request):
+    """Admin: browse and filter all import permits"""
+    permits = ImportPermit.objects.select_related('company', 'created_by', 'related_license').order_by('-created_at')
+    status_filter = request.GET.get('status', '')
+    if status_filter:
+        permits = permits.filter(status=status_filter)
+    context = {
+        'permits': permits,
+        'status_choices': ImportPermit.PermitStatus.choices,
+        'current_filter': status_filter,
+        'submitted_count': ImportPermit.objects.filter(status=ImportPermit.PermitStatus.SUBMITTED).count(),
+        'under_review_count': ImportPermit.objects.filter(status=ImportPermit.PermitStatus.UNDER_REVIEW).count(),
+        'approved_count': ImportPermit.objects.filter(status=ImportPermit.PermitStatus.APPROVED).count(),
+        'rejected_count': ImportPermit.objects.filter(status=ImportPermit.PermitStatus.REJECTED).count(),
+        'role_label': 'System Admin',
+    }
+    return render(request, 'dashboards/admin_permits_list.html', context)
+
+
+@login_required
+@role_required('ADMIN')
+def admin_review_permit(request, permit_id):
+    """Admin: review a single import permit — approve or reject"""
+    permit = get_object_or_404(ImportPermit, id=permit_id)
+
+    if request.method == 'POST':
+        action = request.POST.get('action')
+
+        if action == 'under_review':
+            permit.status = ImportPermit.PermitStatus.UNDER_REVIEW
+            permit.save()
+            email_utils.send_permit_under_review(permit)
+            messages.info(request, f'Permit {permit.permit_number} marked as Under Review.')
+
+        elif action == 'approve':
+            permit.status = ImportPermit.PermitStatus.APPROVED
+            permit.issued_date = timezone.now().date()
+            permit.expiry_date = timezone.now().date() + timedelta(days=365)
+            permit.save()
+            email_utils.send_permit_approved(permit)
+            messages.success(request, f'Permit {permit.permit_number} approved.')
+
+        elif action == 'reject':
+            permit.status = ImportPermit.PermitStatus.REJECTED
+            permit.save()
+            email_utils.send_permit_rejected(permit)
+            messages.warning(request, f'Permit {permit.permit_number} rejected.')
+
+        return redirect('admin_permits_list')
+
+    permit_docs = permit.documents.select_related('uploaded_by').order_by('-uploaded_at')
+    context = {
+        'permit': permit,
+        'permit_docs': permit_docs,
+        'role_label': 'System Admin',
+    }
+    return render(request, 'dashboards/admin_review_permit.html', context)
+
+
+@login_required
+@role_required('ADMIN')
+def admin_documents(request):
+    """Admin: view all uploaded import documents"""
+    documents = ImportDocument.objects.select_related(
+        'import_permit', 'import_permit__company', 'uploaded_by'
+    ).order_by('-uploaded_at')
+
+    company_filter = request.GET.get('company', '')
+    type_filter = request.GET.get('doc_type', '')
+    if company_filter:
+        documents = documents.filter(import_permit__company__name__icontains=company_filter)
+    if type_filter:
+        documents = documents.filter(document_type=type_filter)
+
+    context = {
+        'documents': documents,
+        'doc_types': ImportDocument.DocType.choices,
+        'company_filter': company_filter,
+        'type_filter': type_filter,
+        'total_docs': ImportDocument.objects.count(),
+        'role_label': 'System Admin',
+    }
+    return render(request, 'dashboards/admin_documents.html', context)
+
 
 
 # ==================== LANGUAGE SWITCHER ====================

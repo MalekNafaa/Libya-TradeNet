@@ -1,0 +1,22 @@
+{% extends "emails/base_email.html" %}
+{% block body %}
+<span class="badge badge-success">✅ Import Permit Approved</span>
+<h2 style="margin:0 0 8px;">Your Import Permit Has Been Approved</h2>
+<p>Your import permit has been <strong>approved</strong>. You may proceed with your shipment.</p>
+
+<div class="detail-box">
+  <table>
+    <tr><td>Permit #</td><td>{{ permit.permit_number }}</td></tr>
+    <tr><td>Company</td><td>{{ permit.company.name }}</td></tr>
+    <tr><td>Goods</td><td>{{ permit.goods_description|truncatechars:60 }}</td></tr>
+    <tr><td>Shipment Type</td><td>{{ permit.get_shipment_type_display }}</td></tr>
+    <tr><td>Country of Origin</td><td>{{ permit.country_of_origin }}</td></tr>
+    <tr><td>Port of Entry</td><td>{{ permit.port_of_entry }}</td></tr>
+    <tr><td>Issued Date</td><td>{{ permit.issued_date }}</td></tr>
+    <tr><td>Expiry Date</td><td>{{ permit.expiry_date }}</td></tr>
+  </table>
+</div>
+
+<p>Please ensure this permit is presented at the port of entry. Keep a copy for your records.</p>
+<p class="note">Log in to your dashboard to download or view the full permit details.</p>
+{% endblock %}

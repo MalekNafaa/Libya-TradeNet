@@ -1,0 +1,18 @@
+{% extends "emails/base_email.html" %}
+{% block body %}
+<span class="badge badge-info">🔍 Under Review</span>
+<h2 style="margin:0 0 8px;">Your Application is Being Reviewed</h2>
+<p>A government officer has started reviewing your license application. You will be notified once a decision has been made.</p>
+
+<div class="detail-box">
+  <table>
+    <tr><td>Application #</td><td>{{ app.application_number }}</td></tr>
+    <tr><td>Company</td><td>{{ app.company.name }}</td></tr>
+    <tr><td>License Type</td><td>{{ app.get_license_type_display }}</td></tr>
+    <tr><td>Submitted</td><td>{{ app.submitted_at|date:"d M Y" }}</td></tr>
+  </table>
+</div>
+
+<p>No action is required from you at this time. Please ensure all uploaded documents are complete and accurate.</p>
+<p class="note">If you have additional documents to submit, please log in to your dashboard.</p>
+{% endblock %}

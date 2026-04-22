@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.i18n import i18n_patterns
 from trade_management.views import (
-    home, login_view, logout_view, dashboard,
+    home, login_view, logout_view, verify_otp, dashboard,
     my_licenses, apply_license, application_status, license_renewal,
     import_permits, apply_import, import_tracking, import_documents, inspections,
     tax_payments, payment_history, financial_dashboard, outstanding_balances,
@@ -28,6 +28,8 @@ from trade_management.views import (
     set_language,
     customs_dashboard, tax_dashboard, anticorruption_dashboard,
     license_dashboard, ministry_dashboard, admin_dashboard,
+    admin_applications, admin_review_application,
+    admin_permits_list, admin_review_permit, admin_documents,
 )
 from django.shortcuts import render
 
@@ -42,6 +44,7 @@ urlpatterns += i18n_patterns(
     path('dashboard/', dashboard, name='dashboard'),
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
+    path('verify-otp/', verify_otp, name='verify_otp'),
     
     # Licensing URLs
     path('licenses/', my_licenses, name='my_licenses'),
@@ -84,6 +87,11 @@ urlpatterns += i18n_patterns(
     path('gov/licenses/', license_dashboard, name='license_dashboard'),
     path('gov/ministry/', ministry_dashboard, name='ministry_dashboard'),
     path('gov/admin/', admin_dashboard, name='admin_dashboard'),
+    path('gov/admin/applications/', admin_applications, name='admin_applications'),
+    path('gov/admin/applications/<int:app_id>/review/', admin_review_application, name='admin_review_application'),
+    path('gov/admin/permits/', admin_permits_list, name='admin_permits_list'),
+    path('gov/admin/permits/<int:permit_id>/review/', admin_review_permit, name='admin_review_permit'),
+    path('gov/admin/documents/', admin_documents, name='admin_documents'),
     
     # Document Management URLs
     path('documents/folders/', document_folders, name='document_folders'),

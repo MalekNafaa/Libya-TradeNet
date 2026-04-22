@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -140,6 +141,20 @@ STATICFILES_DIRS = [
     BASE_DIR / 'trade_management' / 'templates' / 'libya_trade_dashboard' / 'static',
 ]
 
+# Email Configuration
+# Development: EMAIL_BACKEND=console (prints to terminal, no SMTP needed)
+# Production:  set EMAIL_BACKEND=smtp and fill EMAIL_HOST_USER / EMAIL_HOST_PASSWORD env vars
+EMAIL_BACKEND = os.environ.get(
+    'EMAIL_BACKEND',
+    'django.core.mail.backends.console.EmailBackend'
+)
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'Libya TradeNet <noreply@libyatradenet.ly>')
+
 # Login/Logout URLs
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/dashboard/'
@@ -149,3 +164,9 @@ LOGOUT_REDIRECT_URL = '/login/'
 CSRF_COOKIE_SECURE = False
 CSRF_COOKIE_HTTPONLY = False
 CSRF_TRUSTED_ORIGINS = []
+
+# Load local overrides (email credentials, debug flags, etc.) — gitignored
+try:
+    from .local_settings import *
+except ImportError:
+    pass

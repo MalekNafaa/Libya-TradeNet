@@ -1,0 +1,25 @@
+{% extends "emails/base_email.html" %}
+{% block body %}
+<span class="badge badge-danger">❌ Application Rejected</span>
+<h2 style="margin:0 0 8px;">Application Not Approved</h2>
+<p>Unfortunately, your license application has been <strong>rejected</strong> after review.</p>
+
+<div class="detail-box">
+  <table>
+    <tr><td>Application #</td><td>{{ app.application_number }}</td></tr>
+    <tr><td>Company</td><td>{{ app.company.name }}</td></tr>
+    <tr><td>License Type</td><td>{{ app.get_license_type_display }}</td></tr>
+    <tr><td>Reviewed By</td><td>{{ app.reviewed_by.get_full_name|default:app.reviewed_by.username }}</td></tr>
+    <tr><td>Review Date</td><td>{{ app.reviewed_at|date:"d M Y, H:i" }}</td></tr>
+  </table>
+</div>
+
+{% if app.review_notes %}
+<p><strong>Reason for rejection:</strong><br>
+<span style="background:#fff3cd;padding:8px 12px;border-radius:4px;display:block;margin-top:6px;">{{ app.review_notes }}</span>
+</p>
+{% endif %}
+
+<p>You may submit a new application after addressing the issues mentioned above.</p>
+<p class="note">If you believe this decision was made in error, please contact your assigned government officer.</p>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "emails/base_email.html" %}
+{% block body %}
+<span class="badge badge-info">🔐 Login Verification</span>
+<h2 style="margin:0 0 8px;">Your One-Time Passcode</h2>
+<p>Hello <strong>{{ user.get_full_name|default:user.username }}</strong>,</p>
+<p>A login attempt was made to your Libya TradeNet government account. Use the code below to complete your sign-in. This code expires in <strong>10 minutes</strong>.</p>
+
+<div style="text-align:center;margin:32px 0;">
+  <div style="display:inline-block;background:#1a3a5c;color:#fff;font-size:36px;font-weight:bold;letter-spacing:12px;padding:20px 40px;border-radius:8px;">
+    {{ otp_code }}
+  </div>
+</div>
+
+<p>If you did not attempt to log in, your account credentials may be compromised. Please contact your system administrator immediately.</p>
+<p class="note">Do not share this code with anyone. Libya TradeNet staff will never ask for your OTP.</p>
+{% endblock %}

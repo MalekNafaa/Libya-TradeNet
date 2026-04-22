@@ -1,0 +1,19 @@
+{% extends "emails/base_email.html" %}
+{% block body %}
+<span class="badge badge-info">🔍 Under Review</span>
+<h2 style="margin:0 0 8px;">Your Import Permit is Being Reviewed</h2>
+<p>A customs officer has started reviewing your import permit application. You will receive another notification once a final decision has been made.</p>
+
+<div class="detail-box">
+  <table>
+    <tr><td>Permit #</td><td>{{ permit.permit_number }}</td></tr>
+    <tr><td>Company</td><td>{{ permit.company.name }}</td></tr>
+    <tr><td>Goods</td><td>{{ permit.goods_description|truncatechars:60 }}</td></tr>
+    <tr><td>Shipment Type</td><td>{{ permit.get_shipment_type_display }}</td></tr>
+    <tr><td>Expected Arrival</td><td>{{ permit.expected_arrival_date }}</td></tr>
+  </table>
+</div>
+
+<p>No action is required from you at this time. Please make sure all required documents are attached to this permit in your dashboard.</p>
+<p class="note">Log in to your dashboard to check the current status or add missing documents.</p>
+{% endblock %}

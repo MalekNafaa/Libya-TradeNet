@@ -1,0 +1,121 @@
+{% extends "libya_trade_dashboard/templates/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="mb-0"><i class="fa fa-file-text me-2 text-warning"></i>{% trans "License Applications" %}</h3>
+        <small class="text-muted">{% trans "Review, approve, or reject company license applications" %}</small>
+    </div>
+    <a href="{% url 'admin_dashboard' %}" class="btn btn-outline-secondary btn-sm">
+        <i class="fa fa-arrow-left me-1"></i> {% trans "Back to Dashboard" %}
+    </a>
+</div>
+
+<!-- Status KPIs -->
+<div class="row g-3 mb-4">
+    <div class="col-sm-3">
+        <div class="card bg-warning text-white text-center">
+            <div class="card-body py-2">
+                <h3 class="mb-0">{{ pending_count }}</h3>
+                <small>{% trans "Submitted" %}</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="card bg-info text-white text-center">
+            <div class="card-body py-2">
+                <h3 class="mb-0">{{ under_review_count }}</h3>
+                <small>{% trans "Under Review" %}</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="card bg-success text-white text-center">
+            <div class="card-body py-2">
+                <h3 class="mb-0">{{ approved_count }}</h3>
+                <small>{% trans "Approved" %}</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="card bg-danger text-white text-center">
+            <div class="card-body py-2">
+                <h3 class="mb-0">{{ rejected_count }}</h3>
+                <small>{% trans "Rejected" %}</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Filter Bar -->
+<div class="card mb-3">
+    <div class="card-body py-2">
+        <form method="get" class="d-flex gap-2 align-items-center flex-wrap">
+            <label class="mb-0 fw-semibold">{% trans "Filter by status:" %}</label>
+            <a href="{% url 'admin_applications' %}" class="btn btn-sm {% if not current_filter %}btn-primary{% else %}btn-outline-primary{% endif %}">{% trans "All" %}</a>
+            {% for val, label in status_choices %}
+            <a href="?status={{ val }}" class="btn btn-sm {% if current_filter == val %}btn-primary{% else %}btn-outline-secondary{% endif %}">{{ label }}</a>
+            {% endfor %}
+        </form>
+    </div>
+</div>
+
+<!-- Applications Table -->
+<div class="card">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>{% trans "App #" %}</th>
+                        <th>{% trans "Company" %}</th>
+                        <th>{% trans "License Type" %}</th>
+                        <th>{% trans "Est. Value (USD)" %}</th>
+                        <th>{% trans "Submitted" %}</th>
+                        <th>{% trans "Status" %}</th>
+                        <th>{% trans "Action" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for app in applications %}
+                    <tr>
+                        <td><code>{{ app.application_number }}</code></td>
+                        <td>{{ app.company.name }}</td>
+                        <td>{{ app.get_license_type_display }}</td>
+                        <td>${{ app.estimated_annual_value|floatformat:0 }}</td>
+                        <td>{{ app.submitted_at|date:"d M Y"|default:"—" }}</td>
+                        <td>
+                            {% if app.status == 'SUBMITTED' %}
+                                <span class="badge bg-warning text-dark">{% trans "Submitted" %}</span>
+                            {% elif app.status == 'UNDER_REVIEW' %}
+                                <span class="badge bg-info">{% trans "Under Review" %}</span>
+                            {% elif app.status == 'APPROVED' %}
+                                <span class="badge bg-success">{% trans "Approved" %}</span>
+                            {% elif app.status == 'REJECTED' %}
+                                <span class="badge bg-danger">{% trans "Rejected" %}</span>
+                            {% else %}
+                                <span class="badge bg-secondary">{{ app.get_status_display }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'admin_review_application' app.id %}" class="btn btn-sm btn-outline-primary">
+                                <i class="fa fa-eye me-1"></i>{% trans "Review" %}
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted py-5">
+                            <i class="fa fa-inbox fa-2x mb-2 d-block"></i>
+                            {% trans "No applications found." %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

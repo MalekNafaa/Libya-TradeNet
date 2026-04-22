@@ -1,0 +1,166 @@
+{% extends "libya_trade_dashboard/templates/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="mb-0"><i class="fa fa-ship me-2 text-info"></i>{% trans "Permit Review" %} — <code>{{ permit.permit_number }}</code></h3>
+        <small class="text-muted">{{ permit.company.name }} &mdash; {{ permit.get_shipment_type_display }}</small>
+    </div>
+    <a href="{% url 'admin_permits_list' %}" class="btn btn-outline-secondary btn-sm">
+        <i class="fa fa-arrow-left me-1"></i> {% trans "Back to Permits" %}
+    </a>
+</div>
+
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+{% endfor %}
+{% endif %}
+
+<div class="row g-4">
+    <!-- Permit Details -->
+    <div class="col-lg-7">
+        <div class="card mb-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="fa fa-info-circle me-1"></i> {% trans "Shipment Details" %}</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-5">{% trans "Permit #" %}</dt>
+                    <dd class="col-sm-7"><code>{{ permit.permit_number }}</code></dd>
+                    <dt class="col-sm-5">{% trans "Company" %}</dt>
+                    <dd class="col-sm-7">{{ permit.company.name }}</dd>
+                    <dt class="col-sm-5">{% trans "Shipment Type" %}</dt>
+                    <dd class="col-sm-7">{{ permit.get_shipment_type_display }}</dd>
+                    <dt class="col-sm-5">{% trans "Goods Description" %}</dt>
+                    <dd class="col-sm-7">{{ permit.goods_description }}</dd>
+                    <dt class="col-sm-5">{% trans "HS Code" %}</dt>
+                    <dd class="col-sm-7">{{ permit.hs_code|default:"—" }}</dd>
+                    <dt class="col-sm-5">{% trans "Quantity" %}</dt>
+                    <dd class="col-sm-7">{{ permit.quantity }} {{ permit.unit_of_measure }}</dd>
+                    <dt class="col-sm-5">{% trans "Total Value" %}</dt>
+                    <dd class="col-sm-7">${{ permit.total_value_usd|floatformat:2 }} {{ permit.currency }}</dd>
+                    <dt class="col-sm-5">{% trans "Country of Origin" %}</dt>
+                    <dd class="col-sm-7">{{ permit.country_of_origin }}</dd>
+                    <dt class="col-sm-5">{% trans "Port of Loading" %}</dt>
+                    <dd class="col-sm-7">{{ permit.port_of_loading|default:"—" }}</dd>
+                    <dt class="col-sm-5">{% trans "Port of Entry" %}</dt>
+                    <dd class="col-sm-7">{{ permit.port_of_entry }}</dd>
+                    <dt class="col-sm-5">{% trans "Expected Arrival" %}</dt>
+                    <dd class="col-sm-7">{{ permit.expected_arrival_date }}</dd>
+                    <dt class="col-sm-5">{% trans "BL / AWB #" %}</dt>
+                    <dd class="col-sm-7">{{ permit.bl_awb_number|default:"—" }}</dd>
+                    <dt class="col-sm-5">{% trans "Status" %}</dt>
+                    <dd class="col-sm-7">
+                        {% if permit.status == 'SUBMITTED' %}
+                            <span class="badge bg-warning text-dark fs-6">{{ permit.get_status_display }}</span>
+                        {% elif permit.status == 'UNDER_REVIEW' %}
+                            <span class="badge bg-info fs-6">{{ permit.get_status_display }}</span>
+                        {% elif permit.status == 'APPROVED' %}
+                            <span class="badge bg-success fs-6">{{ permit.get_status_display }}</span>
+                        {% elif permit.status == 'REJECTED' %}
+                            <span class="badge bg-danger fs-6">{{ permit.get_status_display }}</span>
+                        {% else %}
+                            <span class="badge bg-secondary fs-6">{{ permit.get_status_display }}</span>
+                        {% endif %}
+                    </dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Attached Documents -->
+        <div class="card">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0"><i class="fa fa-paperclip me-1"></i> {% trans "Attached Documents" %} <span class="badge bg-light text-dark ms-1">{{ permit_docs.count }}</span></h5>
+            </div>
+            <div class="card-body p-0">
+                {% if permit_docs %}
+                <div class="table-responsive">
+                    <table class="table table-sm mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>{% trans "Type" %}</th>
+                                <th>{% trans "Description" %}</th>
+                                <th>{% trans "Uploaded By" %}</th>
+                                <th>{% trans "Date" %}</th>
+                                <th>{% trans "File" %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for doc in permit_docs %}
+                            <tr>
+                                <td>{{ doc.get_document_type_display }}</td>
+                                <td>{{ doc.description|default:"—" }}</td>
+                                <td>{{ doc.uploaded_by.username }}</td>
+                                <td>{{ doc.uploaded_at|date:"d M Y" }}</td>
+                                <td>
+                                    <a href="{{ doc.file.url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted p-3 mb-0"><i class="fa fa-info-circle me-1"></i> {% trans "No documents attached to this permit." %}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Decision Panel -->
+    <div class="col-lg-5">
+        {% if permit.status not in 'APPROVED REJECTED EXPIRED' %}
+        <div class="card border-info">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="fa fa-gavel me-1"></i> {% trans "Make a Decision" %}</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" id="review-permit-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" id="review-permit-action" value="">
+                    <p class="text-muted small mb-3">{% trans "Approving this permit will set the issued date to today and expiry to one year from now." %}</p>
+                    <div class="d-grid gap-2">
+                        {% if permit.status == 'SUBMITTED' %}
+                        <button type="button" class="btn btn-info text-white" onclick="submitPermit('under_review', null)">
+                            <i class="fa fa-search me-1"></i> {% trans "Mark as Under Review" %}
+                        </button>
+                        {% endif %}
+                        <button type="button" class="btn btn-success" onclick="submitPermit('approve', 'Approve this import permit?')">
+                            <i class="fa fa-check me-1"></i> {% trans "Approve Permit" %}
+                        </button>
+                        <button type="button" class="btn btn-danger" onclick="submitPermit('reject', 'Are you sure you want to reject this permit?')">
+                            <i class="fa fa-times me-1"></i> {% trans "Reject Permit" %}
+                        </button>
+                    </div>
+                </form>
+                <script>
+                function submitPermit(action, confirmMsg) {
+                    if (confirmMsg && !confirm(confirmMsg)) return;
+                    document.getElementById('review-permit-action').value = action;
+                    document.getElementById('review-permit-form').submit();
+                }
+                </script>
+            </div>
+        </div>
+        {% else %}
+        <div class="card bg-light">
+            <div class="card-body text-center text-muted py-5">
+                <i class="fa fa-check-circle fa-3x mb-3 {% if permit.status == 'APPROVED' %}text-success{% else %}text-danger{% endif %}"></i>
+                <p class="mb-0 fw-semibold">{% trans "This permit has already been" %} {{ permit.get_status_display|lower }}.</p>
+                {% if permit.issued_date %}
+                <small>{% trans "Issued:" %} {{ permit.issued_date }} &mdash; {% trans "Expires:" %} {{ permit.expiry_date }}</small>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

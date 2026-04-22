@@ -1,0 +1,155 @@
+{% extends "libya_trade_dashboard/templates/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="mb-0"><i class="fa fa-search me-2 text-primary"></i>{% trans "Application Review" %} — <code>{{ app.application_number }}</code></h3>
+        <small class="text-muted">{{ app.company.name }} &mdash; {{ app.get_license_type_display }}</small>
+    </div>
+    <a href="{% url 'admin_applications' %}" class="btn btn-outline-secondary btn-sm">
+        <i class="fa fa-arrow-left me-1"></i> {% trans "Back to Applications" %}
+    </a>
+</div>
+
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+{% endfor %}
+{% endif %}
+
+<div class="row g-4">
+    <!-- Application Details -->
+    <div class="col-lg-7">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fa fa-info-circle me-1"></i> {% trans "Application Details" %}</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-5">{% trans "Application #" %}</dt>
+                    <dd class="col-sm-7"><code>{{ app.application_number }}</code></dd>
+                    <dt class="col-sm-5">{% trans "Company" %}</dt>
+                    <dd class="col-sm-7">{{ app.company.name }}</dd>
+                    <dt class="col-sm-5">{% trans "License Type" %}</dt>
+                    <dd class="col-sm-7">{{ app.get_license_type_display }}</dd>
+                    <dt class="col-sm-5">{% trans "Proposed Items" %}</dt>
+                    <dd class="col-sm-7">{{ app.proposed_import_items }}</dd>
+                    <dt class="col-sm-5">{% trans "Estimated Annual Value" %}</dt>
+                    <dd class="col-sm-7">${{ app.estimated_annual_value|floatformat:2 }}</dd>
+                    <dt class="col-sm-5">{% trans "Country of Origin" %}</dt>
+                    <dd class="col-sm-7">{{ app.country_of_origin|default:"—" }}</dd>
+                    <dt class="col-sm-5">{% trans "Port of Entry" %}</dt>
+                    <dd class="col-sm-7">{{ app.port_of_entry }}</dd>
+                    <dt class="col-sm-5">{% trans "Submitted By" %}</dt>
+                    <dd class="col-sm-7">{{ app.submitted_by.get_full_name|default:app.submitted_by.username }}</dd>
+                    <dt class="col-sm-5">{% trans "Submitted At" %}</dt>
+                    <dd class="col-sm-7">{{ app.submitted_at|date:"d M Y, H:i"|default:"—" }}</dd>
+                    <dt class="col-sm-5">{% trans "Current Status" %}</dt>
+                    <dd class="col-sm-7">
+                        {% if app.status == 'SUBMITTED' %}
+                            <span class="badge bg-warning text-dark fs-6">{{ app.get_status_display }}</span>
+                        {% elif app.status == 'UNDER_REVIEW' %}
+                            <span class="badge bg-info fs-6">{{ app.get_status_display }}</span>
+                        {% elif app.status == 'APPROVED' %}
+                            <span class="badge bg-success fs-6">{{ app.get_status_display }}</span>
+                        {% elif app.status == 'REJECTED' %}
+                            <span class="badge bg-danger fs-6">{{ app.get_status_display }}</span>
+                        {% else %}
+                            <span class="badge bg-secondary fs-6">{{ app.get_status_display }}</span>
+                        {% endif %}
+                    </dd>
+                    {% if app.reviewed_by %}
+                    <dt class="col-sm-5">{% trans "Reviewed By" %}</dt>
+                    <dd class="col-sm-7">{{ app.reviewed_by.get_full_name|default:app.reviewed_by.username }}</dd>
+                    <dt class="col-sm-5">{% trans "Reviewed At" %}</dt>
+                    <dd class="col-sm-7">{{ app.reviewed_at|date:"d M Y, H:i"|default:"—" }}</dd>
+                    {% endif %}
+                    {% if app.review_notes %}
+                    <dt class="col-sm-5">{% trans "Review Notes" %}</dt>
+                    <dd class="col-sm-7">{{ app.review_notes }}</dd>
+                    {% endif %}
+                </dl>
+            </div>
+        </div>
+
+        <!-- Uploaded Documents -->
+        <div class="card">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0"><i class="fa fa-paperclip me-1"></i> {% trans "Uploaded Documents" %}</h5>
+            </div>
+            <div class="card-body">
+                {% if uploaded_docs %}
+                <div class="list-group list-group-flush">
+                    {% for label, doc in uploaded_docs %}
+                    <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+                        <div>
+                            <i class="fa fa-file-pdf-o text-danger me-2"></i>
+                            <strong>{{ label }}</strong>
+                        </div>
+                        <a href="{{ doc.url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                            <i class="fa fa-eye me-1"></i>{% trans "View File" %}
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-muted mb-0"><i class="fa fa-info-circle me-1"></i> {% trans "No documents uploaded with this application." %}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Decision Panel -->
+    <div class="col-lg-5">
+        {% if app.status not in 'APPROVED REJECTED CANCELLED' %}
+        <div class="card border-primary">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fa fa-gavel me-1"></i> {% trans "Make a Decision" %}</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" id="review-app-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" id="review-action-input" value="">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">{% trans "Review Notes / Reason" %}</label>
+                        <textarea name="review_notes" rows="4" class="form-control" placeholder="{% trans 'Add notes or reason for your decision...' %}">{{ app.review_notes }}</textarea>
+                    </div>
+                    <div class="d-grid gap-2">
+                        {% if app.status == 'SUBMITTED' %}
+                        <button type="button" class="btn btn-info text-white" onclick="submitReview('under_review', null)">
+                            <i class="fa fa-search me-1"></i> {% trans "Mark as Under Review" %}
+                        </button>
+                        {% endif %}
+                        <button type="button" class="btn btn-success" onclick="submitReview('approve', 'Approve this application? A license will be automatically issued.')">
+                            <i class="fa fa-check me-1"></i> {% trans "Approve & Issue License" %}
+                        </button>
+                        <button type="button" class="btn btn-danger" onclick="submitReview('reject', 'Are you sure you want to reject this application?')">
+                            <i class="fa fa-times me-1"></i> {% trans "Reject Application" %}
+                        </button>
+                    </div>
+                </form>
+                <script>
+                function submitReview(action, confirmMsg) {
+                    if (confirmMsg && !confirm(confirmMsg)) return;
+                    document.getElementById('review-action-input').value = action;
+                    document.getElementById('review-app-form').submit();
+                }
+                </script>
+            </div>
+        </div>
+        {% else %}
+        <div class="card bg-light">
+            <div class="card-body text-center text-muted py-5">
+                <i class="fa fa-check-circle fa-3x mb-3 {% if app.status == 'APPROVED' %}text-success{% else %}text-danger{% endif %}"></i>
+                <p class="mb-0 fw-semibold">{% trans "This application has already been" %} {{ app.get_status_display|lower }}.</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

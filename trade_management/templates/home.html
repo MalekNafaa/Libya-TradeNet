@@ -13,9 +13,53 @@
 {% include "includes/header.html" %}
 {% endblock %}
 {% block page %}
+{% include "includes/stats.html" %}
 {% include "includes/partners.html" %}
 {% include "includes/port_operations.html" %}
 {% include "includes/footer.html" %}
+{% endblock %}
 
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const counters = document.querySelectorAll('.stat-number');
+    const duration = 1600;
+
+    const observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                animateCounter(entry.target);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.4 });
+
+    counters.forEach(function (counter) {
+        observer.observe(counter);
+    });
+
+    function animateCounter(el) {
+        var target = parseInt(el.getAttribute('data-target'), 10) || 0;
+        var prefix = el.getAttribute('data-prefix') || '';
+        var startTime = null;
+
+        function step(timestamp) {
+            if (!startTime) startTime = timestamp;
+            var elapsed = timestamp - startTime;
+            var progress = Math.min(elapsed / duration, 1);
+            var eased = 1 - Math.pow(1 - progress, 3);
+            var current = Math.floor(eased * target);
+            el.textContent = prefix + current.toLocaleString();
+            if (progress < 1) {
+                requestAnimationFrame(step);
+            } else {
+                el.textContent = prefix + target.toLocaleString();
+            }
+        }
+
+        requestAnimationFrame(step);
+    }
+});
+</script>
 {% endblock %}
 

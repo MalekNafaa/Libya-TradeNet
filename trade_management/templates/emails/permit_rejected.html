@@ -1,0 +1,20 @@
+{% extends "emails/base_email.html" %}
+{% block body %}
+<span class="badge badge-danger">❌ Import Permit Rejected</span>
+<h2 style="margin:0 0 8px;">Import Permit Not Approved</h2>
+<p>Your import permit request has been <strong>rejected</strong> following review by a government officer.</p>
+
+<div class="detail-box">
+  <table>
+    <tr><td>Permit #</td><td>{{ permit.permit_number }}</td></tr>
+    <tr><td>Company</td><td>{{ permit.company.name }}</td></tr>
+    <tr><td>Goods</td><td>{{ permit.goods_description|truncatechars:60 }}</td></tr>
+    <tr><td>Shipment Type</td><td>{{ permit.get_shipment_type_display }}</td></tr>
+    <tr><td>Country of Origin</td><td>{{ permit.country_of_origin }}</td></tr>
+    <tr><td>Total Value</td><td>${{ permit.total_value_usd }} {{ permit.currency }}</td></tr>
+  </table>
+</div>
+
+<p>Please review your application details and submitted documents, then resubmit a corrected permit request if applicable.</p>
+<p class="note">If you believe this decision was made in error, please contact your assigned customs officer.</p>
+{% endblock %}

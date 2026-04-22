@@ -1,0 +1,23 @@
+{% extends "emails/base_email.html" %}
+{% block body %}
+<span class="badge badge-success">✅ Application Approved</span>
+<h2 style="margin:0 0 8px;">Congratulations!</h2>
+<p>Your license application has been <strong>approved</strong> and a license has been automatically issued to your company.</p>
+
+<div class="detail-box">
+  <table>
+    <tr><td>Application #</td><td>{{ app.application_number }}</td></tr>
+    <tr><td>Company</td><td>{{ app.company.name }}</td></tr>
+    <tr><td>License Type</td><td>{{ app.get_license_type_display }}</td></tr>
+    <tr><td>Reviewed By</td><td>{{ app.reviewed_by.get_full_name|default:app.reviewed_by.username }}</td></tr>
+    <tr><td>Review Date</td><td>{{ app.reviewed_at|date:"d M Y, H:i" }}</td></tr>
+  </table>
+</div>
+
+{% if app.review_notes %}
+<p><strong>Notes from reviewer:</strong><br>{{ app.review_notes }}</p>
+{% endif %}
+
+<p>Your new license is now active. You can view it in your dashboard under <strong>Licenses</strong>.</p>
+<p class="note">If you have any questions, please contact your assigned government officer.</p>
+{% endblock %}
