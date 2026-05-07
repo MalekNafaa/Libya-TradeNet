@@ -9,9 +9,7 @@ services:
       - key: PYTHON_VERSION
         value: 3.11.8
       - key: DATABASE_URL
-        fromDatabase:
-          name: libya-tradenet-db
-          property: connectionString
+        sync: false
       - key: SECRET_KEY
         generateValue: true
       - key: DJANGO_SETTINGS_MODULE
@@ -19,7 +17,7 @@ services:
       - key: DEBUG
         value: "False"
       - key: ALLOWED_HOSTS
-        value: "localhost 127.0.0.1"
+        value: "localhost,127.0.0.1"
       - key: RENDER_EXTERNAL_HOSTNAME
         fromService:
           name: libya-tradenet
@@ -40,8 +38,3 @@ services:
       - key: WEB_CONCURRENCY
         value: "2"
 
-databases:
-  - name: libya-tradenet-db
-    plan: free
-    databaseName: libya_tradenet
-    user: libya_tradenet

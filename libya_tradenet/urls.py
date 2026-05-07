@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
 from trade_management.views import (
     home, login_view, logout_view, verify_otp, dashboard,
@@ -24,7 +26,7 @@ from trade_management.views import (
     tax_payments, payment_history, financial_dashboard, outstanding_balances,
     trade_reports, compliance_reports, financial_reports, inspection_reports,
     user_profile, manage_users, notification_settings, system_settings,
-    manage_companies, document_folders, document_folder_detail, all_documents,
+    manage_companies, gov_companies, document_folders, document_folder_detail, all_documents,
     set_language,
     customs_dashboard, tax_dashboard, anticorruption_dashboard,
     license_dashboard, ministry_dashboard, admin_dashboard,
@@ -37,6 +39,7 @@ from django.shortcuts import render
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),  # Language switching URLs
     path('set-language/<str:lang_code>/', set_language, name='set_language'),
+    path('api/', include('trade_management.api.urls')),
 ]
 
 urlpatterns += i18n_patterns(
@@ -79,6 +82,7 @@ urlpatterns += i18n_patterns(
     
     # Companies URLs
     path('companies/', manage_companies, name='manage_companies'),
+    path('gov/companies/', gov_companies, name='gov_companies'),
 
     # Government Dashboards
     path('gov/customs/', customs_dashboard, name='customs_dashboard'),
@@ -100,3 +104,6 @@ urlpatterns += i18n_patterns(
     
     path('admin/', admin.site.urls),
 )
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

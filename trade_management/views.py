@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.db.models import Sum
+from django.db.models import Sum, Q, Count
+from django.db.models.functions import TruncMonth
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
@@ -8,6 +9,7 @@ from django.urls import reverse
 from django.utils import timezone
 from datetime import timedelta, date
 import random
+import json
 from decimal import Decimal
 from .models import Company, License, LicenseApplication, ImportPermit, ImportDocument, ImportInspection, TaxPayment, UserProfile
 from .decorators import role_required, government_required
@@ -53,48 +55,64 @@ def dashboard(request):
         expiry_date__lte=thirty_days_from_now
     ).count()
     
-    # Mock imports data (to be replaced when Import model is added)
-    # For now, using company totals from the model
-    total_imports = company.total_imports or 0
-    unfinished_imports = company.total_unfinished_imports or 0
-    completed_imports = total_imports - unfinished_imports
-    
+    # Real imports data from ImportPermit records
+    permits_qs = ImportPermit.objects.filter(company=company)
+    total_imports = permits_qs.count()
+    completed_imports = permits_qs.filter(status=ImportPermit.PermitStatus.APPROVED).count()
+    unfinished_imports = permits_qs.exclude(
+        status__in=[ImportPermit.PermitStatus.APPROVED, ImportPermit.PermitStatus.REJECTED, ImportPermit.PermitStatus.EXPIRED]
+    ).count()
+
     # Trust score
     trust_score = company.trust_score or 0
-    
-    # Mock tax calculation (placeholder)
-    estimated_tax = total_imports * 0.05  # 5% placeholder rate
-    
+
+    # Estimated tax from actual TaxPayment records
+    estimated_tax = TaxPayment.objects.filter(company=company).aggregate(
+        total=Sum('tax_amount')
+    )['total'] or 0
+
+    # Last 6 months chart data from real permits
+    six_months_ago = timezone.now() - timedelta(days=180)
+    monthly_data = (
+        permits_qs.filter(created_at__gte=six_months_ago)
+        .annotate(month=TruncMonth('created_at'))
+        .values('month')
+        .annotate(count=Count('id'))
+        .order_by('month')
+    )
+    chart_labels = json.dumps([m['month'].strftime('%b %Y') for m in monthly_data])
+    chart_data = json.dumps([m['count'] for m in monthly_data])
+
     context = {
         'has_company': True,
         'company': company,
-        
+
         # Company Info Cards
         'company_name': company.name,
         'company_number': company.company_number,
         'company_status': company.get_status_display(),
         'trust_score': trust_score,
         'date_established': company.date_established,
-        
+
         # Imports Summary
         'total_imports': total_imports,
-        'completed_imports': max(0, completed_imports),
+        'completed_imports': completed_imports,
         'unfinished_imports': unfinished_imports,
-        
+
         # Licenses Summary
         'total_licenses': licenses.count(),
         'valid_licenses': valid_licenses,
         'expired_licenses': expired_licenses,
         'expiring_soon': expiring_soon,
-        'licenses_list': licenses[:5],  # Recent 5 licenses
-        
-        # Tax Info (placeholder)
+        'licenses_list': licenses[:5],
+
+        # Tax Info
         'estimated_tax': estimated_tax,
         'tax_number': company.tax_number,
-        
-        # Chart data - imports trend (placeholder)
-        'chart_labels': '["يناير", "فبراير", "مارس", "أبريل", "مايو"]',
-        'chart_data': '[5, 8, 12, 7, 10]',  # Mock data
+
+        # Chart data — real monthly permit counts
+        'chart_labels': chart_labels,
+        'chart_data': chart_data,
     }
     return render(request, 'libya_trade_dashboard/templates/dashboard.html', context)
 
@@ -192,7 +210,12 @@ def logout_view(request):
 @login_required
 def my_licenses(request):
     """Display table of all licenses for user's companies"""
-    companies = Company.objects.filter(owner=request.user)
+    role = getattr(getattr(request.user, 'profile', None), 'role', None)
+    gov_roles = {'CUSTOMS_OFFICER', 'TAX_OFFICER', 'ANTI_CORRUPTION', 'LICENSE_REGULATOR', 'TRADE_MINISTRY', 'ADMIN'}
+    if role in gov_roles:
+        companies = Company.objects.all()
+    else:
+        companies = Company.objects.filter(owner=request.user)
     
     # Get all licenses for user's companies
     licenses_list = License.objects.filter(company__in=companies).select_related('company')
@@ -618,9 +641,9 @@ def financial_dashboard(request):
     
     # Tax payments summary
     taxes = TaxPayment.objects.filter(company__in=companies)
-    total_tax_paid = sum(t.amount_paid for t in taxes if t.payment_status == 'PAID')
-    total_tax_pending = sum(t.amount_paid for t in taxes if t.payment_status == 'PENDING')
-    total_tax_overdue = sum(t.amount_paid for t in taxes if t.payment_status == 'OVERDUE')
+    total_tax_paid = sum(t.amount_paid for t in taxes if t.status == 'PAID')
+    total_tax_pending = sum(t.amount_paid for t in taxes if t.status == 'PENDING')
+    total_tax_overdue = sum(t.amount_paid for t in taxes if t.status == 'OVERDUE')
     
     # License fees - use getattr for backward compatibility
     licenses = License.objects.filter(company__in=companies)
@@ -659,9 +682,8 @@ def tax_payments(request):
         tax_id = request.POST.get('tax_id')
         try:
             tax = TaxPayment.objects.get(id=tax_id, company__in=companies)
-            tax.payment_status = 'PAID'
-            tax.payment_date = timezone.now().date()
-            tax.payment_reference = request.POST.get('payment_reference', '')
+            tax.status = 'PAID'
+            tax.paid_date = timezone.now().date()
             tax.save()
             messages.success(request, 'Tax payment recorded successfully!')
         except TaxPayment.DoesNotExist:
@@ -669,9 +691,9 @@ def tax_payments(request):
         return redirect('tax_payments')
     
     # Status counts
-    paid_count = tax_payments_list.filter(payment_status='PAID').count()
-    pending_count = tax_payments_list.filter(payment_status='PENDING').count()
-    overdue_count = tax_payments_list.filter(payment_status='OVERDUE').count()
+    paid_count = tax_payments_list.filter(status='PAID').count()
+    pending_count = tax_payments_list.filter(status='PENDING').count()
+    overdue_count = tax_payments_list.filter(status='OVERDUE').count()
     
     context = {
         'tax_payments': tax_payments_list,
@@ -690,8 +712,8 @@ def payment_history(request):
     # Tax payments
     tax_payments = TaxPayment.objects.filter(
         company__in=companies,
-        payment_status='PAID'
-    ).order_by('-payment_date')
+        status='PAID'
+    ).order_by('-paid_date')
     
     # License payments - use getattr for backward compatibility
     license_payments = []
@@ -712,10 +734,10 @@ def payment_history(request):
     for tax in tax_payments:
         all_payments.append({
             'type': 'Import Tax',
-            'reference': tax.tax_number,
+            'reference': tax.receipt_number,
             'description': f'Tax for {tax.import_permit.permit_number if tax.import_permit else "N/A"}',
             'amount': tax.amount_paid,
-            'date': tax.payment_date,
+            'date': tax.paid_date,
             'status': 'Completed'
         })
     
@@ -739,12 +761,12 @@ def outstanding_balances(request):
     # Pending and overdue taxes
     pending_taxes = TaxPayment.objects.filter(
         company__in=companies,
-        payment_status__in=['PENDING', 'OVERDUE']
+        status__in=['PENDING', 'OVERDUE']
     ).select_related('import_permit')
     
     # Calculate totals
-    total_pending = sum(t.amount_paid for t in pending_taxes if t.payment_status == 'PENDING')
-    total_overdue = sum(t.amount_paid for t in pending_taxes if t.payment_status == 'OVERDUE')
+    total_pending = sum(t.balance_due for t in pending_taxes if t.status == 'PENDING')
+    total_overdue = sum(t.balance_due for t in pending_taxes if t.status == 'OVERDUE')
     
     # Get fines from inspections - use getattr for backward compatibility
     inspections_qs = ImportInspection.objects.filter(import_permit__company__in=companies)
@@ -820,7 +842,7 @@ def compliance_reports(request):
     licenses = License.objects.filter(company__in=companies)
     valid_licenses = licenses.filter(status='VALID').count()
     expired_licenses = licenses.filter(status='EXPIRED').count()
-    revoked_licenses = licenses.filter(status='REVOKED').count()
+    revoked_licenses = 0
     
     # Import permit compliance
     permits = ImportPermit.objects.filter(company__in=companies)
@@ -864,11 +886,11 @@ def financial_reports(request):
     end_date = request.GET.get('end_date')
     
     # Tax payments
-    taxes = TaxPayment.objects.filter(company__in=companies, payment_status='PAID')
+    taxes = TaxPayment.objects.filter(company__in=companies, status='PAID')
     if start_date:
-        taxes = taxes.filter(payment_date__gte=start_date)
+        taxes = taxes.filter(paid_date__gte=start_date)
     if end_date:
-        taxes = taxes.filter(payment_date__lte=end_date)
+        taxes = taxes.filter(paid_date__lte=end_date)
     
     total_tax_revenue = sum(t.amount_paid for t in taxes)
     
@@ -1102,6 +1124,40 @@ def manage_companies(request):
     return render(request, 'companies/manage_companies.html', context)
 
 
+@login_required
+def gov_companies(request):
+    """Read-only view of all companies for government officials"""
+    companies = Company.objects.all().select_related('owner').order_by('-created_at')
+
+    search = request.GET.get('search', '').strip()
+    status = request.GET.get('status', '')
+    company_type = request.GET.get('company_type', '')
+    city = request.GET.get('city', '')
+
+    if search:
+        companies = companies.filter(
+            Q(name__icontains=search) |
+            Q(company_number__icontains=search) |
+            Q(tax_number__icontains=search)
+        )
+    if status:
+        companies = companies.filter(status=status)
+    if company_type:
+        companies = companies.filter(company_type=company_type)
+    if city:
+        companies = companies.filter(city__icontains=city)
+
+    context = {
+        'companies': companies,
+        'search': search,
+        'selected_status': status,
+        'selected_type': company_type,
+        'selected_city': city,
+        'total_count': companies.count(),
+    }
+    return render(request, 'companies/gov_companies.html', context)
+
+
 # ==================== DOCUMENT MANAGEMENT VIEWS ====================
 
 @login_required
@@ -1158,7 +1214,6 @@ def document_folder_detail(request, permit_id):
                     import_permit=permit,
                     document_type=doc_type,
                     file=file,
-                    status='UPLOADED',
                     uploaded_by=request.user
                 )
                 doc.save()
@@ -1199,20 +1254,21 @@ def all_documents(request):
         import_permit__company__in=companies
     ).select_related('import_permit', 'import_permit__company').order_by('-uploaded_at')
     
-    # Filter by status if provided
-    status_filter = request.GET.get('status')
-    if status_filter:
-        documents = documents.filter(status=status_filter)
-    
     # Filter by document type
     type_filter = request.GET.get('type')
     if type_filter:
         documents = documents.filter(document_type=type_filter)
-    
+
+    # Filter by verification status
+    verified_filter = request.GET.get('verified')
+    if verified_filter == '1':
+        documents = documents.filter(is_verified=True)
+    elif verified_filter == '0':
+        documents = documents.filter(is_verified=False)
+
     context = {
         'documents': documents,
         'doc_types': ImportDocument.DocType.choices,
-        'status_filter': status_filter,
         'type_filter': type_filter,
     }
     return render(request, 'documents/all_documents.html', context)
