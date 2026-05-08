@@ -1,3 +1,4 @@
+import threading
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.conf import settings
@@ -7,26 +8,31 @@ logger = logging.getLogger(__name__)
 
 
 def _send(subject, template, context, recipient_email):
-    """Internal helper — renders an HTML email and sends it. Silently logs on failure."""
+    """Internal helper — renders an HTML email and sends it in a background thread."""
     if not recipient_email:
         print(f'[EMAIL SKIPPED] "{subject}" — recipient has no email address set')
         return
-    try:
-        html_body = render_to_string(f'emails/{template}', context)
-        plain_body = context.get('plain_message', subject)
-        send_mail(
-            subject=subject,
-            message=plain_body,
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[recipient_email],
-            html_message=html_body,
-            fail_silently=False,
-        )
-        logger.info('Email "%s" sent to %s', subject, recipient_email)
-        print(f'[EMAIL OK] "{subject}" → {recipient_email}')
-    except Exception as exc:
-        logger.error('Failed to send email "%s" to %s: %s', subject, recipient_email, exc)
-        print(f'[EMAIL ERROR] "{subject}" → {recipient_email} | Error: {exc}')
+
+    html_body = render_to_string(f'emails/{template}', context)
+    plain_body = context.get('plain_message', subject)
+
+    def _do_send():
+        try:
+            send_mail(
+                subject=subject,
+                message=plain_body,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[recipient_email],
+                html_message=html_body,
+                fail_silently=False,
+            )
+            logger.info('Email "%s" sent to %s', subject, recipient_email)
+            print(f'[EMAIL OK] "{subject}" → {recipient_email}')
+        except Exception as exc:
+            logger.error('Failed to send email "%s" to %s: %s', subject, recipient_email, exc)
+            print(f'[EMAIL ERROR] "{subject}" → {recipient_email} | Error: {exc}')
+
+    threading.Thread(target=_do_send, daemon=True).start()
 
 
 def send_application_under_review(application):
