@@ -26,12 +26,11 @@
                         </select>
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">{% trans "Filter by Status" %}</label>
-                        <select class="form-select" name="status" onchange="this.form.submit()">
-                            <option value="">{% trans "All Statuses" %}</option>
-                            <option value="UPLOADED" {% if status_filter == 'UPLOADED' %}selected{% endif %}>{% trans "Uploaded" %}</option>
-                            <option value="VERIFIED" {% if status_filter == 'VERIFIED' %}selected{% endif %}>{% trans "Verified" %}</option>
-                            <option value="REJECTED" {% if status_filter == 'REJECTED' %}selected{% endif %}>{% trans "Rejected" %}</option>
+                        <label class="form-label">{% trans "Filter by Verification" %}</label>
+                        <select class="form-select" name="verified" onchange="this.form.submit()">
+                            <option value="">{% trans "All" %}</option>
+                            <option value="1" {% if request.GET.verified == '1' %}selected{% endif %}>{% trans "Verified" %}</option>
+                            <option value="0" {% if request.GET.verified == '0' %}selected{% endif %}>{% trans "Unverified" %}</option>
                         </select>
                     </div>
                     <div class="col-md-4 d-flex align-items-end">
@@ -87,9 +86,11 @@
                                 </td>
                                 <td>{{ doc.import_permit.company.name|default:"--" }}</td>
                                 <td>
-                                    <span class="badge bg-{% if doc.status == 'VERIFIED' %}success{% elif doc.status == 'REJECTED' %}danger{% else %}warning{% endif %}">
-                                        {{ doc.get_status_display }}
-                                    </span>
+                                    {% if doc.is_verified %}
+                                        <span class="badge bg-success">{% trans "Verified" %}</span>
+                                    {% else %}
+                                        <span class="badge bg-warning">{% trans "Pending" %}</span>
+                                    {% endif %}
                                 </td>
                                 <td>{{ doc.uploaded_at|date:"M d, Y H:i" }}</td>
                                 <td>

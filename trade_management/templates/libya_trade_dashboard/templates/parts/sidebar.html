@@ -1,0 +1,422 @@
+{% load i18n %}
+{% with role=request.user.profile.role %}
+<div class="dlabnav">
+    <div class="dlabnav-scroll">
+        <ul class="metismenu" id="menu">
+
+            <!-- ===== COMPANY OWNER ===== -->
+            {% if role == 'COMPANY_OWNER' %}
+            <li>
+                <a href="{% url 'dashboard' %}" aria-expanded="false">
+                    <i class="flaticon-025-dashboard"></i>
+                    <span class="nav-text">{% trans "Dashboard" %}</span>
+                </a>
+            </li>
+            <li>
+                <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    <i class="fa fa-building"></i>
+                    <span class="nav-text">{% trans "Companies" %}</span>
+                </a>
+                <ul aria-expanded="false" class="mm-collapse">
+                    <li><a href="{% url 'manage_companies' %}">{% trans "My Companies" %}</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    <i class="fa fa-id-card"></i>
+                    <span class="nav-text">{% trans "Licensing" %}</span>
+                </a>
+                <ul aria-expanded="false" class="mm-collapse">
+                    <li><a href="{% url 'my_licenses' %}">{% trans "My Licenses" %}</a></li>
+                    <li><a href="{% url 'apply_license' %}">{% trans "Apply for License" %}</a></li>
+                    <li><a href="{% url 'application_status' %}">{% trans "Application Status" %}</a></li>
+                    <li><a href="{% url 'license_renewal' %}">{% trans "License Renewal" %}</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    <i class="fa fa-file-import"></i>
+                    <span class="nav-text">{% trans "Imports" %}</span>
+                </a>
+                <ul aria-expanded="false" class="mm-collapse">
+                    <li><a href="{% url 'import_permits' %}">{% trans "My Permits" %}</a></li>
+                    <li><a href="{% url 'apply_import' %}">{% trans "Apply for Permit" %}</a></li>
+                    <li><a href="{% url 'import_tracking' %}">{% trans "Track Shipment" %}</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    <i class="fa fa-folder-open"></i>
+                    <span class="nav-text">{% trans "Documents" %}</span>
+                </a>
+                <ul aria-expanded="false" class="mm-collapse">
+                    <li><a href="{% url 'document_folders' %}">{% trans "Document Folders" %}</a></li>
+                    <li><a href="{% url 'all_documents' %}">{% trans "All Documents" %}</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    <i class="fa fa-money-bill-wave"></i>
+                    <span class="nav-text">{% trans "Financial" %}</span>
+                </a>
+                <ul aria-expanded="false" class="mm-collapse">
+                    <li><a href="{% url 'financial_dashboard' %}">{% trans "Overview" %}</a></li>
+                    <li><a href="{% url 'tax_payments' %}">{% trans "Tax Payments" %}</a></li>
+                    <li><a href="{% url 'payment_history' %}">{% trans "Payment History" %}</a></li>
+                    <li><a href="{% url 'outstanding_balances' %}">{% trans "Outstanding Balances" %}</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="{% url 'user_profile' %}" aria-expanded="false">
+                    <i class="fa fa-cog"></i>
+                    <span class="nav-text">{% trans "Settings" %}</span>
+                </a>
+            </li>
+
+            <!-- ===== CUSTOMS OFFICER ===== -->
+            {% elif role == 'CUSTOMS_OFFICER' %}
+            <li>
+                <a href="{% url 'customs_dashboard' %}" aria-expanded="false">
+                    <i class="flaticon-025-dashboard"></i>
+                    <span class="nav-text">{% trans "Dashboard" %}</span>
+                </a>
+            </li>
+            <li>
+                <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    <i class="fa fa-file-import"></i>
+                    <span class="nav-text">{% trans "Import Permits" %}</span>
+                </a>
+                <ul aria-expanded="false" class="mm-collapse">
+                    <li><a href="{% url 'import_permits' %}">{% trans "All Permits" %}</a></li>
+                    <li><a href="{% url 'import_tracking' %}">{% trans "Track Shipments" %}</a></li>
+                    <li><a href="{% url 'import_documents' %}">{% trans "Documents" %}</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="{% url 'inspections' %}" aria-expanded="false">
+                    <i class="fa fa-search"></i>
+                    <span class="nav-text">{% trans "Inspections" %}</span>
+                </a>
+            </li>
+            <li>
+                <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    <i class="fa fa-chart-bar"></i>
+                    <span class="nav-text">{% trans "Reports" %}</span>
+                </a>
+                <ul aria-expanded="false" class="mm-collapse">
+                    <li><a href="{% url 'trade_reports' %}">{% trans "Trade Reports" %}</a></li>
+                    <li><a href="{% url 'inspection_reports' %}">{% trans "Inspection Reports" %}</a></li>
+                    <li><a href="{% url 'compliance_reports' %}">{% trans "Compliance Reports" %}</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="{% url 'user_profile' %}" aria-expanded="false">
+                    <i class="fa fa-cog"></i>
+                    <span class="nav-text">{% trans "Settings" %}</span>
+                </a>
+            </li>
+
+            <!-- ===== TAX OFFICER ===== -->
+            {% elif role == 'TAX_OFFICER' %}
+            <li>
+                <a href="{% url 'tax_dashboard' %}" aria-expanded="false">
+                    <i class="flaticon-025-dashboard"></i>
+                    <span class="nav-text">{% trans "Dashboard" %}</span>
+                </a>
+            </li>
+            <li>
+                <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    <i class="fa fa-money-bill-wave"></i>
+                    <span class="nav-text">{% trans "Tax Payments" %}</span>
+                </a>
+                <ul aria-expanded="false" class="mm-collapse">
+                    <li><a href="{% url 'tax_payments' %}">{% trans "All Payments" %}</a></li>
+                    <li><a href="{% url 'outstanding_balances' %}">{% trans "Outstanding Balances" %}</a></li>
+                    <li><a href="{% url 'payment_history' %}">{% trans "Payment History" %}</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="{% url 'gov_companies' %}" aria-expanded="false">
+                    <i class="fa fa-building"></i>
+                    <span class="nav-text">{% trans "Companies" %}</span>
+                </a>
+            </li>
+            <li>
+                <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    <i class="fa fa-chart-bar"></i>
+                    <span class="nav-text">{% trans "Reports" %}</span>
+                </a>
+                <ul aria-expanded="false" class="mm-collapse">
+                    <li><a href="{% url 'financial_reports' %}">{% trans "Financial Reports" %}</a></li>
+                    <li><a href="{% url 'compliance_reports' %}">{% trans "Compliance Reports" %}</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="{% url 'user_profile' %}" aria-expanded="false">
+                    <i class="fa fa-cog"></i>
+                    <span class="nav-text">{% trans "Settings" %}</span>
+                </a>
+            </li>
+
+            <!-- ===== ANTI-CORRUPTION ===== -->
+            {% elif role == 'ANTI_CORRUPTION' %}
+            <li>
+                <a href="{% url 'anticorruption_dashboard' %}" aria-expanded="false">
+                    <i class="flaticon-025-dashboard"></i>
+                    <span class="nav-text">{% trans "Dashboard" %}</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'gov_companies' %}" aria-expanded="false">
+                    <i class="fa fa-building"></i>
+                    <span class="nav-text">{% trans "Companies" %} <small class="badge bg-secondary ms-1">audit</small></span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'import_permits' %}" aria-expanded="false">
+                    <i class="fa fa-file-import"></i>
+                    <span class="nav-text">{% trans "Import Permits" %} <small class="badge bg-secondary ms-1">audit</small></span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'tax_payments' %}" aria-expanded="false">
+                    <i class="fa fa-money-bill-wave"></i>
+                    <span class="nav-text">{% trans "Tax Payments" %} <small class="badge bg-secondary ms-1">audit</small></span>
+                </a>
+            </li>
+            <li>
+                <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    <i class="fa fa-chart-bar"></i>
+                    <span class="nav-text">{% trans "Reports" %}</span>
+                </a>
+                <ul aria-expanded="false" class="mm-collapse">
+                    <li><a href="{% url 'trade_reports' %}">{% trans "Trade Reports" %}</a></li>
+                    <li><a href="{% url 'compliance_reports' %}">{% trans "Compliance Reports" %}</a></li>
+                    <li><a href="{% url 'financial_reports' %}">{% trans "Financial Reports" %}</a></li>
+                    <li><a href="{% url 'inspection_reports' %}">{% trans "Inspection Reports" %}</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="{% url 'user_profile' %}" aria-expanded="false">
+                    <i class="fa fa-cog"></i>
+                    <span class="nav-text">{% trans "Settings" %}</span>
+                </a>
+            </li>
+
+            <!-- ===== LICENSE REGULATOR ===== -->
+            {% elif role == 'LICENSE_REGULATOR' %}
+            <li>
+                <a href="{% url 'license_dashboard' %}" aria-expanded="false">
+                    <i class="flaticon-025-dashboard"></i>
+                    <span class="nav-text">{% trans "Dashboard" %}</span>
+                </a>
+            </li>
+            <li>
+                <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    <i class="fa fa-id-card"></i>
+                    <span class="nav-text">{% trans "Licensing" %}</span>
+                </a>
+                <ul aria-expanded="false" class="mm-collapse">
+                    <li><a href="{% url 'application_status' %}">{% trans "Applications" %}</a></li>
+                    <li><a href="{% url 'my_licenses' %}">{% trans "Issued Licenses" %}</a></li>
+                    <li><a href="{% url 'license_renewal' %}">{% trans "Renewals" %}</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="{% url 'gov_companies' %}" aria-expanded="false">
+                    <i class="fa fa-building"></i>
+                    <span class="nav-text">{% trans "Companies" %}</span>
+                </a>
+            </li>
+            <li>
+                <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    <i class="fa fa-chart-bar"></i>
+                    <span class="nav-text">{% trans "Reports" %}</span>
+                </a>
+                <ul aria-expanded="false" class="mm-collapse">
+                    <li><a href="{% url 'compliance_reports' %}">{% trans "Compliance Reports" %}</a></li>
+                    <li><a href="{% url 'trade_reports' %}">{% trans "Trade Reports" %}</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="{% url 'user_profile' %}" aria-expanded="false">
+                    <i class="fa fa-cog"></i>
+                    <span class="nav-text">{% trans "Settings" %}</span>
+                </a>
+            </li>
+
+            <!-- ===== TRADE MINISTRY ===== -->
+            {% elif role == 'TRADE_MINISTRY' %}
+            <li>
+                <a href="{% url 'ministry_dashboard' %}" aria-expanded="false">
+                    <i class="flaticon-025-dashboard"></i>
+                    <span class="nav-text">{% trans "Dashboard" %}</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'gov_companies' %}" aria-expanded="false">
+                    <i class="fa fa-building"></i>
+                    <span class="nav-text">{% trans "Companies" %}</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'import_permits' %}" aria-expanded="false">
+                    <i class="fa fa-file-import"></i>
+                    <span class="nav-text">{% trans "Import Permits" %}</span>
+                </a>
+            </li>
+            <li>
+                <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    <i class="fa fa-chart-bar"></i>
+                    <span class="nav-text">{% trans "Reports" %}</span>
+                </a>
+                <ul aria-expanded="false" class="mm-collapse">
+                    <li><a href="{% url 'trade_reports' %}">{% trans "Trade Reports" %}</a></li>
+                    <li><a href="{% url 'compliance_reports' %}">{% trans "Compliance Reports" %}</a></li>
+                    <li><a href="{% url 'financial_reports' %}">{% trans "Financial Reports" %}</a></li>
+                    <li><a href="{% url 'inspection_reports' %}">{% trans "Inspection Reports" %}</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="{% url 'user_profile' %}" aria-expanded="false">
+                    <i class="fa fa-cog"></i>
+                    <span class="nav-text">{% trans "Settings" %}</span>
+                </a>
+            </li>
+
+            <!-- ===== ADMIN ===== -->
+            {% elif role == 'ADMIN' %}
+            <li>
+                <a href="{% url 'admin_dashboard' %}" aria-expanded="false">
+                    <i class="flaticon-025-dashboard"></i>
+                    <span class="nav-text">{% trans "Dashboard" %}</span>
+                </a>
+            </li>
+            <li>
+                <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    <i class="fa fa-shield-alt"></i>
+                    <span class="nav-text">{% trans "Gov. Dashboards" %}</span>
+                </a>
+                <ul aria-expanded="false" class="mm-collapse">
+                    <li><a href="{% url 'customs_dashboard' %}">{% trans "Customs" %}</a></li>
+                    <li><a href="{% url 'tax_dashboard' %}">{% trans "Tax Authority" %}</a></li>
+                    <li><a href="{% url 'anticorruption_dashboard' %}">{% trans "Anti-Corruption" %}</a></li>
+                    <li><a href="{% url 'license_dashboard' %}">{% trans "License Authority" %}</a></li>
+                    <li><a href="{% url 'ministry_dashboard' %}">{% trans "Trade Ministry" %}</a></li>
+                    <li><a href="{% url 'dashboard' %}">{% trans "Company Dashboard" %}</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    <i class="fa fa-building"></i>
+                    <span class="nav-text">{% trans "Companies" %}</span>
+                </a>
+                <ul aria-expanded="false" class="mm-collapse">
+                    <li><a href="{% url 'gov_companies' %}">{% trans "All Companies" %}</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    <i class="fa fa-id-card"></i>
+                    <span class="nav-text">{% trans "Licensing" %}</span>
+                </a>
+                <ul aria-expanded="false" class="mm-collapse">
+                    <li><a href="{% url 'my_licenses' %}">{% trans "Licenses" %}</a></li>
+                    <li><a href="{% url 'application_status' %}">{% trans "Applications" %}</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    <i class="fa fa-file-import"></i>
+                    <span class="nav-text">{% trans "Imports" %}</span>
+                </a>
+                <ul aria-expanded="false" class="mm-collapse">
+                    <li><a href="{% url 'import_permits' %}">{% trans "All Permits" %}</a></li>
+                    <li><a href="{% url 'inspections' %}">{% trans "Inspections" %}</a></li>
+                    <li><a href="{% url 'all_documents' %}">{% trans "Documents" %}</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    <i class="fa fa-money-bill-wave"></i>
+                    <span class="nav-text">{% trans "Financial" %}</span>
+                </a>
+                <ul aria-expanded="false" class="mm-collapse">
+                    <li><a href="{% url 'tax_payments' %}">{% trans "Tax Payments" %}</a></li>
+                    <li><a href="{% url 'outstanding_balances' %}">{% trans "Outstanding Balances" %}</a></li>
+                    <li><a href="{% url 'financial_reports' %}">{% trans "Financial Reports" %}</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    <i class="fa fa-chart-bar"></i>
+                    <span class="nav-text">{% trans "Reports" %}</span>
+                </a>
+                <ul aria-expanded="false" class="mm-collapse">
+                    <li><a href="{% url 'trade_reports' %}">{% trans "Trade Reports" %}</a></li>
+                    <li><a href="{% url 'compliance_reports' %}">{% trans "Compliance Reports" %}</a></li>
+                    <li><a href="{% url 'financial_reports' %}">{% trans "Financial Reports" %}</a></li>
+                    <li><a href="{% url 'inspection_reports' %}">{% trans "Inspection Reports" %}</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    <i class="fa fa-cog"></i>
+                    <span class="nav-text">{% trans "Settings" %}</span>
+                </a>
+                <ul aria-expanded="false" class="mm-collapse">
+                    <li><a href="{% url 'user_profile' %}">{% trans "My Profile" %}</a></li>
+                    <li><a href="{% url 'manage_users' %}">{% trans "Manage Users" %}</a></li>
+                    <li><a href="{% url 'notification_settings' %}">{% trans "Notifications" %}</a></li>
+                    <li><a href="{% url 'system_settings' %}">{% trans "System" %}</a></li>
+                </ul>
+            </li>
+
+            <!-- ===== VIEWER / FALLBACK ===== -->
+            {% else %}
+            <li>
+                <a href="{% url 'dashboard' %}" aria-expanded="false">
+                    <i class="flaticon-025-dashboard"></i>
+                    <span class="nav-text">{% trans "Dashboard" %}</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'trade_reports' %}" aria-expanded="false">
+                    <i class="fa fa-chart-bar"></i>
+                    <span class="nav-text">{% trans "Reports" %}</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'user_profile' %}" aria-expanded="false">
+                    <i class="fa fa-cog"></i>
+                    <span class="nav-text">{% trans "Settings" %}</span>
+                </a>
+            </li>
+            {% endif %}
+
+        </ul>
+
+        <!-- Language & Logout — always visible at sidebar bottom -->
+        <div class="sidebar-bottom" style="padding: 1rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 1rem;">
+            <!-- Language Switcher -->
+            <div class="mb-2">
+                {% if IS_RTL %}
+                <a href="{% url 'set_language' 'en' %}" class="btn btn-sm w-100" style="background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2);">
+                    🇺🇸 English
+                </a>
+                {% else %}
+                <a href="{% url 'set_language' 'ar' %}" class="btn btn-sm w-100" style="background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2);">
+                    🇸🇦 العربية
+                </a>
+                {% endif %}
+            </div>
+            <!-- Logout -->
+            <a href="{% url 'logout' %}" class="btn btn-sm btn-danger w-100">
+                <i class="fa fa-sign-out-alt me-1"></i> {% trans "Logout" %}
+            </a>
+        </div>
+
+    </div>
+</div>
+{% endwith %}
+

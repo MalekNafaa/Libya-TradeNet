@@ -1,0 +1,126 @@
+{% load static %}
+<style>
+    @font-face {
+        font-family: 'Almarai';
+        src: url('{% static "fonts/Almarai-Regular.ttf" %}') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: 'Almarai';
+        src: url('{% static "fonts/Almarai-Bold.ttf" %}') format('truetype');
+        font-weight: bold;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: 'Almarai';
+        src: url('{% static "fonts/Almarai-Light.ttf" %}') format('truetype');
+        font-weight: 300;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: 'Almarai';
+        src: url('{% static "fonts/Almarai-ExtraBold.ttf" %}') format('truetype');
+        font-weight: 800;
+        font-style: normal;
+    }
+
+    * {
+        font-family: "Almarai", sans-serif;
+        font-weight: 500;
+        font-style: normal;
+    }
+
+    /* Language Switcher Styles */
+    .language-switcher {
+        position: relative;
+        display: inline-block !important;
+        margin-right: 15px;
+    }
+    
+    .language-switcher .nav-link {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white !important;
+        padding: 8px 16px !important;
+        border-radius: 25px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+    }
+    
+    .language-switcher .nav-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.6);
+    }
+    
+    .language-switcher .dropdown-menu {
+        min-width: 150px;
+        border: none;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        border-radius: 12px;
+        padding: 8px;
+    }
+    
+    .language-switcher .dropdown-item {
+        padding: 10px 15px;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+    }
+    
+    .language-switcher .dropdown-item:hover,
+    .language-switcher .dropdown-item.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+    legend {
+        font-size: inherit;
+        line-height: inherit;
+    }
+
+    a {
+        color: var(--primary);
+    }
+
+    body {
+        font-size: 1rem;
+    }
+
+    /* ===================== LTR LAYOUT FIX ===================== */
+    /* Theme default puts sidebar on RIGHT (margin-right).        */
+    /* Our sidebar is on the LEFT, so we flip the margins.        */
+    body:not([dir="rtl"]) .content-body {
+        margin-left: 20.5rem !important;
+        margin-right: 0 !important;
+    }
+    @media only screen and (max-width: 87.5rem) {
+        body:not([dir="rtl"]) .content-body {
+            margin-left: 17rem !important;
+            margin-right: 0 !important;
+        }
+    }
+
+    /* ===================== RTL TEXT SUPPORT ===================== */
+    /* Theme handles layout via [direction="rtl"] on body.        */
+    /* We only add text/font-related overrides here.              */
+
+    [dir="rtl"] .dlabnav .metismenu > li > a {
+        text-align: right !important;
+        flex-direction: row-reverse !important;
+    }
+
+    [dir="rtl"] .dlabnav .metismenu > li > a i {
+        margin-left: 0.75rem !important;
+        margin-right: 0 !important;
+    }
+
+    [dir="rtl"] .language-switcher {
+        margin-right: 0 !important;
+        margin-left: 15px !important;
+    }
+
+    /* ======================================================= */
+</style>

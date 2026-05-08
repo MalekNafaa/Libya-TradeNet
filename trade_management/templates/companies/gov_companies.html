@@ -1,0 +1,114 @@
+{% extends 'libya_trade_dashboard/templates/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<div class="row page-titles">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">{% trans "Dashboard" %}</a></li>
+        <li class="breadcrumb-item active">{% trans "All Companies" %}</li>
+    </ol>
+</div>
+
+<!-- Filters -->
+<div class="row mb-3">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="get" class="row g-2 align-items-end">
+                    <div class="col-md-4">
+                        <label class="form-label">{% trans "Search" %}</label>
+                        <input type="text" class="form-control" name="search" value="{{ search }}" placeholder="{% trans 'Name, company no., tax no.' %}">
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">{% trans "Status" %}</label>
+                        <select class="form-select" name="status">
+                            <option value="">{% trans "All" %}</option>
+                            <option value="ACTIVE" {% if selected_status == 'ACTIVE' %}selected{% endif %}>{% trans "Active" %}</option>
+                            <option value="SUSPENDED" {% if selected_status == 'SUSPENDED' %}selected{% endif %}>{% trans "Suspended" %}</option>
+                            <option value="INACTIVE" {% if selected_status == 'INACTIVE' %}selected{% endif %}>{% trans "Inactive" %}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">{% trans "Type" %}</label>
+                        <select class="form-select" name="company_type">
+                            <option value="">{% trans "All" %}</option>
+                            <option value="LOCAL" {% if selected_type == 'LOCAL' %}selected{% endif %}>{% trans "Local" %}</option>
+                            <option value="FOREIGN" {% if selected_type == 'FOREIGN' %}selected{% endif %}>{% trans "Foreign" %}</option>
+                            <option value="JOINT" {% if selected_type == 'JOINT' %}selected{% endif %}>{% trans "Joint Venture" %}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">{% trans "City" %}</label>
+                        <input type="text" class="form-control" name="city" value="{{ selected_city }}" placeholder="{% trans 'City' %}">
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fa fa-search"></i> {% trans "Filter" %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Results -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">{% trans "Companies" %} <span class="badge bg-primary ms-2">{{ total_count }}</span></h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>{% trans "Company Name" %}</th>
+                                <th>{% trans "Reg. No." %}</th>
+                                <th>{% trans "Tax No." %}</th>
+                                <th>{% trans "Type" %}</th>
+                                <th>{% trans "City" %}</th>
+                                <th>{% trans "Status" %}</th>
+                                <th>{% trans "Trust Score" %}</th>
+                                <th>{% trans "Registered" %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for company in companies %}
+                            <tr>
+                                <td><strong>{{ company.name }}</strong></td>
+                                <td><code>{{ company.company_number }}</code></td>
+                                <td><code>{{ company.tax_number }}</code></td>
+                                <td>{{ company.get_company_type_display }}</td>
+                                <td>{{ company.city|default:"—" }}</td>
+                                <td>
+                                    {% if company.status == 'ACTIVE' %}
+                                        <span class="badge bg-success">{% trans "Active" %}</span>
+                                    {% elif company.status == 'SUSPENDED' %}
+                                        <span class="badge bg-warning text-dark">{% trans "Suspended" %}</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">{{ company.status }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <span class="badge {% if company.trust_score >= 80 %}bg-success{% elif company.trust_score >= 50 %}bg-warning text-dark{% else %}bg-danger{% endif %}">
+                                        {{ company.trust_score }}
+                                    </span>
+                                </td>
+                                <td>{{ company.created_at|date:"Y-m-d" }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="8" class="text-center text-muted py-4">{% trans "No companies found." %}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
