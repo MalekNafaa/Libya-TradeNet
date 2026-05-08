@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'trade_management',
     'rest_framework',
     'rest_framework_simplejwt',
+    'anymail',
 ]
 
 MIDDLEWARE = [
@@ -170,16 +171,21 @@ STATICFILES_DIRS = [
 # Email Configuration
 # Development: EMAIL_BACKEND=console (prints to terminal, no SMTP needed)
 # Production:  set EMAIL_BACKEND=smtp and fill EMAIL_HOST_USER / EMAIL_HOST_PASSWORD env vars
-EMAIL_BACKEND = os.environ.get(
-    'EMAIL_BACKEND',
-    'django.core.mail.backends.console.EmailBackend'
-)
-EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
-EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
-DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'Libya TradeNet <noreply@libyatradenet.ly>')
+SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY', '')
+if SENDGRID_API_KEY:
+    EMAIL_BACKEND = 'anymail.backends.sendgrid.EmailBackend'
+    ANYMAIL = {'SENDGRID_API_KEY': SENDGRID_API_KEY}
+else:
+    EMAIL_BACKEND = os.environ.get(
+        'EMAIL_BACKEND',
+        'django.core.mail.backends.console.EmailBackend'
+    )
+    EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
+    EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
+    EMAIL_USE_TLS = True
+    EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'Libya TradeNet <malekplayer@gmail.com>')
 
 # Login/Logout URLs
 LOGIN_URL = '/login/'
