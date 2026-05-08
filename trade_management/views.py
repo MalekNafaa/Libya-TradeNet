@@ -14,6 +14,7 @@ from decimal import Decimal
 from .models import Company, License, LicenseApplication, ImportPermit, ImportDocument, ImportInspection, TaxPayment, UserProfile
 from .decorators import role_required, government_required
 from . import email_utils
+from django.conf import settings
 
 
 def home(request):
@@ -145,11 +146,13 @@ def login_view(request):
                     if not user.email:
                         messages.error(request, 'Your account has no email address set. Contact the administrator.')
                         return render(request, 'login.html', {'form': form})
-                    otp = str(random.randint(100000, 999999))
+                    test_code = getattr(settings, 'TEST_OTP_CODE', None)
+                    otp = test_code if test_code else str(random.randint(100000, 999999))
                     request.session['otp_code'] = otp
                     request.session['otp_user_id'] = user.pk
                     request.session['otp_expires'] = (timezone.now() + timedelta(minutes=10)).isoformat()
-                    email_utils.send_otp(user, otp)
+                    if not test_code:
+                        email_utils.send_otp(user, otp)
                     messages.info(request, f'A verification code has been sent to {user.email[:3]}***@{user.email.split("@")[1]}')
                     return redirect('verify_otp')
                 else:

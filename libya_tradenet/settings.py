@@ -170,6 +170,7 @@ STATICFILES_DIRS = [
 # Email Configuration
 # Development: EMAIL_BACKEND=console (prints to terminal, no SMTP needed)
 # Production:  set EMAIL_BACKEND=smtp and fill EMAIL_HOST_USER / EMAIL_HOST_PASSWORD env vars
+TEST_OTP_CODE = os.environ.get('TEST_OTP_CODE', '')
 SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY', '')
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
 EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
