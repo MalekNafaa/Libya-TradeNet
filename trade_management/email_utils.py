@@ -1,10 +1,35 @@
 import threading
+import requests
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.conf import settings
 import logging
 
 logger = logging.getLogger(__name__)
+
+
+def _send_via_sendgrid(subject, html_body, plain_body, recipient_email):
+    api_key = getattr(settings, 'SENDGRID_API_KEY', '')
+    from_email = settings.DEFAULT_FROM_EMAIL
+    response = requests.post(
+        'https://api.sendgrid.com/v3/mail/send',
+        headers={
+            'Authorization': f'Bearer {api_key}',
+            'Content-Type': 'application/json',
+        },
+        json={
+            'personalizations': [{'to': [{'email': recipient_email}]}],
+            'from': {'email': from_email},
+            'subject': subject,
+            'content': [
+                {'type': 'text/plain', 'value': plain_body},
+                {'type': 'text/html', 'value': html_body},
+            ],
+        },
+        timeout=30,
+    )
+    if response.status_code not in (200, 202):
+        raise Exception(f'SendGrid API error {response.status_code}: {response.text}')
 
 
 def _send(subject, template, context, recipient_email):
@@ -18,14 +43,17 @@ def _send(subject, template, context, recipient_email):
 
     def _do_send():
         try:
-            send_mail(
-                subject=subject,
-                message=plain_body,
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[recipient_email],
-                html_message=html_body,
-                fail_silently=False,
-            )
+            if getattr(settings, 'SENDGRID_API_KEY', ''):
+                _send_via_sendgrid(subject, html_body, plain_body, recipient_email)
+            else:
+                send_mail(
+                    subject=subject,
+                    message=plain_body,
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[recipient_email],
+                    html_message=html_body,
+                    fail_silently=False,
+                )
             logger.info('Email "%s" sent to %s', subject, recipient_email)
             print(f'[EMAIL OK] "{subject}" → {recipient_email}')
         except Exception as exc:
