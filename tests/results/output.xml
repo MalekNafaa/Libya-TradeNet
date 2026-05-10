@@ -1,0 +1,711 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.4.2 (Python 3.11.8 on win32)" generated="2026-05-10T21:18:14.985332" rpa="false" schemaversion="5">
+<suite id="s1" name="Login &amp; Dashboard">
+<suite id="s1-s1" name="Login" source="C:\Users\Malek\PycharmProjects\Libya-TradeNet\tests\login.robot">
+<test id="s1-s1-t1" name="Valid Government Login With OTP" line="6">
+<kw name="Open Libya TradeNet" owner="common">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:18:15.663182" level="INFO">Opening browser 'chrome' to base url 'http://127.0.0.1:8000/en/login/'.</msg>
+<arg>${BASE_URL}/login/</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-05-10T21:18:15.662581" elapsed="3.957032"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-05-10T21:18:19.620126" elapsed="0.133856"/>
+</kw>
+<kw name="Set Selenium Speed" owner="SeleniumLibrary">
+<arg>${DELAY}</arg>
+<doc>Sets the delay that is waited after each Selenium command.</doc>
+<status status="PASS" start="2026-05-10T21:18:19.755001" elapsed="0.001517"/>
+</kw>
+<status status="PASS" start="2026-05-10T21:18:15.660930" elapsed="4.096101"/>
+</kw>
+<kw name="Login As With OTP" owner="common">
+<kw name="Login As" owner="common">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:18:19.763121" level="INFO">Typing text 'Malek' into text field 'name:username'.</msg>
+<arg>name:username</arg>
+<arg>${username}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-05-10T21:18:19.761589" elapsed="0.889670"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:18:20.652793" level="INFO">Typing text 'Test1234' into text field 'name:password'.</msg>
+<arg>name:password</arg>
+<arg>${password}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-05-10T21:18:20.651259" elapsed="0.796335"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:18:21.448874" level="INFO">Clicking button 'xpath://button[@type='submit']'.</msg>
+<arg>xpath://button[@type='submit']</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-05-10T21:18:21.447594" elapsed="5.399959"/>
+</kw>
+<arg>${username}</arg>
+<arg>${password}</arg>
+<status status="PASS" start="2026-05-10T21:18:19.759050" elapsed="7.088503"/>
+</kw>
+<kw name="Wait Until Page Contains Element" owner="SeleniumLibrary">
+<arg>name:otp</arg>
+<arg>timeout=8s</arg>
+<doc>Waits until the element ``locator`` appears on the current page.</doc>
+<status status="PASS" start="2026-05-10T21:18:26.847553" elapsed="0.224717"/>
+</kw>
+<kw name="Execute Javascript" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:18:27.073277" level="INFO">Executing JavaScript:
+document.querySelector('input[name="otp"]').value = '123456';
+Without any arguments.</msg>
+<arg>document.querySelector('input[name="otp"]').value = '${TEST_OTP}';</arg>
+<doc>Executes the given JavaScript code with possible arguments.</doc>
+<status status="PASS" start="2026-05-10T21:18:27.072270" elapsed="0.212301"/>
+</kw>
+<kw name="Execute Javascript" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:18:27.285580" level="INFO">Executing JavaScript:
+document.querySelector('form').submit();
+Without any arguments.</msg>
+<arg>document.querySelector('form').submit();</arg>
+<doc>Executes the given JavaScript code with possible arguments.</doc>
+<status status="PASS" start="2026-05-10T21:18:27.284571" elapsed="2.151999"/>
+</kw>
+<kw name="Wait Until Location Contains" owner="SeleniumLibrary">
+<arg>gov/</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-05-10T21:18:29.436570" elapsed="0.217205"/>
+</kw>
+<arg>Malek</arg>
+<arg>Test1234</arg>
+<status status="PASS" start="2026-05-10T21:18:19.758048" elapsed="9.896242"/>
+</kw>
+<kw name="Location Should Contain" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:18:29.865441" level="INFO">Current location contains 'gov/admin'.</msg>
+<arg>gov/admin</arg>
+<doc>Verifies that the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-05-10T21:18:29.654290" elapsed="0.211151"/>
+</kw>
+<kw name="Close Test Browser" owner="common" type="TEARDOWN">
+<kw name="Close Browser" owner="SeleniumLibrary">
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-05-10T21:18:29.866602" elapsed="2.328859"/>
+</kw>
+<status status="PASS" start="2026-05-10T21:18:29.865441" elapsed="2.330020"/>
+</kw>
+<status status="PASS" start="2026-05-10T21:18:15.658306" elapsed="16.537155"/>
+</test>
+<test id="s1-s1-t2" name="Invalid Login Shows Error Message" line="12">
+<kw name="Open Libya TradeNet" owner="common">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:18:32.198634" level="INFO">Opening browser 'chrome' to base url 'http://127.0.0.1:8000/en/login/'.</msg>
+<arg>${BASE_URL}/login/</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-05-10T21:18:32.197811" elapsed="2.230470"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-05-10T21:18:34.429298" elapsed="0.252156"/>
+</kw>
+<kw name="Set Selenium Speed" owner="SeleniumLibrary">
+<arg>${DELAY}</arg>
+<doc>Sets the delay that is waited after each Selenium command.</doc>
+<status status="PASS" start="2026-05-10T21:18:34.681454" elapsed="0.000624"/>
+</kw>
+<status status="PASS" start="2026-05-10T21:18:32.197254" elapsed="2.484824"/>
+</kw>
+<kw name="Login As" owner="common">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:18:34.684372" level="INFO">Typing text 'wronguser' into text field 'name:username'.</msg>
+<arg>name:username</arg>
+<arg>${username}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-05-10T21:18:34.682743" elapsed="0.798471"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:18:35.481722" level="INFO">Typing text 'wrongpass' into text field 'name:password'.</msg>
+<arg>name:password</arg>
+<arg>${password}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-05-10T21:18:35.481722" elapsed="0.739912"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:18:36.221634" level="INFO">Clicking button 'xpath://button[@type='submit']'.</msg>
+<arg>xpath://button[@type='submit']</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-05-10T21:18:36.221634" elapsed="2.750048"/>
+</kw>
+<arg>wronguser</arg>
+<arg>wrongpass</arg>
+<status status="PASS" start="2026-05-10T21:18:34.682743" elapsed="4.288939"/>
+</kw>
+<kw name="Location Should Contain" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:18:39.180613" level="INFO">Current location contains 'login'.</msg>
+<arg>login</arg>
+<doc>Verifies that the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-05-10T21:18:38.971682" elapsed="0.208931"/>
+</kw>
+<kw name="Page Should Contain Element" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:18:39.399408" level="INFO">Current page contains element 'xpath://div[contains(@class,'alert') or contains(@class,'error') or contains(@class,'messages')]'.</msg>
+<arg>xpath://div[contains(@class,'alert') or contains(@class,'error') or contains(@class,'messages')]</arg>
+<doc>Verifies that element ``locator`` is found on the current page.</doc>
+<status status="PASS" start="2026-05-10T21:18:39.181130" elapsed="0.218278"/>
+</kw>
+<kw name="Close Test Browser" owner="common" type="TEARDOWN">
+<kw name="Close Browser" owner="SeleniumLibrary">
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-05-10T21:18:39.400930" elapsed="2.361141"/>
+</kw>
+<status status="PASS" start="2026-05-10T21:18:39.400422" elapsed="2.362253"/>
+</kw>
+<status status="PASS" start="2026-05-10T21:18:32.195461" elapsed="9.567214"/>
+</test>
+<test id="s1-s1-t3" name="Empty Login Shows Validation Error" line="19">
+<kw name="Open Libya TradeNet" owner="common">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:18:41.765686" level="INFO">Opening browser 'chrome' to base url 'http://127.0.0.1:8000/en/login/'.</msg>
+<arg>${BASE_URL}/login/</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-05-10T21:18:41.764692" elapsed="2.119345"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-05-10T21:18:43.884722" elapsed="0.255491"/>
+</kw>
+<kw name="Set Selenium Speed" owner="SeleniumLibrary">
+<arg>${DELAY}</arg>
+<doc>Sets the delay that is waited after each Selenium command.</doc>
+<status status="PASS" start="2026-05-10T21:18:44.140213" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2026-05-10T21:18:41.763692" elapsed="2.376521"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:18:44.140213" level="INFO">Clicking button 'xpath://button[@type='submit']'.</msg>
+<arg>xpath://button[@type='submit']</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-05-10T21:18:44.140213" elapsed="1.150529"/>
+</kw>
+<kw name="Page Should Not Contain" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:18:45.941350" level="INFO">Current page does not contain text 'Dashboard'.</msg>
+<arg>Dashboard</arg>
+<doc>Verifies the current page does not contain ``text``.</doc>
+<status status="PASS" start="2026-05-10T21:18:45.290742" elapsed="0.650608"/>
+</kw>
+<kw name="Close Test Browser" owner="common" type="TEARDOWN">
+<kw name="Close Browser" owner="SeleniumLibrary">
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-05-10T21:18:45.941880" elapsed="2.376393"/>
+</kw>
+<status status="PASS" start="2026-05-10T21:18:45.941880" elapsed="2.377129"/>
+</kw>
+<status status="PASS" start="2026-05-10T21:18:41.762675" elapsed="6.556334"/>
+</test>
+<test id="s1-s1-t4" name="Company Owner Login Without OTP" line="25">
+<kw name="Open Libya TradeNet" owner="common">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:18:48.320028" level="INFO">Opening browser 'chrome' to base url 'http://127.0.0.1:8000/en/login/'.</msg>
+<arg>${BASE_URL}/login/</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-05-10T21:18:48.320028" elapsed="1.967894"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-05-10T21:18:50.288480" elapsed="0.236969"/>
+</kw>
+<kw name="Set Selenium Speed" owner="SeleniumLibrary">
+<arg>${DELAY}</arg>
+<doc>Sets the delay that is waited after each Selenium command.</doc>
+<status status="PASS" start="2026-05-10T21:18:50.525972" elapsed="0.000640"/>
+</kw>
+<status status="PASS" start="2026-05-10T21:18:48.320028" elapsed="2.206584"/>
+</kw>
+<kw name="Login As" owner="common">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:18:50.527624" level="INFO">Typing text 'ali.alfituri_1' into text field 'name:username'.</msg>
+<arg>name:username</arg>
+<arg>${username}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-05-10T21:18:50.527624" elapsed="0.763451"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:18:51.292090" level="INFO">Typing text 'testpass' into text field 'name:password'.</msg>
+<arg>name:password</arg>
+<arg>${password}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-05-10T21:18:51.291584" elapsed="0.727663"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:18:52.019771" level="INFO">Clicking button 'xpath://button[@type='submit']'.</msg>
+<arg>xpath://button[@type='submit']</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-05-10T21:18:52.019771" elapsed="2.610687"/>
+</kw>
+<arg>ali.alfituri_1</arg>
+<arg>testpass</arg>
+<status status="PASS" start="2026-05-10T21:18:50.526612" elapsed="4.103846"/>
+</kw>
+<kw name="Page Should Not Contain" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:18:55.271838" level="INFO">Current page does not contain text 'verification code'.</msg>
+<arg>verification code</arg>
+<doc>Verifies the current page does not contain ``text``.</doc>
+<status status="PASS" start="2026-05-10T21:18:54.630993" elapsed="0.640845"/>
+</kw>
+<kw name="Close Test Browser" owner="common" type="TEARDOWN">
+<kw name="Close Browser" owner="SeleniumLibrary">
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-05-10T21:18:55.273367" elapsed="2.341475"/>
+</kw>
+<status status="PASS" start="2026-05-10T21:18:55.271838" elapsed="2.344007"/>
+</kw>
+<status status="PASS" start="2026-05-10T21:18:48.319009" elapsed="9.296836"/>
+</test>
+<status status="PASS" start="2026-05-10T21:18:15.056163" elapsed="42.560679"/>
+</suite>
+<suite id="s1-s2" name="Dashboard" source="C:\Users\Malek\PycharmProjects\Libya-TradeNet\tests\dashboard.robot">
+<test id="s1-s2-t1" name="Admin Dashboard Loads Successfully" line="6">
+<kw name="Open Libya TradeNet" owner="common">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:18:57.627131" level="INFO">Opening browser 'chrome' to base url 'http://127.0.0.1:8000/en/login/'.</msg>
+<arg>${BASE_URL}/login/</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-05-10T21:18:57.626620" elapsed="1.992194"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-05-10T21:18:59.619327" elapsed="0.251360"/>
+</kw>
+<kw name="Set Selenium Speed" owner="SeleniumLibrary">
+<arg>${DELAY}</arg>
+<doc>Sets the delay that is waited after each Selenium command.</doc>
+<status status="PASS" start="2026-05-10T21:18:59.871196" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2026-05-10T21:18:57.625604" elapsed="2.245592"/>
+</kw>
+<kw name="Login As With OTP" owner="common">
+<kw name="Login As" owner="common">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:18:59.872205" level="INFO">Typing text 'Malek' into text field 'name:username'.</msg>
+<arg>name:username</arg>
+<arg>${username}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-05-10T21:18:59.872205" elapsed="0.748713"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:00.621441" level="INFO">Typing text 'Test1234' into text field 'name:password'.</msg>
+<arg>name:password</arg>
+<arg>${password}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-05-10T21:19:00.621441" elapsed="0.720729"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:01.343179" level="INFO">Clicking button 'xpath://button[@type='submit']'.</msg>
+<arg>xpath://button[@type='submit']</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-05-10T21:19:01.342170" elapsed="3.846493"/>
+</kw>
+<arg>${username}</arg>
+<arg>${password}</arg>
+<status status="PASS" start="2026-05-10T21:18:59.872205" elapsed="5.316458"/>
+</kw>
+<kw name="Wait Until Page Contains Element" owner="SeleniumLibrary">
+<arg>name:otp</arg>
+<arg>timeout=8s</arg>
+<doc>Waits until the element ``locator`` appears on the current page.</doc>
+<status status="PASS" start="2026-05-10T21:19:05.188663" elapsed="0.219055"/>
+</kw>
+<kw name="Execute Javascript" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:05.409253" level="INFO">Executing JavaScript:
+document.querySelector('input[name="otp"]').value = '123456';
+Without any arguments.</msg>
+<arg>document.querySelector('input[name="otp"]').value = '${TEST_OTP}';</arg>
+<doc>Executes the given JavaScript code with possible arguments.</doc>
+<status status="PASS" start="2026-05-10T21:19:05.407718" elapsed="0.211813"/>
+</kw>
+<kw name="Execute Javascript" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:05.620043" level="INFO">Executing JavaScript:
+document.querySelector('form').submit();
+Without any arguments.</msg>
+<arg>document.querySelector('form').submit();</arg>
+<doc>Executes the given JavaScript code with possible arguments.</doc>
+<status status="PASS" start="2026-05-10T21:19:05.620043" elapsed="1.797073"/>
+</kw>
+<kw name="Wait Until Location Contains" owner="SeleniumLibrary">
+<arg>gov/</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-05-10T21:19:07.417639" elapsed="0.218485"/>
+</kw>
+<arg>Malek</arg>
+<arg>Test1234</arg>
+<status status="PASS" start="2026-05-10T21:18:59.872205" elapsed="7.764515"/>
+</kw>
+<kw name="Location Should Contain" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:07.848841" level="INFO">Current location contains 'gov/admin'.</msg>
+<arg>gov/admin</arg>
+<doc>Verifies that the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-05-10T21:19:07.636720" elapsed="0.212121"/>
+</kw>
+<kw name="Page Should Contain Element" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:08.071201" level="INFO">Current page contains element 'xpath://nav'.</msg>
+<arg>xpath://nav</arg>
+<doc>Verifies that element ``locator`` is found on the current page.</doc>
+<status status="PASS" start="2026-05-10T21:19:07.848841" elapsed="0.222360"/>
+</kw>
+<kw name="Close Test Browser" owner="common" type="TEARDOWN">
+<kw name="Close Browser" owner="SeleniumLibrary">
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-05-10T21:19:08.072215" elapsed="2.336674"/>
+</kw>
+<status status="PASS" start="2026-05-10T21:19:08.072215" elapsed="2.336674"/>
+</kw>
+<status status="PASS" start="2026-05-10T21:18:57.625001" elapsed="12.783888"/>
+</test>
+<test id="s1-s2-t2" name="Admin Can Navigate To Companies" line="13">
+<kw name="Open Libya TradeNet" owner="common">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:10.411531" level="INFO">Opening browser 'chrome' to base url 'http://127.0.0.1:8000/en/login/'.</msg>
+<arg>${BASE_URL}/login/</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-05-10T21:19:10.411531" elapsed="1.986886"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-05-10T21:19:12.398922" elapsed="0.246976"/>
+</kw>
+<kw name="Set Selenium Speed" owner="SeleniumLibrary">
+<arg>${DELAY}</arg>
+<doc>Sets the delay that is waited after each Selenium command.</doc>
+<status status="PASS" start="2026-05-10T21:19:12.645898" elapsed="0.001016"/>
+</kw>
+<status status="PASS" start="2026-05-10T21:19:10.410522" elapsed="2.236903"/>
+</kw>
+<kw name="Login As With OTP" owner="common">
+<kw name="Login As" owner="common">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:12.649968" level="INFO">Typing text 'Malek' into text field 'name:username'.</msg>
+<arg>name:username</arg>
+<arg>${username}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-05-10T21:19:12.648954" elapsed="0.750958"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:13.401446" level="INFO">Typing text 'Test1234' into text field 'name:password'.</msg>
+<arg>name:password</arg>
+<arg>${password}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-05-10T21:19:13.400426" elapsed="0.718111"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:14.118537" level="INFO">Clicking button 'xpath://button[@type='submit']'.</msg>
+<arg>xpath://button[@type='submit']</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-05-10T21:19:14.118537" elapsed="3.921497"/>
+</kw>
+<arg>${username}</arg>
+<arg>${password}</arg>
+<status status="PASS" start="2026-05-10T21:19:12.648954" elapsed="5.391080"/>
+</kw>
+<kw name="Wait Until Page Contains Element" owner="SeleniumLibrary">
+<arg>name:otp</arg>
+<arg>timeout=8s</arg>
+<doc>Waits until the element ``locator`` appears on the current page.</doc>
+<status status="PASS" start="2026-05-10T21:19:18.040545" elapsed="0.220094"/>
+</kw>
+<kw name="Execute Javascript" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:18.261658" level="INFO">Executing JavaScript:
+document.querySelector('input[name="otp"]').value = '123456';
+Without any arguments.</msg>
+<arg>document.querySelector('input[name="otp"]').value = '${TEST_OTP}';</arg>
+<doc>Executes the given JavaScript code with possible arguments.</doc>
+<status status="PASS" start="2026-05-10T21:19:18.260639" elapsed="0.211544"/>
+</kw>
+<kw name="Execute Javascript" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:18.472691" level="INFO">Executing JavaScript:
+document.querySelector('form').submit();
+Without any arguments.</msg>
+<arg>document.querySelector('form').submit();</arg>
+<doc>Executes the given JavaScript code with possible arguments.</doc>
+<status status="PASS" start="2026-05-10T21:19:18.472691" elapsed="1.839406"/>
+</kw>
+<kw name="Wait Until Location Contains" owner="SeleniumLibrary">
+<arg>gov/</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-05-10T21:19:20.312097" elapsed="0.215149"/>
+</kw>
+<arg>Malek</arg>
+<arg>Test1234</arg>
+<status status="PASS" start="2026-05-10T21:19:12.647425" elapsed="7.879821"/>
+</kw>
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:20.528267" level="INFO">Opening url 'http://127.0.0.1:8000/en/gov/companies/'</msg>
+<arg>${BASE_URL}/gov/companies/</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-05-10T21:19:20.527246" elapsed="0.811477"/>
+</kw>
+<kw name="Page Should Not Contain" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:21.994969" level="INFO">Current page does not contain text 'Internal Server Error'.</msg>
+<arg>Internal Server Error</arg>
+<doc>Verifies the current page does not contain ``text``.</doc>
+<status status="PASS" start="2026-05-10T21:19:21.338723" elapsed="0.656246"/>
+</kw>
+<kw name="Page Should Not Contain" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:22.637355" level="INFO">Current page does not contain text 'TemplateDoesNotExist'.</msg>
+<arg>TemplateDoesNotExist</arg>
+<doc>Verifies the current page does not contain ``text``.</doc>
+<status status="PASS" start="2026-05-10T21:19:21.995494" elapsed="0.641861"/>
+</kw>
+<kw name="Close Test Browser" owner="common" type="TEARDOWN">
+<kw name="Close Browser" owner="SeleniumLibrary">
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-05-10T21:19:22.637929" elapsed="2.312453"/>
+</kw>
+<status status="PASS" start="2026-05-10T21:19:22.637929" elapsed="2.312453"/>
+</kw>
+<status status="PASS" start="2026-05-10T21:19:10.408889" elapsed="14.542510"/>
+</test>
+<test id="s1-s2-t3" name="Admin Can Navigate To Licenses" line="21">
+<kw name="Open Libya TradeNet" owner="common">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:24.952493" level="INFO">Opening browser 'chrome' to base url 'http://127.0.0.1:8000/en/login/'.</msg>
+<arg>${BASE_URL}/login/</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-05-10T21:19:24.952493" elapsed="2.112751"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-05-10T21:19:27.065244" elapsed="0.278057"/>
+</kw>
+<kw name="Set Selenium Speed" owner="SeleniumLibrary">
+<arg>${DELAY}</arg>
+<doc>Sets the delay that is waited after each Selenium command.</doc>
+<status status="PASS" start="2026-05-10T21:19:27.344028" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2026-05-10T21:19:24.952493" elapsed="2.391535"/>
+</kw>
+<kw name="Login As With OTP" owner="common">
+<kw name="Login As" owner="common">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:27.347180" level="INFO">Typing text 'Malek' into text field 'name:username'.</msg>
+<arg>name:username</arg>
+<arg>${username}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-05-10T21:19:27.345558" elapsed="0.757828"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:28.103386" level="INFO">Typing text 'Test1234' into text field 'name:password'.</msg>
+<arg>name:password</arg>
+<arg>${password}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-05-10T21:19:28.103386" elapsed="0.709914"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:28.813300" level="INFO">Clicking button 'xpath://button[@type='submit']'.</msg>
+<arg>xpath://button[@type='submit']</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-05-10T21:19:28.813300" elapsed="3.429815"/>
+</kw>
+<arg>${username}</arg>
+<arg>${password}</arg>
+<status status="PASS" start="2026-05-10T21:19:27.345558" elapsed="4.897557"/>
+</kw>
+<kw name="Wait Until Page Contains Element" owner="SeleniumLibrary">
+<arg>name:otp</arg>
+<arg>timeout=8s</arg>
+<doc>Waits until the element ``locator`` appears on the current page.</doc>
+<status status="PASS" start="2026-05-10T21:19:32.243115" elapsed="0.223356"/>
+</kw>
+<kw name="Execute Javascript" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:32.466471" level="INFO">Executing JavaScript:
+document.querySelector('input[name="otp"]').value = '123456';
+Without any arguments.</msg>
+<arg>document.querySelector('input[name="otp"]').value = '${TEST_OTP}';</arg>
+<doc>Executes the given JavaScript code with possible arguments.</doc>
+<status status="PASS" start="2026-05-10T21:19:32.466471" elapsed="0.211058"/>
+</kw>
+<kw name="Execute Javascript" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:32.678551" level="INFO">Executing JavaScript:
+document.querySelector('form').submit();
+Without any arguments.</msg>
+<arg>document.querySelector('form').submit();</arg>
+<doc>Executes the given JavaScript code with possible arguments.</doc>
+<status status="PASS" start="2026-05-10T21:19:32.677529" elapsed="1.936695"/>
+</kw>
+<kw name="Wait Until Location Contains" owner="SeleniumLibrary">
+<arg>gov/</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-05-10T21:19:34.614224" elapsed="0.226960"/>
+</kw>
+<arg>Malek</arg>
+<arg>Test1234</arg>
+<status status="PASS" start="2026-05-10T21:19:27.344028" elapsed="7.497156"/>
+</kw>
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:34.841693" level="INFO">Opening url 'http://127.0.0.1:8000/en/gov/licenses/'</msg>
+<arg>${BASE_URL}/gov/licenses/</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-05-10T21:19:34.841693" elapsed="1.880364"/>
+</kw>
+<kw name="Page Should Not Contain" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:37.403694" level="INFO">Current page does not contain text 'Internal Server Error'.</msg>
+<arg>Internal Server Error</arg>
+<doc>Verifies the current page does not contain ``text``.</doc>
+<status status="PASS" start="2026-05-10T21:19:36.722057" elapsed="0.681637"/>
+</kw>
+<kw name="Close Test Browser" owner="common" type="TEARDOWN">
+<kw name="Close Browser" owner="SeleniumLibrary">
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-05-10T21:19:37.404713" elapsed="2.332291"/>
+</kw>
+<status status="PASS" start="2026-05-10T21:19:37.404203" elapsed="2.332801"/>
+</kw>
+<status status="PASS" start="2026-05-10T21:19:24.951399" elapsed="14.785605"/>
+</test>
+<test id="s1-s2-t4" name="Admin Can Navigate To Import Permits" line="28">
+<kw name="Open Libya TradeNet" owner="common">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:39.739195" level="INFO">Opening browser 'chrome' to base url 'http://127.0.0.1:8000/en/login/'.</msg>
+<arg>${BASE_URL}/login/</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-05-10T21:19:39.739195" elapsed="2.382149"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-05-10T21:19:42.124554" elapsed="0.317491"/>
+</kw>
+<kw name="Set Selenium Speed" owner="SeleniumLibrary">
+<arg>${DELAY}</arg>
+<doc>Sets the delay that is waited after each Selenium command.</doc>
+<status status="PASS" start="2026-05-10T21:19:42.442045" elapsed="0.001096"/>
+</kw>
+<status status="PASS" start="2026-05-10T21:19:39.738179" elapsed="2.704962"/>
+</kw>
+<kw name="Login As With OTP" owner="common">
+<kw name="Login As" owner="common">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:42.445684" level="INFO">Typing text 'Malek' into text field 'name:username'.</msg>
+<arg>name:username</arg>
+<arg>${username}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-05-10T21:19:42.444164" elapsed="0.791717"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:43.236889" level="INFO">Typing text 'Test1234' into text field 'name:password'.</msg>
+<arg>name:password</arg>
+<arg>${password}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-05-10T21:19:43.235881" elapsed="0.766755"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:44.003654" level="INFO">Clicking button 'xpath://button[@type='submit']'.</msg>
+<arg>xpath://button[@type='submit']</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-05-10T21:19:44.002636" elapsed="4.272212"/>
+</kw>
+<arg>${username}</arg>
+<arg>${password}</arg>
+<status status="PASS" start="2026-05-10T21:19:42.444164" elapsed="5.831415"/>
+</kw>
+<kw name="Wait Until Page Contains Element" owner="SeleniumLibrary">
+<arg>name:otp</arg>
+<arg>timeout=8s</arg>
+<doc>Waits until the element ``locator`` appears on the current page.</doc>
+<status status="PASS" start="2026-05-10T21:19:48.276113" elapsed="0.229600"/>
+</kw>
+<kw name="Execute Javascript" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:48.507271" level="INFO">Executing JavaScript:
+document.querySelector('input[name="otp"]').value = '123456';
+Without any arguments.</msg>
+<arg>document.querySelector('input[name="otp"]').value = '${TEST_OTP}';</arg>
+<doc>Executes the given JavaScript code with possible arguments.</doc>
+<status status="PASS" start="2026-05-10T21:19:48.506256" elapsed="0.225291"/>
+</kw>
+<kw name="Execute Javascript" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:48.733163" level="INFO">Executing JavaScript:
+document.querySelector('form').submit();
+Without any arguments.</msg>
+<arg>document.querySelector('form').submit();</arg>
+<doc>Executes the given JavaScript code with possible arguments.</doc>
+<status status="PASS" start="2026-05-10T21:19:48.732146" elapsed="2.010044"/>
+</kw>
+<kw name="Wait Until Location Contains" owner="SeleniumLibrary">
+<arg>gov/</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-05-10T21:19:50.742190" elapsed="0.226802"/>
+</kw>
+<arg>Malek</arg>
+<arg>Test1234</arg>
+<status status="PASS" start="2026-05-10T21:19:42.443141" elapsed="8.525851"/>
+</kw>
+<kw name="Go To" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:50.970008" level="INFO">Opening url 'http://127.0.0.1:8000/en/imports/'</msg>
+<arg>${BASE_URL}/imports/</arg>
+<doc>Navigates the current browser window to the provided ``url``.</doc>
+<status status="PASS" start="2026-05-10T21:19:50.968992" elapsed="0.899927"/>
+</kw>
+<kw name="Page Should Not Contain" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:52.534340" level="INFO">Current page does not contain text 'Internal Server Error'.</msg>
+<arg>Internal Server Error</arg>
+<doc>Verifies the current page does not contain ``text``.</doc>
+<status status="PASS" start="2026-05-10T21:19:51.869432" elapsed="0.664908"/>
+</kw>
+<kw name="Close Test Browser" owner="common" type="TEARDOWN">
+<kw name="Close Browser" owner="SeleniumLibrary">
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-05-10T21:19:52.536386" elapsed="2.409158"/>
+</kw>
+<status status="PASS" start="2026-05-10T21:19:52.535359" elapsed="2.410185"/>
+</kw>
+<status status="PASS" start="2026-05-10T21:19:39.737619" elapsed="15.207925"/>
+</test>
+<test id="s1-s2-t5" name="Unauthenticated User Redirected To Login" line="35">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:54.947245" level="INFO">Opening browser 'chrome' to base url 'http://127.0.0.1:8000/en/gov/admin/'.</msg>
+<arg>${BASE_URL}/gov/admin/</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-05-10T21:19:54.947245" elapsed="2.291505"/>
+</kw>
+<kw name="Location Should Contain" owner="SeleniumLibrary">
+<msg time="2026-05-10T21:19:57.451395" level="INFO">Current location contains 'login'.</msg>
+<arg>login</arg>
+<doc>Verifies that the current URL contains ``expected``.</doc>
+<status status="PASS" start="2026-05-10T21:19:57.239843" elapsed="0.211552"/>
+</kw>
+<kw name="Close Test Browser" owner="common" type="TEARDOWN">
+<kw name="Close Browser" owner="SeleniumLibrary">
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-05-10T21:19:57.452924" elapsed="2.390961"/>
+</kw>
+<status status="PASS" start="2026-05-10T21:19:57.452412" elapsed="2.392183"/>
+</kw>
+<status status="PASS" start="2026-05-10T21:19:54.945544" elapsed="4.899051"/>
+</test>
+<status status="PASS" start="2026-05-10T21:18:57.617842" elapsed="62.227755"/>
+</suite>
+<status status="PASS" start="2026-05-10T21:18:14.989166" elapsed="104.857458"/>
+</suite>
+<statistics>
+<total>
+<stat pass="9" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Login &amp; Dashboard" id="s1" pass="9" fail="0" skip="0">Login &amp; Dashboard</stat>
+<stat name="Login" id="s1-s1" pass="4" fail="0" skip="0">Login &amp; Dashboard.Login</stat>
+<stat name="Dashboard" id="s1-s2" pass="5" fail="0" skip="0">Login &amp; Dashboard.Dashboard</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

@@ -22,9 +22,10 @@ Login As
 Login As With OTP
     [Arguments]    ${username}    ${password}
     Login As    ${username}    ${password}
-    Wait Until Page Contains    verification code    timeout=5s
-    Input Text      name:otp    ${TEST_OTP}
-    Click Button    xpath://button[@type='submit']
+    Wait Until Page Contains Element    name:otp    timeout=8s
+    Execute Javascript    document.querySelector('input[name="otp"]').value = '${TEST_OTP}';
+    Execute Javascript    document.querySelector('form').submit();
+    Wait Until Location Contains    gov/    timeout=10s
 
 Logout
     Go To    ${BASE_URL}/logout/

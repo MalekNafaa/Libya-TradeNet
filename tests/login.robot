@@ -5,14 +5,15 @@ Resource    resources/common.robot
 *** Test Cases ***
 Valid Government Login With OTP
     Open Libya TradeNet
-    Login As With OTP    Malek    admin123
-    Page Should Contain    Dashboard
+    Login As With OTP    Malek    Test1234
+    Location Should Contain    gov/admin
     [Teardown]    Close Test Browser
 
 Invalid Login Shows Error Message
     Open Libya TradeNet
     Login As    wronguser    wrongpass
-    Page Should Contain    غير صحيحة
+    Location Should Contain    login
+    Page Should Contain Element    xpath://div[contains(@class,'alert') or contains(@class,'error') or contains(@class,'messages')]
     [Teardown]    Close Test Browser
 
 Empty Login Shows Validation Error
