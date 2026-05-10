@@ -32,6 +32,9 @@ wheels/
 .installed.cfg
 *.egg
 
+# Robot Framework test results
+tests/results/
+
 # IDE
 .idea/
 .vscode/
